@@ -1,0 +1,71 @@
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+enum Role {
+    STUDENT
+    TEACHER
+}
+
+enum Theme {
+    white
+    black
+}
+
+model User {
+    id          Int      @id @default(autoincrement())
+    login       String   @unique
+    password    String
+    profile     Profile?
+}
+
+
+model Group {
+    id          Int      @id @default(autoincrement())
+    name        String   @unique
+    href        String?
+
+    profiles    Profile[] @relation("ProfileToGroup")
+}
+
+
+model Profile {
+    id          Int      @id @default(autoincrement())
+    email       String?  @unique
+    first_name  String?
+    last_name   String?
+    father_name String?
+    theme       Theme    @default(white)
+    role        Role     @default(STUDENT)
+    status      String?
+    user        User?    @relation(fields: [user_id], references: [id])
+    user_id     Int?     @unique
+    group       Group?   @relation("ProfileToGroup", fields: [group_id], references: [id])
+    group_id    Int?
+    room        Room[]  @relation("ProdfileRoom")
+}
+
+
+model Room {
+    id          Int       @id @default(autoincrement())
+    name        String    @unique
+    profiles    Profile[] @relation("ProdfileRoom")
+    messages    Message[]
+}
+
+
+model Message {
+    id          Int      @id @default(autoincrement())
+    user_id     Int
+    text        String
+    time        DateTime
+    is_read     Boolean? @default(false)
+    room        Room     @relation(fields: [room_id], references: [id])
+    room_id     Int
+}
