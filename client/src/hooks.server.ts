@@ -32,7 +32,7 @@ const JWT_ACCESS_TOKEN = "d7a428bc721a2e90e5dce093933c5199aa7adadc11c04cdabceb28
 
 export const handle: Handle = async ({ event, resolve }) => {
 	const { headers } = event.request;
-
+	
 	const cookies = parse(headers.get("cookie") ?? "");
 
 	if (cookies.AuthorizationToken) {

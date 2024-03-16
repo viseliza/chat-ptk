@@ -1,11 +1,6 @@
 import type { Profile } from "./Profile";
+import { IUser } from "../lib/types/user";
 
-export interface IUser {
-    id: number;
-    login: string;
-    password: string;
-    profile: Profile;
-}
 /** Модель пользователя NovSU
  * @param {number} param.id
  * @param {string} param.login

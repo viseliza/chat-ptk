@@ -1,12 +1,7 @@
-import type { Message, IMessage } from "./Message";
+import type { Message } from "./Message";
 import type { Profile } from "./Profile";
+import { IRoom } from "../lib/types";
 
-export interface IRoom {
-    id:   number;
-    name: string;
-    messages: IMessage[];
-    profiles: Profile[];
-}
 /** Модель комнаты (чата)
  * @param {number} param.id
  * @param {string} param.name
@@ -16,8 +11,8 @@ export interface IRoom {
 export class Room implements IRoom {
     id:   number;
     name: string;
-    messages: Message[];
-    profiles: Profile[];
+    messages?: Message[];
+    profiles?: Profile[];
 
     constructor(opts: IRoom){
         this.id =   opts.id;

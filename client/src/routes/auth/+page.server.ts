@@ -1,14 +1,14 @@
 import type { Actions } from './$types';
 import { fail, redirect } from '@sveltejs/kit';
 import * as jwt from 'jsonwebtoken';
-import isExistUser from '$lib/ts/isExistUser';
 import { AppAPI } from '../../api/api';
 import type { User } from '../../models/User';
+import isExistUser from '../../lib/utils/isExistUser';
 
 const JWT_ACCESS_TOKEN = "d7a428bc721a2e90e5dce093933c5199aa7adadc11c04cdabceb282897d4a2bf";
 
-export async function load(opts: { locals: any }) {
-	if (opts.locals.user)
+export function load({ locals }) {
+	if (locals.user)
 		throw redirect(302, '/')
 }
 

@@ -7,6 +7,7 @@
     import home_dark from "$lib/images/home_dark.svg";
     import message from "$lib/images/message.svg";
     import message_dark from "$lib/images/message_dark.svg";
+    import swapTheme from "../utils/swapTheme";
     
     let theme = $page.data.user.theme;
    
@@ -14,31 +15,10 @@
         theme == "black" ? document.documentElement.classList.add("dark") : document.documentElement.classList.remove("dark")
     });
 
-    async function swapTheme() {
-        theme = theme == "black" ? "white" : "black" 
-        theme == "black" ? document.documentElement.classList.add("dark") : document.documentElement.classList.remove("dark")
-        let images: HTMLCollectionOf<HTMLImageElement> = document.getElementsByClassName("nav_icon") as HTMLCollectionOf<HTMLImageElement>;
-        if (theme == "black") {
-            for (let i = 0; i < images.length; i++) {
-                images[i].src = images[i].src.replace(".svg", "_dark.svg");
-                images[i].src = images[i].src.replace(".png", "_dark.png");
-            }
-        } else {
-            for (let i = 0; i < images.length; i++) {
-                images[i].src = images[i].src.replace("_dark", '');
-            }
-        }
-        // await api.patchProfile(theme);
-        await fetch(`http://localhost:18001/profile/${$page.data.user.user_id}`, {
-            method: "PATCH",
-            headers: { 
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                "theme": theme
-            })
-        });
-        return theme
+    function changeTheme() {
+        setTimeout(async () => {
+            theme = await swapTheme(theme, $page.data.user.user_id);
+        }, 100)
     }
 </script>
 
@@ -105,7 +85,7 @@
                 <div class="toggle-switch">
                     <!-- svelte-ignore a11y-click-events-have-key-events -->
                     <span
-                        on:click={() => swapTheme()}
+                        on:click={() => changeTheme()}
                         class="switch"
                         role="button"
                         tabindex={0}

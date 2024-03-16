@@ -1,10 +1,13 @@
 <script lang="ts">
     import placeholder from '$lib/images/50x50.svg';
     import type { PageData } from './$types';
+    import Replacement from '../../lib/components/Replacement.svelte';
+    import Schedule from '../../lib/components/Schedule.svelte';
 
     export let data: PageData;
+
     $: user = data.user
-    $: schedule = data.schedule
+    $: schedule = data.schedule;
     $: profile = data.profile
     $: replacement = data.replacement.split('\n\n');
     
@@ -23,7 +26,6 @@
 </svelte:head>
 
 <section>
-
     <div class="header">
         <img src={placeholder} alt="">
         <div style="font-size: 16px;">
@@ -57,50 +59,13 @@
 
     <div class="replacement">
         <p>Расписание на сегодня</p>
-        <table>
-            <tr>
-                <td style="border-bottom: 1px solid #fff">№ пары </td>
-                <td style="border-bottom: 1px solid #fff">Время</td>
-                <td style="border-bottom: 1px solid #fff">Дисциплина</td>
-            </tr>
-        {#each schedule as row}
-            {#if row}
-                <tr>
-                    <td style="width: 95px; text-align: center; border-bottom: 1px solid #fff">{numbers[row.split(" | ")[0]]}</td>
-                    <td class='time' style="border-bottom: 1px solid #fff">{row.split(" | ")[0]}</td>
-                    <td style="border-bottom: 1px solid #fff">{row.split(" | ")[1]}</td>
-                </tr>
-            {/if}
-        {/each}
-        </table>
+        <Schedule schedule = {schedule.split('\n')} isHome={false}/>
     </div>
 
     <div class="schedule">
         <p>Замены на сегодня</p>
-        <table>
-            {#if replacement[0] == "Замены для выбранной группы не найдены!"}
-            <td>{replacement}</td>
-            {:else}
-                <tr>
-                    <td>Группа</td>
-                    <td>№ пары </td>
-                    <td>По расписанию</td>
-                    <td>Изменения</td>
-                </tr>
-                {#each replacement as row}
-                    {#if row}
-                        <tr>
-                            <td style="width: 90px; text-align: center;">{row.split('\n')[0]}</td>
-                            <td style="width: 95px; text-align: center;">{row.split('\n')[1]}</td>
-                            <td>{row.split('\n')[2]}</td>
-                            <td>{row.split('\n')[3]}</td>
-                        </tr>
-                    {/if}
-                {/each}
-            {/if}
-        </table>
+        <Replacement replacement = {replacement} isHome={false}/>
     </div>
-
 </section>
 
 <style lang="scss">
@@ -208,16 +173,6 @@
         justify-content: space-around;
         margin-bottom: 20px;
     }
-    table {
-        overflow: hidden;
-        margin-top: 20px;
-    }
-    td {
-        padding: 5px 15px;
-        background-color: var(--sidebar-color);
-        color: var(--text-color);
-    }
-    
     .schedule {
         border-radius: 20px;
         box-shadow: 0 0 20px var(--box-shadow);
@@ -226,5 +181,5 @@
         display: flex;
         flex-direction: column;
         justify-content: space-around;
-    }
+    } 
 </style>

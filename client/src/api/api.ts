@@ -92,10 +92,10 @@ export class AppAPI {
     }
 
     /** Получение последнего сообщения из чата
-     * @param {string} user_id
+     * @param {number} user_id
      * @returns {Promise<Message[]>}
      */
-    async getLastMessage(user_id: number) {
+    async getRoomsInfo(user_id: number) {
         return await this.callApi('profile', { name: user_id });
     }
 

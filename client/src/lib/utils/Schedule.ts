@@ -58,16 +58,18 @@ export class Schedule implements ISchedule {
             let replacement = this.parsedDocumnent.data[row][this.parsedDocumnent.column - 1];
             let day_of_the_weak = this.parsedDocumnent.data[row][this.parsedDocumnent.column - 3];
             
-            if (day_of_the_weak != undefined && this.days_array.includes(day_of_the_weak.toLowerCase().trim())) {
+            if (day_of_the_weak != undefined && this.days_array.includes(day_of_the_weak.toLowerCase().trim()))
                 result += `\n${day_of_the_weak}\n`;
-            }
             
             if (replacement == undefined && time == undefined) continue;
+
             if (replacement == undefined) continue;
-            if (time == undefined) {
-                time = this.parsedDocumnent.data[row - 1][this.parsedDocumnent.column - 1];
-            }
+            
+            if (time == undefined) 
+                time = this.parsedDocumnent.data[row - 1][this.parsedDocumnent.column - 2];
+
             if (replacement.includes("_")) continue;
+            
             time == "8.30-10.10" ? result += `08.30-10.10 | ${replacement}\n` : result += `${time} | ${replacement}\n`
         }
         return result;
@@ -115,6 +117,8 @@ export class Schedule implements ISchedule {
                 break;
             }
         }
-        return result;
+        if (!result) 
+            result = `Замен в группе ${this.group} нет`;
+        return result.trim();
     };
 }

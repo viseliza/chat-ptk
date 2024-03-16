@@ -1,14 +1,5 @@
 import type { Room } from "./Room";
-
-export interface IMessage {
-    id: number;
-    user_id: number;
-    text: string;
-    time: string;
-    isRead: boolean;
-    room_id: number;
-    room: Room;
-}
+import { IMessage } from "../lib/types";
 
 /** Модель сообщения
 * @param {number} param.id

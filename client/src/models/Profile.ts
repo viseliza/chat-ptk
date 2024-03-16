@@ -1,21 +1,6 @@
 import type { Group } from "./Group";
 import type { Room } from "./Room";
-import type { User } from "./User";
-
-export interface IProfile {
-    id: number;
-    email?: string;
-    first_name?: string;
-    last_name?: string;
-    father_name?: string;
-    theme: Theme;
-    role: Role;
-    user_id: number;
-    user: User;
-    group_id: number;
-    group: Group;
-    rooms: Room[];
-}
+import { IProfile } from "../lib/types";
 
 enum Theme {
     white,
@@ -37,7 +22,6 @@ enum Role {
  * @param {Theme} param.theme
  * @param {Role} param.role
  * @param {number} param.user_id
- * @param {User} param.user
  * @param {number} param.group_id
  * @param {Group} param.group
  * @param {Room[]} param.rooms
@@ -53,7 +37,6 @@ export class Profile implements IProfile {
     user_id: number;
     group_id: number;
     rooms: Room[];
-    user: User;
     group: Group;
 
     constructor(opts: IProfile) {
@@ -67,7 +50,6 @@ export class Profile implements IProfile {
         this.user_id = opts.user_id;
         this.group_id = opts.group_id;
         this.rooms = opts.rooms;
-        this.user = opts.user;
         this.group = opts.group;
     }
 }

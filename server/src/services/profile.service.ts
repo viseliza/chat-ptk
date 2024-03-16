@@ -13,12 +13,15 @@ export class ProfileService {
 		});
 	}
 
-	async findMessages(where: Prisma.ProfileWhereUniqueInput): Promise<Profile> {
+	async getRoomsInfo(where: Prisma.ProfileWhereUniqueInput): Promise<Profile> {
 		const response = await this.prisma.profile.findFirst({
-			where,
+			where: {
+				user_id: Number(where.user_id)
+			},
 			include: {
 				room: {
 					select: {
+						name: true,
 						messages: {
 							orderBy: {
 								id: "desc"

@@ -26,9 +26,8 @@ export class ProfileController {
 	) { }
 
 	@Get('/profile/:user_id')
-	async get(@Param('user_id') user_id: string) {
-		const id = Number(user_id);
-		return this.profileService.findMessages({ user_id: id });
+	async get(@Param('user_id') user_id: number) {
+		return this.profileService.getRoomsInfo({ user_id });
 	}
 
 	@Get('/profileByLogin/:login')

@@ -33,7 +33,7 @@ export class Replacement implements IReplacement {
 
         for (let line = 5; line < body.length - 1; line++) {
             let _value = body[line].split('\t');
-
+            
             if (_value[0] == '') continue;
 
             if (!group) {
