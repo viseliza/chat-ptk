@@ -17,7 +17,7 @@ export class Message implements IMessage {
     time: string;
     isRead: boolean;
     room_id: number;
-    room: Room;
+    room?: Room;
 
     constructor(opts: IMessage) {
         this.id = opts.id;

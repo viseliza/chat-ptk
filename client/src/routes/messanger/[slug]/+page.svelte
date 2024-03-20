@@ -23,7 +23,7 @@
 	let scroll: Element;
     
     let text = "";
-    $: room = data.room.name;
+    $: room = { id: 1, name: "1992"};
     let joined = true;
 
     onMount(()=> {
@@ -56,7 +56,7 @@
             socket.emit(
                 "createMessage",
                 {
-                    name: user_id,
+                    user_id: user_id,
                     text: text.trim(),
                     time: new Date(),
                     room,
@@ -77,7 +77,8 @@
     };
 
     function on_key_down(event: { key: string }) {
-        if (event.key == "Enter") sendMessage();
+        if (event.key == "Enter") 
+            sendMessage();
     }
 
     let theme = data.user.theme;

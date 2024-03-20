@@ -1,5 +1,5 @@
 import { AppAPI } from "../../../api/api";
-import { Chat } from "../../../lib/utils";
+import Chat from "../../../lib/utils/Chat";
 import type { PageServerLoad } from "./$types";
 
 export const load: PageServerLoad = async ({ params }) => {
@@ -7,6 +7,8 @@ export const load: PageServerLoad = async ({ params }) => {
     const room = params.slug;
     const profiles = await api.getRoomInfo(room);
     const chat = new Chat(profiles[0]);
+
+    // const chat = new Chat(profiles[0]);
    
     return {
         profiles, 

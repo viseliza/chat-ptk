@@ -1,19 +1,20 @@
-<script lang="ts" type="module" context="module">
-	import { DataTransfer } from "../../lib/utils";
-	const data = new DataTransfer("http://localhost:18001", { id: 1, name: "1992"});
-	console.log(data)
-	// socket.socket.on("connect", () => {
-
-    //     socket.socket.emit("joinRoom", "1992");
-	// })
+<script lang="ts" type="module">
+    import type { IMessage } from "../../lib/types";
+	import { Chat } from '../../lib/utils';
 	
-	// let joined = false
-	// const join = () => {
-    //     socket.socket.emit("join", { name: 31 }, () => {
-    //         joined = true;
-    //         socket.socket.emit("joinRoom", "1992");
-    //     });
-    // };
+    let row = 5;
+	// const socket = new SocketChat("http://localhost:18001", { id: 1, name: "1992"});
+    let messages: Array<IMessage> = [];
+	
+	let element;
+
+	// socket.socket.on("connect", () => {
+	// 	socket.socket.on("getMessages", (response: IMessage[]) => {
+	// 		messages = [...messages, ...response];
+	// 	})
+	// })
+
+	let files: any;
 </script>
 
 <svelte:head>
@@ -25,9 +26,21 @@
 	<div>
 		<form>
 			<span>What's your name?</span>\
-			<!-- <button type="submit" on:click={() => join()}>Send</button> -->
+			<!-- <button type="submit" on:click={() => socket.join(31, false)}>Send</button> -->
 		</form>
 	</div>
+
+	<div bind:this={element} style="height:250px;overflow:auto; font-size: 20px">
+		{#each messages as message}
+			{#each messages as col}
+				{col}
+			{/each}
+		{/each}
+	</div>
+
+	<input type="file" bind:files>
+
+
 	<h1>About this app</h1>
 
 	<p>

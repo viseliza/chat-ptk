@@ -1,11 +1,11 @@
-import { Message } from "../../models/Message";
+import { IMessage } from "./message";
 
 export interface IChatPreview {
     name: string;
-    messages: Message[];
+    messages: IMessage[];
 }
 
 export interface IMessanger {
     getChats: () => Promise<IChatPreview[]>;
-    conversionMessage: (chat: Message) => Promise<Message[]>;
+    conversionMessage: (chat: IMessage) => Promise<IMessage[]>;
 }

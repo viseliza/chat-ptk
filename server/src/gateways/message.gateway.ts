@@ -19,15 +19,17 @@ export class MessagesGateway {
 	@SubscribeMessage('createMessage')
 	async create(@MessageBody() createMessageDto: CreateMessageDto) {
 		const message = await this.messagesService.create(createMessageDto);
-
-		this.server.to(createMessageDto.room).emit("message", message);
+		
+		this.server.to(createMessageDto.room.name).emit("message", message);
 
 		return message;
 	}
 
 	@SubscribeMessage('takeMessages')
 	async findAll(@MessageBody() { room_id, row }) {
-		return await this.messagesService.findAll({ room_id, row });
+		const response = await this.messagesService.findAll({ room_id, row });
+		this.server.emit("getMessages", response);
+		return response;
 	}
 
 	@SubscribeMessage('join')
@@ -42,6 +44,11 @@ export class MessagesGateway {
 	@SubscribeMessage('joinRoom')
 	handleRoomJoin(client: Socket, room: string) {
 		client.join(room);
+	}
+
+	@SubscribeMessage('disconect')
+	disconect(client: Socket) {
+		client.disconnect();
 	}
 
 	@SubscribeMessage('typing')

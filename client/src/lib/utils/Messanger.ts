@@ -37,8 +37,8 @@ export class Messanger implements IMessanger {
      */
     public async conversionMessage(lastMessage: IMessage): Promise<IMessage[]> {
         if (lastMessage) {
-            if (lastMessage.text.length > 50)
-                lastMessage.text = lastMessage.text.slice(0, 50) + "...";
+            if (lastMessage.text.length > 40)
+                lastMessage.text = lastMessage.text.slice(0, 40) + "...";
             
             lastMessage.time = this.conversionTime(new Date(lastMessage.time));
         }   

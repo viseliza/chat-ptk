@@ -7,7 +7,7 @@
 	export let data: PageData;
 
 	export let form: ActionData;
-
+	
 	/** Whether or not the user has won */
 	$: won = data.answers.at(-1) === 'xxxxx';
 

@@ -1,7 +1,9 @@
+import { Room } from "./room.entity";
+
 export class Message {
-    name: string;
+    user_id: string;
     text: string;
     time: string;
-    room: string;
+    room: Room;
     room_id: number;
 }
