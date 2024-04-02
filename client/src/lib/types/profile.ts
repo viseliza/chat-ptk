@@ -1,5 +1,6 @@
 import { Group } from "../../models/Group";
 import { Room } from "../../models/Room";
+import { User } from "../../models/User";
 
 enum Role {
     STUDENT,
@@ -21,6 +22,7 @@ export interface IProfile {
     role: Role;
     user_id: number;
     group_id: number;
-    group: Group;
-    rooms: Room[];
+    user?: User;
+    group?: Group;
+    rooms?: Room[];
 }

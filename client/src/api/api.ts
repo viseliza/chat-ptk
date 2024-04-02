@@ -43,7 +43,11 @@ export class AppAPI {
                 body: JSON.stringify(params.body)
             });
         } else {
-            url = `${AppAPI.API.origin}/${method}/${params.name}`;
+            if (params.name)
+                url = `${AppAPI.API.origin}/${method}/${params.name}`;
+            else 
+                url = `${AppAPI.API.origin}/${method}`;
+
             response = await fetch(url)
         }
         
@@ -79,16 +83,16 @@ export class AppAPI {
      * @param {string} group_name
      * @returns {Promise<Group>}
      */
-    async getGroup(group_name: string) {
-        return await this.callApi('group', { name: group_name });
+    async getGroup(user_id: number) {
+        return await this.callApi('group', { name: user_id });
     }
 
-    /** Получить название группы по id
+    /** Получить все группы
      * @param {string} group_name
      * @returns {Promise<Group>}
      */
-    async getGroupByID(id: number) {
-        return await this.callApi('groupName', { name: id });
+    async getAllGroups() {
+        return await this.callApi('groups');
     }
 
     /** Получение последнего сообщения из чата
@@ -103,8 +107,8 @@ export class AppAPI {
      * @param {number} user_id
      * @returns {Promise<Profile>}
      */
-    async getProfile(user_id: number): Promise<Profile> {
-        return await this.callApi('profiles', { name: user_id });
+    async getAllProfiles(): Promise<Profile[]> {
+        return await this.callApi('profiles');
     }
 
     /** Получить профиль по login
@@ -143,6 +147,8 @@ export class AppAPI {
         let user;
         try {
             user = await this.getProfileByLogin(data.login);
+            if (user.statusCode == 404)
+                throw "Пользователь не найден"
         } catch {
             user = await this.callApi("auth", { body: { login: data.login, password: data.password, first_name, last_name, father_name } });
         }

@@ -8,7 +8,7 @@ import isExistUser from '../../lib/utils/isExistUser';
 const JWT_ACCESS_TOKEN = "d7a428bc721a2e90e5dce093933c5199aa7adadc11c04cdabceb282897d4a2bf";
 
 export function load({ locals }) {
-	if (locals.user)
+	if (locals.session)
 		throw redirect(302, '/')
 }
 
@@ -34,7 +34,11 @@ export const actions: Actions = {
 		// Profile data
 		const profile = await api.checkUser(user, fio.firstName, fio.lastName, fio.midName);
 		// Generate jwt token for profile
-		const token = jwt.sign(profile, JWT_ACCESS_TOKEN, {
+		const token = jwt.sign({ 
+			user_id: profile.user_id,
+			login: user.login,
+			theme: profile.theme
+		}, JWT_ACCESS_TOKEN, {
 			expiresIn: '1d'
 		});
 		// Set cookie

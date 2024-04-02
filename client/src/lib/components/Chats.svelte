@@ -1,15 +1,15 @@
 <script lang="ts">
-    import type { IChat } from "../types";
+    import type { IChatPreview } from "../types";
     import placeholder from "$lib/images/50x50.svg";
     import read from "$lib/images/read.svg";
 
-    export let chats: IChat[];
+    export let chats: IChatPreview[];
 </script>
 
 <div class="chats">
     {#if chats}
         {#each chats as chat}
-            <a href="messanger/{chat.name}"
+            <a href="messanger/{chat.id}"
                 ><div class="chat">
                     <div class="left">
                         <img src={placeholder} alt="" />
@@ -26,8 +26,12 @@
                     </div>
                     <div class="right">
                         {#if chat.messages[0]}
+                            {#if !chat.messages[0].is_read}
                             <span>{chat.messages[0].time}</span>
                             <img src={read} alt="" />
+                            {:else}
+                            <span style="margin-bottom: 20px">{chat.messages[0].time}</span>
+                            {/if}
                         {/if}
                     </div>
                 </div></a
@@ -73,7 +77,7 @@
         display: flex;
         flex-direction: column;
         justify-content: space-around;
-        margin: 5px 0;
+        margin: 7px 0;
     }
     .right {
         display: flex;

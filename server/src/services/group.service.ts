@@ -6,8 +6,24 @@ import { Group, Prisma } from '@prisma/client';
 export class GroupService {
     constructor(private prisma: PrismaService) { }
 
-    get(where: Prisma.GroupWhereUniqueInput): Promise<Group> {
-        return this.prisma.group.findUnique({ where });
+    getByUserId(user_id: number): Promise<Group> {
+        return this.prisma.group.findFirst({
+            where: {
+                profiles: {
+                    some: {
+                        user_id
+                    }
+                }
+            }
+        });
+    }
+
+    get(where): Promise<Group> {
+        return this.prisma.group.findUnique({
+            where: {
+                name: where.name
+            }
+        });
     }
 
     async findMany(params: {

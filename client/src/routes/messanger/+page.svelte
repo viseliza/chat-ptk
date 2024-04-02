@@ -1,9 +1,17 @@
 <script lang="ts">
     import type { PageData } from "./$types";
     import Chats from "../../lib/components/Chats.svelte";
-    
+    import type { IChatPreview } from "../../lib/types";
+    import Input from "../../lib/components/Input.svelte";
+    import search from "../../lib/images/search.svg";
+    import search_dark from "../../lib/images/search_dark.svg";
     export let data: PageData;
+
+    $: theme = data.session.theme;
+
     const chats = data.chats;
+    let searchedChats: IChatPreview[] | string = [];
+    let showInput: boolean = false;
 </script>
 
 <svelte:head>
@@ -13,9 +21,32 @@
 
 <section>
     <div class="title_messanger">
-        <span class="title">Чаты</span>
+        <Input 
+            bind:showInput
+            bind:theme
+            searchArray={chats}
+            bind:searchedArray={searchedChats}
+        >
+            <span class="title">Чаты</span>
+
+            <button on:click={() => {showInput = !showInput}}>
+                {#if theme == "black"}
+                    <img class="nav_icon" src={search_dark} alt="">
+                {:else}
+                    <img class="nav_icon" src={search} alt="">
+                {/if}
+            </button>
+        </Input>       
     </div>
-    <Chats chats={chats}/>
+    {#if !searchedChats.length}
+        <Chats chats={chats}/>
+    {:else if (typeof searchedChats === 'string')}
+        <div class="chats" style="margin: 30px; display: flex; justify-content: center; align-items: center; height: 70vh; font-size: 16px;">
+            <span>{searchedChats}</span>
+        </div>
+    {:else}
+        <Chats chats={searchedChats}/>
+    {/if}
 </section>
 
 <style>
@@ -31,15 +62,36 @@
     }
     .title_messanger {
         border-radius: 15px 15px 0 0;
-        height: 6vh;
+        height: 55px;
         display: flex;
         align-items: center;
         background-color: var(--primary-head);
-    }
+        justify-content: space-between;
+    }   
     .title {
         font-size: 24px;
         font-weight: 700;
-        padding-left: 3vw;
+        padding-left: 30px;
         text-align: left;
+        opacity: 0;
+        transition: 0.5s;
+        animation: show 0.5s 1;
+        animation-fill-mode: forwards;
+    }    
+    @keyframes show {
+        0% {
+            opacity: 0;
+        }
+        100% {
+            opacity: 1;
+        }
+    }
+    button {
+        background-color: transparent;
+        border: none;
+        margin-right: 30px;
+    }
+    button:hover {
+        cursor: pointer;
     }
 </style>

@@ -3,6 +3,8 @@ import { CreateMessageDto } from '../dto/create.message.dto';
 import { Socket, Server } from 'socket.io';
 import { Logger } from '@nestjs/common';
 import { MessageService } from 'src/services/message.service';
+import { Prisma, Room } from '@prisma/client';
+import { UpdateMessageDto } from 'src/dto/update.message.dto';
 
 @WebSocketGateway({
 	cors: {
@@ -11,7 +13,6 @@ import { MessageService } from 'src/services/message.service';
 })
 export class MessagesGateway {
 	@WebSocketServer() server: Server;
-
 	private logger: Logger = new Logger('ChatGateway');
 
 	constructor(private readonly messagesService: MessageService) { }
@@ -32,18 +33,22 @@ export class MessagesGateway {
 		return response;
 	}
 
+	@SubscribeMessage('readMessage')
+	async readMessage(@MessageBody('message') message: UpdateMessageDto) {
+		return await this.messagesService.updateMessage(message);
+	}
+
 	@SubscribeMessage('join')
 	joinRoom(
 		@MessageBody('name') name: string,
 		@ConnectedSocket() client: Socket
 	) {
-		console.log("Heeello")
 		return this.messagesService.identify(name, client.id);
 	}
 
 	@SubscribeMessage('joinRoom')
-	handleRoomJoin(client: Socket, room: string) {
-		client.join(room);
+	handleRoomJoin(client: Socket, room: Room) {
+		client.join(room.name);
 	}
 
 	@SubscribeMessage('disconect')
@@ -56,7 +61,9 @@ export class MessagesGateway {
 		@MessageBody('isTyping') isTyping: boolean,
 		@ConnectedSocket() client: Socket
 	) {
-		client.broadcast.emit('typing', { name: isTyping });
+		const name = this.messagesService.getClientName(client.id);
+		
+		client.broadcast.emit('typing', { name, isTyping });
 	}
 
 	// @SubscribeMessage('updateMessage')

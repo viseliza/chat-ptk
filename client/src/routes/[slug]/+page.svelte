@@ -6,18 +6,10 @@
 
     export let data: PageData;
 
-    $: user = data.user
+    $: user_id = data.session.user_id
     $: schedule = data.schedule;
     $: profile = data.profile
     $: replacement = data.replacement.split('\n\n');
-    
-    const numbers: {[key: string]: number} = {
-        "08.30-10.10": 1,
-        "10.20-12.00": 2,
-        "12.45-14.25": 3,
-        "14.35-16.15": 4,
-        "16.25-18.05": 5
-    }
 </script>
 
 <svelte:head>
@@ -37,8 +29,7 @@
     
     <div class="content">
         <div class="item">
-
-            {#if user.user_id == profile.user_id}
+            {#if user_id == profile.user_id}
             <p>Почта:</p> 
             <div class="input_group">
                 <input type="text" placeholder="Name"/>
@@ -53,7 +44,7 @@
             {/if}
         </div>
         <div class="item">
-            <p>Группа: {data.group}</p>
+            <p>Группа: {profile.group.name}</p>
         </div>
     </div>
 

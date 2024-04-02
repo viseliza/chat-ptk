@@ -25,19 +25,21 @@ export class ProfileController {
 		private readonly profileService: ProfileService,
 	) { }
 
+	// used
 	@Get('/profile/:user_id')
 	async get(@Param('user_id') user_id: number) {
 		return this.profileService.getRoomsInfo({ user_id });
 	}
 
+	// used
 	@Get('/profileByLogin/:login')
 	async getByLogin(@Param('login') login: string) {
 		return await this.profileService.getByLogin(login);
 	}
 
-	@Get('/profiles/:user_id')
-	async findProfile(@Param('user_id') user_id: number) {
-		return await this.profileService.findProfile({ user_id });
+	@Get('profiles')
+	async getAllProfiles(): Promise<Profile[]> {
+		return await this.profileService.getAllProfiles();
 	}
 
 	@Post('/profile/auth')

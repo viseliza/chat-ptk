@@ -9,10 +9,24 @@ export class MessageService {
 
 	clientToUsers = {};
 
+	updateMessage(message: UpdateMessageDto) {
+		return this.prisma.message.update({
+			where: {
+				id: message.id
+			}, data: {
+				is_read: message.is_read
+			}
+		})
+	}
+
 	identify(name: string, clientId: string) {
 		this.clientToUsers[clientId] = name;
-
+	
 		return Object.values(this.clientToUsers);
+	}
+
+	getClientName(clientId: string) {
+		return this.clientToUsers[clientId];
 	}
 
 	async create(message: CreateMessageDto) {
@@ -22,6 +36,7 @@ export class MessageService {
 				text: message.text,
 				time: message.time,
 				room_id: message.room_id,
+				is_read: message.is_read
 			}
 		});
 	}
@@ -31,7 +46,7 @@ export class MessageService {
 		
 		const response = await this.prisma.message.findMany({
 			where: {
-				room_id: data.id
+				room_id: data.room_id
 			},
 			skip: data.row,
 			take

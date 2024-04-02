@@ -25,16 +25,10 @@ export class GroupController {
         private readonly groupService: GroupService,
     ) { }
 
-	@ApiOperation({ summary: 'Поиск по базе группы с заданным названием' })
-    @Get('/group/:name')
-    async get(@Param('name') name: string) {
-        return this.groupService.get({ name });
-    }
-
-	@ApiOperation({ summary: 'Поиск по базе группы по id и вывод ее названия' })
-    @Get('/groupName/:id')
-    async getName(@Param('id') id: string) {
-        return (await this.groupService.get({ id: Number(id) })).name;
+	@ApiOperation({ summary: 'Выборка группы профиля с заданым user_id' })
+    @Get('/group/:user_id')
+    async get(@Param('user_id') user_id: string) {
+        return this.groupService.getByUserId( Number(user_id) );
     }
 
 	@ApiOperation({ summary: 'Выборка всех групп в базе' })
@@ -43,18 +37,18 @@ export class GroupController {
         return this.groupService.findMany({});
     }
 
-	@ApiOperation({ summary: 'Добавление записи в таблицу групп' })
-    @Post('/group')
-    async create(
-        @Body()
-        data: NewGroupDTO,
-    ): Promise<Group> {
-        let group = await this.groupService.get({ name: data.name })
+	// @ApiOperation({ summary: 'Добавление записи в таблицу групп' })
+    // @Post('/group')
+    // async create(
+    //     @Body()
+    //     data: NewGroupDTO,
+    // ): Promise<Group> {
+    //     let group = await this.groupService.get({ name: data.name })
 
-        if (!group) group = await this.groupService.create(data);
+    //     if (!group) group = await this.groupService.create(data);
 
-        return group;
-    }
+    //     return group;
+    // }
 
 	@ApiOperation({ summary: 'Добавление нескольких записей в таблицу групп' })
     @Post('/groups')

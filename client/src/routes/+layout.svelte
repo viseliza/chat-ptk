@@ -4,7 +4,7 @@
     import { redirect } from "@sveltejs/kit";
     import Footer from "../lib/components/Footer.svelte";
     
-    if (!$page.data.user && $page.url.pathname != "/auth") {
+    if (!$page.data.session && $page.url.pathname != "/auth") {
         throw redirect(302, "/auth");
     }
 </script>

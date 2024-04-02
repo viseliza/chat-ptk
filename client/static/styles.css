@@ -19,6 +19,14 @@
 	--box-shadow:rgba(0, 0, 0, 0.3);
 	--primary-head: #e7e7e7;
 	--message-back: rgb(84, 187, 255);
+	--message-back-shadow: rgb(84, 187, 255, 0.7);
+
+
+	--dropdown-highlight: dodgerblue;
+	--dropdown-width: 100px;
+	--dropdown-background: white;
+	--dropdown-color: black;
+	
 
     /* ====== Transition ====== */
     --tran-03: all 0.2s ease;
@@ -74,6 +82,7 @@ html.dark {
 	--button-hover: #8a8a8a;
 	--box-shadow:rgba(0, 0, 0, 0.3);
 	--message-back: rgb(0, 90, 150);
+	--message-back-shadow: rgb(0, 90, 150, 0.7);
 	--primary-head: rgba(255, 255, 255, 0.25);
 }
 

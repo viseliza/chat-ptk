@@ -32,9 +32,9 @@ const JWT_ACCESS_TOKEN = "d7a428bc721a2e90e5dce093933c5199aa7adadc11c04cdabceb28
 
 export const handle: Handle = async ({ event, resolve }) => {
 	const { headers } = event.request;
-	
-	const cookies = parse(headers.get("cookie") ?? "");
 
+	const cookies = parse(headers.get("cookie") ?? "");
+	
 	if (cookies.AuthorizationToken) {
 		// Remove Bearer prefix
 		const token = cookies.AuthorizationToken.split(" ")[1];
@@ -45,27 +45,14 @@ export const handle: Handle = async ({ event, resolve }) => {
 			if (typeof jwtUser === "string") {
 				throw new Error("Something went wrong");
 			}
+			
+			const theme = cookies.theme;
 
-			const api = new AppAPI('');
-
-			// 0.588 sec
-			const profile = await api.getProfile(jwtUser.user_id);
-
-			const sessionProfile: Profile = {
-				id: jwtUser.id,
-				email: jwtUser.email,
-				first_name: jwtUser.first_name,
-				last_name: jwtUser.last_name,
-				father_name: jwtUser.father_name,
-				theme: profile.theme,
-				role: jwtUser.role,
+			event.locals.session = {
 				user_id: jwtUser.user_id,
-				group_id: jwtUser.group_id,
-				login: profile.user.login,
-				rooms: profile.room
+				login: jwtUser.login,
+				theme: theme || jwtUser.theme
 			};
-
-			event.locals.user = sessionProfile;
 		} catch (error) {
 			console.error(error);
 		}

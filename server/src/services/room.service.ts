@@ -6,6 +6,37 @@ import { Room, Prisma, Message } from '@prisma/client';
 export class RoomService {
 	constructor(private prisma: PrismaService) { }
 
+	async create(room_name: string) {
+		const profileFirst = await this.prisma.profile.findFirst({
+			where: {
+				user: {
+					login: room_name.split('_')[0]
+				}
+			}
+		});
+		const profileSecond = await this.prisma.profile.findFirst({
+			where: {
+				user: {
+					login: room_name.split('_')[1]
+				}
+			}
+		});
+
+		return this.prisma.room.create({
+			data: {
+				name: room_name,
+				profiles: {
+					connect: [{
+							user_id: profileFirst.user_id
+						}, {
+							user_id: profileSecond.user_id
+						}
+					]
+				}
+			}
+		})
+	}
+
 	async get(where: Prisma.RoomWhereInput): Promise<Room> {
 		return await this.prisma.room.findFirst({ where });
 	}
@@ -27,6 +58,11 @@ export class RoomService {
 	}
 
 	async getRoomInfo(data) {
+		let room = await this.get({ name: data });
+
+		if (!room && data.split('_').length > 1) {
+			room = await this.create(data);
+		}
 		return await this.prisma.room.findMany({
 			include: {
 				profiles: { 
@@ -48,7 +84,7 @@ export class RoomService {
 				}
 			},
 			where: {
-				name: data.name
+				name: data
 			}
 		})
 	}

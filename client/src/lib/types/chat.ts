@@ -11,19 +11,20 @@ export interface IChatPropertys {
 }
 
 export interface IChat {
+    sendMessage: (message: IMessage) => void;
     editMessage: () => void;
     deleteMessage: () => void;
     sendFile: () => void;
     getRoomInfo: () => void;
     getChatName: () => void;
     changeChatLogo: () => void;
-    scrollDown: (node: Element) => void;
+    // scrollDown: (node: Element) => void;
     searchMessage: () => void;
-    searchPerson: () => void;
+    searchPerson: (where: string) => Profile[];
 }
 
-export interface ISocketChat {
-    sendMessage: (message: IMessage) => void;
+export interface ISocketService {
+    emitMessage: (message: IMessage) => void;
     getNextMessages: (row: number, messages: IMessage[]) => void;
-    join: (user_id: number, joined: boolean) => boolean;
+    join: (first_name: string, joined: boolean) => boolean;
 }

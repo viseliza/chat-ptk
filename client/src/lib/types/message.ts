@@ -5,7 +5,7 @@ export interface IMessage {
     user_id: number;
     text: string;
     time: string;
-    isRead: boolean;
-    room_id: number;
+    is_read?: boolean;
+    room_id?: number;
     room?: Room;
 }

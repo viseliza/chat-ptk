@@ -11,12 +11,12 @@ import { IMessage } from "../lib/types";
 * @param {Room} param.room
 */
 export class Message implements IMessage {
-    id: number;
+    id?: number;
     user_id: number;
     text: string;
-    time: string;
-    isRead: boolean;
-    room_id: number;
+    time?: string;
+    is_read?: boolean;
+    room_id?: number;
     room?: Room;
 
     constructor(opts: IMessage) {
@@ -24,7 +24,7 @@ export class Message implements IMessage {
         this.user_id = opts.user_id;
         this.text = opts.text;
         this.time = opts.time;
-        this.isRead = opts.isRead;
+        this.is_read = opts.is_read;
         this.room_id = opts.room_id;
         this.room = opts.room;
     }

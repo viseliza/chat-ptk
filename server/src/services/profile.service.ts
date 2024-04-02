@@ -13,6 +13,7 @@ export class ProfileService {
 		});
 	}
 
+	// used
 	async getRoomsInfo(where: Prisma.ProfileWhereUniqueInput): Promise<Profile> {
 		const response = await this.prisma.profile.findFirst({
 			where: {
@@ -21,6 +22,13 @@ export class ProfileService {
 			include: {
 				room: {
 					select: {
+						profiles: {
+							select: {
+								user: true,
+								first_name: true,
+								last_name: true
+							},
+						},
 						name: true,
 						messages: {
 							orderBy: {
@@ -29,35 +37,39 @@ export class ProfileService {
 							take: 1
 						}
 					}
-				}
 			}
-		});
+		}});
 		return response;
 	}
 
+	// used
 	async getByLogin(data: string): Promise<Profile> {
 		const response = await this.prisma.profile.findFirst({
 			where: {
 				user: {
 					login: data
 				}
+			}, include: {
+				group: true
 			}
 		});
 		if (!response) throw new NotFoundException('Пользователь не найден!')
 		return response;
 	}
 
-	async findProfile(data: Prisma.ProfileWhereInput): Promise<Profile> {
-		return await this.prisma.profile.findFirst({
-			where: {
-				user_id: Number(data.user_id)
-			},
+
+	async getAllProfiles(): Promise<Profile[]> {
+		return await this.prisma.profile.findMany({
 			include: {
-				room: true,
-				user: true,
-				group: true
+				friends: true,
+				friendsBy: true,
+				group: {
+					select: {
+						name: true
+					}
+				}
 			}
-		});
+		})
 	}
 
 	async create(data): Promise<Profile> {

@@ -7,9 +7,11 @@
     import home_dark from "$lib/images/home_dark.svg";
     import message from "$lib/images/message.svg";
     import message_dark from "$lib/images/message_dark.svg";
+    import friends from "$lib/images/friends.svg";
+    import friends_dark from "$lib/images/friends_dark.svg";
     import swapTheme from "../utils/swapTheme";
     
-    let theme = $page.data.user.theme;
+    let theme = $page.data.session.theme;
    
     onMount(() => {
         theme == "black" ? document.documentElement.classList.add("dark") : document.documentElement.classList.remove("dark")
@@ -17,7 +19,7 @@
 
     function changeTheme() {
         setTimeout(async () => {
-            theme = await swapTheme(theme, $page.data.user.user_id);
+            theme = await swapTheme(theme, $page.data.session.user_id);
         }, 100)
     }
 </script>
@@ -59,6 +61,16 @@
                         <span class="tooltip-text">Сообщения</span>
                     </a>
                 </li>
+                <li class="nav-link">
+                    <a href="/friends">
+                        {#if theme != "black"}
+                            <img id="icon" class="nav_icon" src={friends} alt="friends" />
+                        {:else}
+                            <img id="icon" class="nav_icon" src={friends_dark} alt="friends" />
+                        {/if}
+                        <span class="tooltip-text">Друзья</span>
+                    </a>
+                </li>
             </ul>
             <!-- ./menu-links -->
         </div>
@@ -66,7 +78,7 @@
 
         <div class="bottom-content">
             <li class="">
-                <a href="/{$page.data.user.login}">
+                <a href="/{$page.data.session.login}">
                     {#if theme != "black"}
                         <img id="icon" class="nav_icon" src={user} alt="user" />
                     {:else}

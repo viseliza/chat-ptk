@@ -19,6 +19,7 @@
 <section>
 	<h1>Расписание</h1>
     <Schedule schedule={schedule} isHome={true}/>
+    
 	<h1>Замены</h1>
 	<Replacement replacement={replacement} isHome={true}/>
 </section>
