@@ -19,7 +19,7 @@
     async function subscribe() {
         if (profile.friendStatus == "subscribeTo")
             return 0;
-        const result = await fetch("https://viseliza.site/api/friend/", {
+        const result = await fetch("https://viseliza.site:18001/friend/", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json;charset=utf-8'
@@ -31,7 +31,7 @@
     }
 
     async function unsubscribe() {
-        const result = await fetch("https://viseliza.site/api/friend", {
+        const result = await fetch("https://viseliza.site:18001/friend", {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json;charset=utf-8'
