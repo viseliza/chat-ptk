@@ -89,7 +89,7 @@
         background: var(--sidebar-color);
         width: 500px;
         // padding-top: 2rem;
-        border-radius: 20px;
+        border-radius: 10px;
         border: 0;
         box-shadow: 0 5px 30px 0 var(--box-shadow);
         animation: fadeIn 1s ease both;
@@ -125,7 +125,7 @@
         align-items: center;
         padding: 48px 48px 16px 48px;
         margin-bottom: 10px;
-        border-radius: 20px;
+        border-radius: 10px;
         box-shadow: 0 0 20px var(--box-shadow);
     }
     .header img {
@@ -135,7 +135,7 @@
     }
     .room {
         padding: 16px 48px;
-        border-radius: 20px;
+        border-radius: 10px;
         box-shadow: 0 0 20px var(--box-shadow);
     }
     .room p {
@@ -163,7 +163,7 @@
         display: flex;
         padding: 16px 48px;
         align-items: center;
-        border-radius: 20px;
+        border-radius: 10px;
         box-shadow: 0 0 20px var(--box-shadow);
         margin-bottom: 10px;
     }

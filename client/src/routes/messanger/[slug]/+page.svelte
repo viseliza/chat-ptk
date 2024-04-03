@@ -137,7 +137,7 @@
         background-color: var(--sidebar-color);
         height: 100%;
         min-height: 95vh;
-        border-radius: 20px;
+        border-radius: 10px;
         box-shadow: 0 0 20px var(--box-shadow);
     }
 

@@ -96,7 +96,7 @@
         height: 40px;
         background: var(--primary-head);
         border-radius: 4px;
-        box-shadow: 5px 5px 5px var(--box-shadow);
+        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
         outline: none;
         opacity: 0;
         transition: 0.5s;

@@ -8,6 +8,7 @@ import { Message } from '../models/Message.js';
 
 export class AppAPI {
     static API = new URL('http://localhost:18001/');
+    // static API = new URL('https://viseliza.site/api/');
 
     #token;
     #defaultParams;
@@ -55,7 +56,6 @@ export class AppAPI {
         
         // if ('status' in json && json.status === 'ok') {
         if (json) {
-            delete json.status;
             delete json.msg;
             delete json.code;
             // Возвращаем ответ
@@ -76,6 +76,27 @@ export class AppAPI {
     async getShops() {
         const { shops } = await this.callApi('list/shops');
         return shops.map((s) => new Shop(s));
+    }
+
+    async getAllFriendsForMe(user_id: number) {
+        return await this.callApi('friendsForMe', { name: user_id })
+    }
+
+    async getAllFriendsByMe(user_id: number) {
+        return await this.callApi('friendsByMe', { name: user_id })
+    }
+
+    async getAllFriends(me_id: number) {
+        return await this.callApi('friendsAll', { name: me_id });
+    }
+
+    async getFriend(me_id: number, friend_id: number) {
+        const name = me_id + "=" + friend_id;
+        return await this.callApi('friended', { name } )
+    }
+
+    async profilesFriends(data: Array<number>) {
+        return await this.callApi('profilesFriends', { body: data })
     }
 
 

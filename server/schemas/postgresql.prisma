@@ -18,6 +18,14 @@ enum Theme {
     black
 }
 
+enum FriendStatus {
+    friends
+    subscribeTo
+    subscribeOnMe
+    blackList
+}
+
+
 model User {
     id          Int      @id @default(autoincrement())
     login       String   @unique
@@ -49,8 +57,14 @@ model Profile {
     group       Group?      @relation("ProfileToGroup", fields: [group_id], references: [id])
     group_id    Int?
     room        Room[]      @relation("ProdfileRoom")
-    friendsBy   Profile[]   @relation("ProfileFriends")
-    friends     Profile[]   @relation("ProfileFriends")
+}
+
+
+model Friend {
+    id          Int             @id @default(autoincrement())
+    me_id       Int             @unique
+    friend_id   Int             @unique
+    status      FriendStatus
 }
 
 

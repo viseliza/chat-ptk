@@ -1,5 +1,6 @@
 <script lang="ts">
     import type { PageData } from "../$types";
+    import FriendItem from "../../lib/components/FriendItem.svelte";
     import Input from "../../lib/components/Input.svelte";
     import user_add from "../../lib/images/user-add.svg";
     import user_add_dark from "../../lib/images/user-add_dark.svg";
@@ -7,7 +8,7 @@
     export let data: PageData;
 
     let theme = data.session.theme;
-    let friends: Profile[] = [];
+    let friends: Profile[] = data.profiles;
     let searchedFriends: Profile[] = [];
 </script>
 
@@ -18,7 +19,13 @@
 
 <section class="friends">
     <section class="friends-header">
-        <span>Мои друзья: <strong>{friends.length}</strong></span>
+        <div class="friends-left">
+            <div class="myFriends">
+                <span>Мои друзья: <strong>{friends.length}</strong></span>
+            </div>
+            <a class="request" href="/friends/request">Мои заявки</a>
+        </div>
+        
         <a href="/friends/search">Найти друзей</a>
     </section>
     <section class="friends-search">
@@ -33,7 +40,13 @@
     </section>
     <section class="friends-list">
         {#if friends.length}
-            TODO
+            {#each friends as friend}
+                <FriendItem
+                    {theme}
+                    user_id={data.session.user_id}
+                    profile={friend}
+                />
+            {/each}
         {:else}
             <div>
                 {#if theme === "white"}
@@ -63,7 +76,7 @@
         padding: 20px 30px;
         display: flex;
         margin-bottom: 20px;
-        border-radius: 20px;
+        border-radius: 10px;
         box-shadow: 0 0 20px var(--box-shadow);
         background-color: var(--sidebar-color);
     }
@@ -102,6 +115,14 @@
     .friends-header a:active {
         box-shadow: 0 4px 4px 0 rgb(60 64 67 / 30%), 0 8px 12px 6px rgb(60 64 67 / 15%);
         outline: none;
+    }
+    .friends-left {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .request {
+        margin-left: 15px;
     }
 
     .friends-list {
@@ -142,6 +163,14 @@
     .friends-search span {
         white-space: nowrap;
         margin-right: 15px;
+    }
+    .myFriends {
+        padding: 15px;
+        height: 48px;
+        display: flex;
+        align-items: center;
+        border-radius: 10px;
+        box-shadow: 0 0 20px var(--box-shadow);
     }
 </style>
 

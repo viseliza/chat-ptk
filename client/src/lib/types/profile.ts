@@ -25,4 +25,5 @@ export interface IProfile {
     user?: User;
     group?: Group;
     rooms?: Room[];
+    friendStatus?: string;
 }

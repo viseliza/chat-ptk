@@ -66,7 +66,7 @@
         height: 55px;
         border: none;
         margin-bottom: 30px;
-        border-radius: 20px;
+        border-radius: 10px;
         transition: all 0.4s;
     }
     button:hover {

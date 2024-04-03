@@ -13,6 +13,7 @@
     --primary-color-light: #f6f5ff;
     --toggle-color: #ddd;
     --text-color: #1d1d1d;
+	--text-color-opacity: #1d1d1d66;
     --tooltip: #192733;
 	--button-background: #242526;
 	--button-hover: #0a0a0a;
@@ -76,6 +77,7 @@ html.dark {
     --primary-color-light: #3a3b3c;
     --toggle-color: #fff;
     --text-color: #ccc;
+    --text-color-opacity: #ffffff66;
     --tooltip: #222424;
 	--left: 20px;
 	--button-background: #ccc;

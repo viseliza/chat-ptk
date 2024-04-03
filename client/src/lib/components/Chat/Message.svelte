@@ -55,7 +55,7 @@
         max-width: 400px;
         margin: 0 10px;
         padding: 10px 15px;
-        border-radius: 20px;
+        border-radius: 10px;
         background-color: var(--primary-color);
         display: inline-flex;
         flex-direction: column;

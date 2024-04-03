@@ -58,14 +58,39 @@ export class ProfileService {
 	}
 
 
-	async getAllProfiles(): Promise<Profile[]> {
+	async getProfilesFrinends(data) {
 		return await this.prisma.profile.findMany({
-			include: {
-				friends: true,
-				friendsBy: true,
+			where: {
+				user_id: {
+					in: data
+				}
+			}, include: {
 				group: {
 					select: {
 						name: true
+					}
+				},
+				user: {
+					select: {
+						login: true
+					}
+				}
+			}
+		})
+	}
+
+
+	async getAllProfiles(): Promise<Profile[]> {
+		return await this.prisma.profile.findMany({
+			include: {
+				group: {
+					select: {
+						name: true
+					}
+				},
+				user: {
+					select: {
+						login: true
 					}
 				}
 			}

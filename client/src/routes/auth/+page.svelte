@@ -18,7 +18,7 @@
         width: 500px;
         background-color: var(--sidebar-color);
         padding: 60px;
-        border-radius: 20px;
+        border-radius: 10px;
         margin: auto;
         position: relative;
         box-shadow: 0px 5px 10px 0px var(--text-color);

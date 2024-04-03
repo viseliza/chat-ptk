@@ -1,6 +1,6 @@
 FROM node:18.16-alpine
 
-WORKDIR /client
+WORKDIR /server
 
 COPY package.json package-lock.json ./
 
@@ -8,6 +8,6 @@ RUN npm install
 
 COPY . .
 
-RUN npm run build
+RUN npm run prisma:prod
 
-CMD npm run preview --host
+CMD npm run start

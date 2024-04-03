@@ -2,41 +2,13 @@
     import arrow_left from "$lib/images/arrow-left.svg";
     import arrow_left_dark from "$lib/images/arrow-left_dark.svg";
     import type { PageData } from "../$types";
-    import DropDown from "../../../lib/components/DropDown.svelte";
     import FriendItem from "../../../lib/components/FriendItem.svelte";
-    import Input from "../../../lib/components/Input.svelte";
-    import type { IProfile } from "../../../lib/types";
-    import SearchFriends from "../../../lib/utils/SearchFriends";
     export let data: PageData;
-    
-    const searchFrineds = new SearchFriends(data.profiles);
-    const groups = data.groups.map(group => {
-        return group.name;
-    });
+
     let theme = data.session.theme;
-    let filteredProfiles: IProfile[] = [];
 
-    let searchProfiles = searchFrineds.getAllProfiles();
-    let profilesWithFriends = searchProfiles.filter((profile) => {
-        if (profile.user_id != data.session.user_id) {
-            data.friends.filter((friend) => {
-                if (friend.friend_id == profile.user_id && friend.status) 
-                    profile.friendStatus = friend.status;
-            })
-            return profile;
-        }
-    })
-
-    $: if (value != "Группа") {
-        filteredProfiles = profilesWithFriends.filter((profile) => {
-            if (profile.group?.name == value)
-                return profile
-        })
-    }
-    let myProfile = searchProfiles.filter((profile) => profile.user?.login == data.session.login)[0];
-    
-    let searchedFriends: IProfile[] = [];
-    let value = "Группа";
+    const profilesByMe = data.profilesByMe;
+    const profilesForMe = data.profilesForMe;
 </script>
 
 <svelte:head>
@@ -58,26 +30,8 @@
             </a>
         </div>
     </section>
-    <section class="tags">
-        <div class="searching">
-            <Input
-                bind:theme
-                searchArray={searchProfiles}
-                searchedArray={searchedFriends}
-                isStatic={true}
-                showInput={true}
-            />
-        </div>
-        <div>
-            <DropDown
-                {groups}
-                bind:value
-            />
-        </div>
-    </section>
     <section class="friends-list">
-        {#if !filteredProfiles.length}
-            {#each profilesWithFriends as profile}
+            {#each profilesByMe as profile}
                 {#if profile.user?.login != data.session.login}
                     <FriendItem
                         user_id={data.session.user_id}
@@ -86,8 +40,7 @@
                     />
                 {/if}
             {/each}
-        {:else}
-            {#each filteredProfiles as profile}
+            {#each profilesForMe as profile}
                 {#if profile.user?.login != data.session.login}
                     <FriendItem
                         user_id={data.session.user_id}
@@ -96,7 +49,6 @@
                     />
                 {/if}
             {/each}
-        {/if}
     </section>
 </section>
 
@@ -133,14 +85,10 @@
     .back img{
         margin-right: 5px;
     }
-    .tags .searching{
-        display: flex;
-        flex-direction: row;
-    }
     .friends-list {        
         display: flex;
         flex-direction: column;
-        height: 70vh;
+        height: 85vh;
         overflow-y: auto;
     }
 </style>

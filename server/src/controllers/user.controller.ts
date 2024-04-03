@@ -116,9 +116,4 @@ export class UserController {
 		});
 	}
 
-	@ApiOperation({ summary: 'Удаление пользователя из таблицы User по логину' })
-	@Delete('/:login')
-	delete(@Param('login') login: string) {
-		return this.userService.delete({ login });
-	}
 }

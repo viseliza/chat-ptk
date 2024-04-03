@@ -42,6 +42,12 @@ export class ProfileController {
 		return await this.profileService.getAllProfiles();
 	}
 
+	@Post('profilesFriends') 
+	async getProfileFrineds(@Body() data) {
+		console.log(data)
+		return await this.profileService.getProfilesFrinends(data);
+	}
+
 	@Post('/profile/auth')
 	create(
 		@Body()
