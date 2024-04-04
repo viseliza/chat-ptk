@@ -1,6 +1,6 @@
 <script lang="ts">
-    import search from "../../lib/images/search.svg";
-    import search_dark from "../../lib/images/search_dark.svg";
+    import search from "/images/search.svg";
+    import search_dark from "/images/search_dark.svg";
     import type { IChatPreview, IMessage, IProfile } from "../types";
 
     export let theme: string;

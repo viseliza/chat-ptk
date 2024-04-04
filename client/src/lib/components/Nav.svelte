@@ -1,14 +1,14 @@
 <script lang="ts">
     import { page } from "$app/stores";
     import { onMount } from "svelte";
-    import user from "$lib/images/user.svg";
-    import user_dark from "$lib/images/user_dark.svg";
-    import home from "$lib/images/home.svg";
-    import home_dark from "$lib/images/home_dark.svg";
-    import message from "$lib/images/message.svg";
-    import message_dark from "$lib/images/message_dark.svg";
-    import friends from "$lib/images/friends.svg";
-    import friends_dark from "$lib/images/friends_dark.svg";
+    import user from "/images/user.svg";
+    import user_dark from "/images/user_dark.svg";
+    import home from "/images/home.svg";
+    import home_dark from "/images/home_dark.svg";
+    import message from "/images/message.svg";
+    import message_dark from "/images/message_dark.svg";
+    import friends from "/images/friends.svg";
+    import friends_dark from "/images/friends_dark.svg";
     import swapTheme from "../utils/swapTheme";
     
     let theme = $page.data.session.theme;

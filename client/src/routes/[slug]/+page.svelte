@@ -1,7 +1,7 @@
 <script lang="ts">
-    import placeholder from '$lib/images/50x50.svg';
-    import message from '$lib/images/message.svg';
-    import message_dark from '$lib/images/message_dark.svg';
+    import placeholder from '/images/50x50.svg';
+    import message from '/images/message.svg';
+    import message_dark from '/images/message_dark.svg';
     import type { PageData } from './$types';
     import Replacement from '../../lib/components/Replacement.svelte';
     import Schedule from '../../lib/components/Schedule.svelte';
@@ -18,7 +18,7 @@
     async function subscribe() {
         if (data.isFriend.friendStatus == "subscribeTo")
             return 0;
-        const result = await fetch("http://viseliza.site:18001/friend/", {
+        const result = await fetch("http://localhost:18001/friend/", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json;charset=utf-8'
@@ -30,7 +30,7 @@
     }
 
     async function unsubscribe() {
-        const result = await fetch("http://viseliza.site:18001/friend", {
+        const result = await fetch("http://localhost:18001/friend", {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json;charset=utf-8'

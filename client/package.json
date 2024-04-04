@@ -35,6 +35,7 @@
 	"type": "module",
 	"dependencies": {
 		"-": "^0.0.1",
+		"@sveltejs/adapter-netlify": "^1.0.0-next.88",
 		"@types/socket.io-client": "^3.0.0",
 		"axios": "^1.6.0",
 		"cheerio": "^1.0.0-rc.12",

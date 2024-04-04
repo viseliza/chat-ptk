@@ -7,7 +7,7 @@ import { Room } from '../models/Room.js';
 import { Message } from '../models/Message.js';
 
 export class AppAPI {
-    static API = new URL('http://viseliza.site:18001/');
+    static API = new URL('http://localhost:18001/');
 
     #token;
     #defaultParams;

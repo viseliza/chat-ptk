@@ -1,6 +1,6 @@
 <script lang="ts">
     import type { IMessage } from "../../types";
-    import placeholder from "$lib/images/50x50.svg";
+    import placeholder from "/images/50x50.svg";
 
     export let isLessThan5Minute: boolean = false;
     export let isPrevious: boolean = false;

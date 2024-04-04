@@ -3,8 +3,8 @@
     import Chats from "../../lib/components/Chats.svelte";
     import type { IChatPreview } from "../../lib/types";
     import Input from "../../lib/components/Input.svelte";
-    import search from "../../lib/images/search.svg";
-    import search_dark from "../../lib/images/search_dark.svg";
+    import search from "/images/search.svg";
+    import search_dark from "/images/search_dark.svg";
     export let data: PageData;
 
     $: theme = data.session.theme;

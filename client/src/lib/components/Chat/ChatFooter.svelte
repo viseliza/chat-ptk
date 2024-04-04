@@ -1,8 +1,8 @@
 <script lang="ts">
-    import attachment from "$lib/images/attachment.svg";
-    import attachment_dark from "$lib/images/attachment_dark.svg";
-    import play from "$lib/images/navigation.svg";
-    import play_dark from "$lib/images/navigation_dark.svg";
+    import attachment from "/images/attachment.svg";
+    import attachment_dark from "/images/attachment_dark.svg";
+    import play from "/images/navigation.svg";
+    import play_dark from "/images/navigation_dark.svg";
     import type Chat from "../../utils/Chat";
 
     export let user_id: number;

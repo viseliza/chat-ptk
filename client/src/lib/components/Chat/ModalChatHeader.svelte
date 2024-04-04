@@ -1,6 +1,6 @@
 <script lang="ts">
     import type { Profile } from "../../../models/Profile";
-    import placeholder from "$lib/images/50x50.svg";
+    import placeholder from "/images/50x50.svg";
     import type Chat from "../../utils/Chat";
     
     export let chat: Chat;

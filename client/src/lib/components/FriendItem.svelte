@@ -1,15 +1,15 @@
 <script lang="ts">
-    import placeholder from "$lib/images/50x50.svg";
-    import user_add from "../../lib/images/user-add.svg";
-    import user_add_dark from "../../lib/images/user-add_dark.svg";
-    import user_remove from "../../lib/images/user-remove.svg";
-    import user_remove_dark from "../../lib/images/user-remove_dark.svg";
-    import user_tick from "../../lib/images/user-tick.svg";
-    import user_tick_dark from "../../lib/images/user-tick_dark.svg";
-    import message from "../../lib/images/message.svg";
-    import message_dark from "../../lib/images/message_dark.svg";
-    import clock from "../../lib/images/clock.svg";
-    import clock_dark from "../../lib/images/clock_dark.svg";
+    import placeholder from "/images/50x50.svg";
+    import user_add from "/images/user-add.svg";
+    import user_add_dark from "/images/user-add_dark.svg";
+    import user_remove from "/images/user-remove.svg";
+    import user_remove_dark from "/images/user-remove_dark.svg";
+    import user_tick from "/images/user-tick.svg";
+    import user_tick_dark from "/images/user-tick_dark.svg";
+    import message from "/images/message.svg";
+    import message_dark from "/images/message_dark.svg";
+    import clock from "/images/clock.svg";
+    import clock_dark from "/images/clock_dark.svg";
     import type { IProfile } from "../types";
 
     export let theme: string;
@@ -19,7 +19,7 @@
     async function subscribe() {
         if (profile.friendStatus == "subscribeTo")
             return 0;
-        const result = await fetch("http://viseliza.site:18001/friend/", {
+        const result = await fetch("http://localhost:18001/friend/", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json;charset=utf-8'
@@ -31,7 +31,7 @@
     }
 
     async function unsubscribe() {
-        const result = await fetch("http://viseliza.site:18001/friend", {
+        const result = await fetch("http://localhost:18001/friend", {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json;charset=utf-8'

@@ -1,6 +1,7 @@
 import type { Actions } from './$types';
 import { fail, redirect } from '@sveltejs/kit';
-import * as jwt from 'jsonwebtoken';
+import jsonwebtoken from 'jsonwebtoken';
+const { sign, decode, verify } = jsonwebtoken;
 import { AppAPI } from '../../api/api';
 import type { User } from '../../models/User';
 import isExistUser from '../../lib/utils/isExistUser';
@@ -34,7 +35,7 @@ export const actions: Actions = {
 		// Profile data
 		const profile = await api.checkUser(user, fio.firstName, fio.lastName, fio.midName);
 		// Generate jwt token for profile
-		const token = jwt.sign({ 
+		const token = jsonwebtoken.sign({ 
 			user_id: profile.user_id,
 			login: user.login,
 			theme: profile.theme

@@ -2,8 +2,8 @@
     import type { PageData } from "../$types";
     import FriendItem from "../../lib/components/FriendItem.svelte";
     import Input from "../../lib/components/Input.svelte";
-    import user_add from "../../lib/images/user-add.svg";
-    import user_add_dark from "../../lib/images/user-add_dark.svg";
+    import user_add from "/images/user-add.svg";
+    import user_add_dark from "/images/user-add_dark.svg";
     import type { Profile } from "../../models/Profile";
     export let data: PageData;
 

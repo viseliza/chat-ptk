@@ -1,7 +1,7 @@
 <script lang="ts">
     import type { IChatPreview } from "../types";
-    import placeholder from "$lib/images/50x50.svg";
-    import read from "$lib/images/read.svg";
+    import placeholder from "/images/50x50.svg";
+    import read from "/images/read.svg";
 
     export let chats: IChatPreview[];
 </script>
