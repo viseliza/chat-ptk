@@ -14,7 +14,7 @@ export default async function (theme: string, user_id: number) {
         }
     }
     
-    await fetch(`http://localhost:18001/profile/${user_id}`, {
+    await fetch(`http://viseliza.site:18001/profile/${user_id}`, {
         method: "PATCH",
         headers: {
             'Content-Type': 'application/json'

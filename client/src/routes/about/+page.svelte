@@ -8,7 +8,7 @@
     import SocketChat from "../../lib/utils/SocketService";
 
     let row = 5;
-	const socket = new SocketChat("http://localhost:18001", { id: 1, name: "1992"});
+	const socket = new SocketChat("http://viseliza.site:18001", { id: 1, name: "1992"});
     let messages: Array<IMessage> = [];
 	const chat = new Chat();
 	let element: Element;
