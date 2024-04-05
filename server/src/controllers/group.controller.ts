@@ -26,13 +26,13 @@ export class GroupController {
     ) { }
 
 	@ApiOperation({ summary: 'Выборка группы профиля с заданым user_id' })
-    @Get('/group/:user_id')
+    @Get('/:user_id')
     async get(@Param('user_id') user_id: string) {
         return this.groupService.getByUserId( Number(user_id) );
     }
 
 	@ApiOperation({ summary: 'Выборка всех групп в базе' })
-    @Get('/groups')
+    @Get('/list')
     findMany() {
         return this.groupService.findMany({});
     }
@@ -60,7 +60,7 @@ export class GroupController {
     }
 
 	@ApiOperation({ summary: 'Обновление данных группы по названию' })
-    @Patch('/group/:name')
+    @Patch('/:name')
     update(
         @Param('name') name: string,
         @Body() updateLinkDto: Prisma.GroupUpdateInput,
@@ -72,7 +72,7 @@ export class GroupController {
     }
 
 	@ApiOperation({ summary: 'Удаление записи группы из таблицы' })
-    @Delete('/group/:name')
+    @Delete('/:name')
     delete(@Param('name') name: string) {
         return this.groupService.delete({ name });
     }

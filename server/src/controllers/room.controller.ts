@@ -18,7 +18,7 @@ import {
 export class RoomController {
     constructor ( private readonly roomService: RoomService ) { }
     
-    @Get('/room/:name')
+    @Get('/:name')
     get(@Param('name') name: string) {
       return this.roomService.get({ name });
     }

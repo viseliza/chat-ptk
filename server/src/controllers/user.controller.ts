@@ -28,7 +28,7 @@ export class UserController {
 		private readonly groupService: GroupService,
 	) { }
 
-	@Get('/user/:login')
+	@Get('/:login')
 	@ApiOperation({ summary: 'Выборка пользователя из таблицы User по логину' })
 	@ApiResponse({
 		status: 200,

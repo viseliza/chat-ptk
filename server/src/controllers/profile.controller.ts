@@ -26,7 +26,7 @@ export class ProfileController {
 	) { }
 
 	// used
-	@Get('/profile/:user_id')
+	@Get('/:user_id')
 	async get(@Param('user_id') user_id: number) {
 		return this.profileService.getRoomsInfo({ user_id });
 	}
@@ -37,18 +37,17 @@ export class ProfileController {
 		return await this.profileService.getByLogin(login);
 	}
 
-	@Get('profiles')
+	@Get('/list')
 	async getAllProfiles(): Promise<Profile[]> {
 		return await this.profileService.getAllProfiles();
 	}
 
-	@Post('profilesFriends') 
+	@Post('/profilesFriends') 
 	async getProfileFrineds(@Body() data) {
-		console.log(data)
 		return await this.profileService.getProfilesFrinends(data);
 	}
 
-	@Post('/profile/auth')
+	@Post('/auth')
 	create(
 		@Body()
 		data: NewProfileDTO,
@@ -56,7 +55,7 @@ export class ProfileController {
 		return this.profileService.create(data);
 	}
 
-	@Patch('/profile/:user_id')
+	@Patch('/:user_id')
 	update(
 		@Param('user_id') user_id: string,
 		@Body() updateLinkDto: Prisma.ProfileUpdateInput,
@@ -67,7 +66,7 @@ export class ProfileController {
 		});
 	}
 
-	@Delete('/profile_delete/:user_id')
+	@Delete('/:user_id')
 	delete(@Param('user_id') user_id: number) {
 		return this.profileService.delete({ user_id });
 	}

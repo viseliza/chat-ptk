@@ -55,13 +55,13 @@ export class FriendController {
     
 
 	@ApiOperation({ summary: 'Выборка группы профиля с заданым user_id' })
-    @Post('/friend')
+    @Post('/')
     async subscribe(@Body() postData) {
         return await this.friendService.subscribe(postData.me_id, postData.friend_id);
     }
 
 
-    @Delete('/friend/')
+    @Delete('/')
     async unsubscribe(@Body() postData) {
         return await this.friendService.unsubscribe(postData.me_id, postData.friend_id);
     }

@@ -24,7 +24,11 @@ export class ProfileService {
 					select: {
 						profiles: {
 							select: {
-								user: true,
+								user: {
+									select: {
+										login: true
+									}
+								},
 								first_name: true,
 								last_name: true
 							},

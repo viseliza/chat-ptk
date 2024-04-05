@@ -7,7 +7,7 @@ import { Room } from '../models/Room.js';
 import { Message } from '../models/Message.js';
 
 export class AppAPI {
-    static API = new URL('http://viseliza.site:18001/');
+    static API = new URL('https://viseliza.site/api');
 
     #token;
     #defaultParams;
@@ -33,7 +33,7 @@ export class AppAPI {
         let url;
 
         if (params.body) {
-            url = `${AppAPI.API.origin}/${method}`;
+            url = `${AppAPI.API.origin}/api/${method}`;
             
             response =  await fetch(url, {
                 method: call,
@@ -78,24 +78,24 @@ export class AppAPI {
     }
 
     async getAllFriendsForMe(user_id: number) {
-        return await this.callApi('friendsForMe', { name: user_id })
+        return await this.callApi('friend/friendsForMe', { name: user_id })
     }
 
     async getAllFriendsByMe(user_id: number) {
-        return await this.callApi('friendsByMe', { name: user_id })
+        return await this.callApi('friend/friendsByMe', { name: user_id })
     }
 
     async getAllFriends(me_id: number) {
-        return await this.callApi('friendsAll', { name: me_id });
+        return await this.callApi('friend/friendsAll', { name: me_id });
     }
 
     async getFriend(me_id: number, friend_id: number) {
         const name = me_id + "=" + friend_id;
-        return await this.callApi('friended', { name } )
+        return await this.callApi('friend/friended', { name } )
     }
 
     async profilesFriends(data: Array<number>) {
-        return await this.callApi('profilesFriends', { body: data })
+        return await this.callApi('profile/profilesFriends', { body: data })
     }
 
 
@@ -112,7 +112,7 @@ export class AppAPI {
      * @returns {Promise<Group>}
      */
     async getAllGroups() {
-        return await this.callApi('groups');
+        return await this.callApi('group/groups');
     }
 
     /** Получение последнего сообщения из чата
@@ -128,7 +128,7 @@ export class AppAPI {
      * @returns {Promise<Profile>}
      */
     async getAllProfiles(): Promise<Profile[]> {
-        return await this.callApi('profiles');
+        return await this.callApi('profile/list');
     }
 
     /** Получить профиль по login
@@ -136,9 +136,17 @@ export class AppAPI {
      * @returns {Promise<Profile>}
      */
     async getProfileByLogin(login: string) {
-        return await this.callApi('profileByLogin', { name: login });
+        return await this.callApi('profile/profileByLogin', { name: login });
     }
 
+    /** Обновление профиля
+     * @param {string} theme
+     * @returns {Promise<Profile>} 
+     */
+    async patchProfile(theme: string) {
+        return await this.callApi('profile', { body: { theme } }, "PATCH")
+    }
+    
     /** Получение комнаты по названию
      * @param {string} name
      * @returns {Promise<Room>}
@@ -152,7 +160,7 @@ export class AppAPI {
      * @returns {number}
      */
     async getRoomInfo(name: string) {
-        return await this.callApi('getRoomInfo', { name })
+        return await this.callApi('room/getRoomInfo', { name })
     }
 
 
@@ -170,18 +178,11 @@ export class AppAPI {
             if (user.statusCode == 404)
                 throw "Пользователь не найден"
         } catch {
-            user = await this.callApi("auth", { body: { login: data.login, password: data.password, first_name, last_name, father_name } });
+            user = await this.callApi("user/auth", { body: { login: data.login, password: data.password, first_name, last_name, father_name } });
         }
         return user;
     }
 
-    /** Обновление профиля
-     * @param {string} theme
-     * @returns {Promise<Profile>} 
-     */
-    async patchProfile(theme: string) {
-        return await this.callApi('profile', { body: { theme } }, "PATCH")
-    }
 
     /** Получить список категорий
      * 
