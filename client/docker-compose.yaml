@@ -1,9 +1,10 @@
 version: '3'
 
 services:
-  frontend:
+  client:
     build:
       context: .
       dockerfile: Dockerfile
     restart: always
     network_mode: "host"
+    container_name: chat-novsu

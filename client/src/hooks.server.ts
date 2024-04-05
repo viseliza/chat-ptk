@@ -1,7 +1,6 @@
 import type { Handle } from '@sveltejs/kit';
 import { parse } from 'cookie';
 import jwt from 'jsonwebtoken';
-import { AppAPI } from './api/api';
 
 interface Profile {
 	id?: number;
