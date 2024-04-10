@@ -46,7 +46,7 @@
     .date {
         margin: 25px 0 15px 0;
         display: block;
-        min-height: 20px;
+        min-height: 35px;
         text-align: center;
         overflow: hidden;
         white-space: nowrap;
@@ -57,27 +57,10 @@
     }
 
     .date > span {
+        padding: 5px 10px;
+        background-color: var(--primary-color);
+        border-radius: 10px;
         position: relative;
         display: inline-block;
-    }
-	
-    .date > span:before,
-    .date > span:after {
-        content: "";
-        position: absolute;
-        top: 50%;
-        width: 9999px;
-        height: 1px;
-        background: var(--button-background);
-    }
-
-    .date > span:before {
-        right: 100%;
-        margin-right: 15px;
-    }
-
-    .date > span:after {
-        left: 100%;
-        margin-left: 15px;
     }
 </style>

@@ -1,6 +1,8 @@
 <script lang="ts">
     import arrow_left from "/images/arrow-left.svg";
     import arrow_left_dark from "/images/arrow-left_dark.svg";
+    import user_search from "/images/user_search.svg";
+    import user_search_dark from "/images/user_search_dark.svg";
     import type { PageData } from "../$types";
     import FriendItem from "../../../lib/components/FriendItem.svelte";
     export let data: PageData;
@@ -12,7 +14,7 @@
 </script>
 
 <svelte:head>
-    <title>Поиск друзей</title>
+    <title>Заявки в друзья</title>
     <meta name="description" content="SearchFriends" />
 </svelte:head>
 
@@ -31,6 +33,17 @@
         </div>
     </section>
     <section class="friends-list">
+        {#if !profilesByMe.length && !profilesForMe.length}
+        <div>
+            {#if theme === "white"}
+                <img src={user_search} alt="user-add">
+            {:else}
+                <img src={user_search_dark} alt="user-add">
+            {/if}
+            <span class="friends-title">Ваш список заявок пуст</span>
+            <span>Здесь будут отображаться ваши отправленные и полученные заявки в друзья.Вы можете отправлять заявки в друзья на вкладке "Найти друзей"</span>
+        </div>
+        {:else}
             {#each profilesByMe as profile}
                 {#if profile.user?.login != data.session.login}
                     <FriendItem
@@ -49,6 +62,7 @@
                     />
                 {/if}
             {/each}
+        {/if}
     </section>
 </section>
 
@@ -90,5 +104,28 @@
         flex-direction: column;
         height: 85vh;
         overflow-y: auto;
+    }
+    .friends-list div {
+        flex: 1 1 auto;
+        align-items: center;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        margin-bottom: 100px;
+    }
+    .friends-list img {
+        width: 50px;
+        height: 50px;
+    }
+    .friends-list div span {
+        font-size: 16px;
+        font-weight: 500;
+        margin: 0 20px;
+    }
+    .friends-list .friends-title {
+        font-size: 18px;
+        padding: 5px 0;
+        font-weight: 700;
     }
 </style>

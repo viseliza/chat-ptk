@@ -37,7 +37,7 @@ export class ProfileController {
 		return await this.profileService.getByLogin(login);
 	}
 
-	@Get('/list')
+	@Get('/')
 	async getAllProfiles(): Promise<Profile[]> {
 		return await this.profileService.getAllProfiles();
 	}

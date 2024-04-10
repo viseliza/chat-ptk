@@ -13,7 +13,7 @@ export default class Chat extends SocketService implements IChat {
      * @param {IChatPropertys} chat 
      */
     constructor(chat: IChatPropertys) {
-        super("https://viseliza.site/api", { id: chat.id, name: chat.name })
+        super("https://viseliza.site", { id: chat.id, name: chat.name })
         this.count_of_profiles = chat._count.profiles;
         this.room = { id: chat.id, name: chat.name };
         this.profiles = chat.profiles;

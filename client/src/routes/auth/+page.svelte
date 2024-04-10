@@ -21,6 +21,6 @@
         border-radius: 10px;
         margin: auto;
         position: relative;
-        box-shadow: 0px 5px 10px 0px var(--text-color);
+        box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, var(--box-shadow) 0px 30px 60px -30px;
     }
 </style>

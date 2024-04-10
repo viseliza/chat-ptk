@@ -7,7 +7,7 @@ import { Room } from '../models/Room.js';
 import { Message } from '../models/Message.js';
 
 export class AppAPI {
-    static API = new URL('https://viseliza.site/api');
+    static API = new URL('https://viseliza.site/');
 
     #token;
     #defaultParams;
@@ -44,13 +44,12 @@ export class AppAPI {
             });
         } else {
             if (params.name)
-                url = `${AppAPI.API.origin}/${method}/${params.name}`;
+                url = `${AppAPI.API.origin}/api/${method}/${params.name}`;
             else 
-                url = `${AppAPI.API.origin}/${method}`;
+                url = `${AppAPI.API.origin}/api/${method}`;
 
             response = await fetch(url)
         }
-        
         const json = await response.json();
         
         // if ('status' in json && json.status === 'ok') {
@@ -112,7 +111,7 @@ export class AppAPI {
      * @returns {Promise<Group>}
      */
     async getAllGroups() {
-        return await this.callApi('group/groups');
+        return await this.callApi('group/list');
     }
 
     /** Получение последнего сообщения из чата

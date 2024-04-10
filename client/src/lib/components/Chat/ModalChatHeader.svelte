@@ -123,7 +123,7 @@
     .header {
         display: flex;
         align-items: center;
-        padding: 48px 48px 16px 48px;
+        padding: 35px 48px 35px 48px;
         margin-bottom: 10px;
         border-radius: 10px;
         box-shadow: 0 0 20px var(--box-shadow);
@@ -136,7 +136,7 @@
     .room {
         padding: 16px 48px;
         border-radius: 10px;
-        box-shadow: 0 0 20px var(--box-shadow);
+        box-shadow: 0 -8px 10px rgba(0,0,0, 0.1);
     }
     .room p {
         font-weight: 700;

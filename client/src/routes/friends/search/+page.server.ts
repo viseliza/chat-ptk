@@ -6,7 +6,7 @@ export const load: PageServerLoad = async ({ locals }) => {
     const profiles = await api.getAllProfiles();
     const groups = await api.getAllGroups();
     const friends = await api.getAllFriends(locals.session.user_id);
-    
+   
     return {
         friends,
         session: locals.session,

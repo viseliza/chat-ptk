@@ -26,15 +26,12 @@ export class GroupService {
         });
     }
 
-    async findMany(params: {
-        skip?: number;
-        take?: number;
-        cursor?: Prisma.GroupWhereUniqueInput;
-        where?: Prisma.GroupWhereInput;
-        orderBy?: Prisma.GroupOrderByWithRelationInput;
-    }): Promise<Group[]> {
-        const { skip, take, cursor, where, orderBy } = params;
-        return await this.prisma.group.findMany({ skip, take, cursor, where, orderBy });
+    findMany() {
+        return this.prisma.group.findMany({
+            select: {
+                name: true
+            }
+        });
     }
 
     create(data: Prisma.GroupCreateInput): Promise<Group> {

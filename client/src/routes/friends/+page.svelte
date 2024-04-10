@@ -20,20 +20,20 @@
 <section class="friends">
     <section class="friends-header">
         <div class="friends-left">
-            <div class="myFriends">
+            <div class="myFriends a-item">
                 <span>Мои друзья: <strong>{friends.length}</strong></span>
             </div>
-            <a class="request" href="/friends/request">Мои заявки</a>
+            <a class="request a-item" href="/friends/request">Мои заявки</a>
         </div>
         
-        <a href="/friends/search">Найти друзей</a>
+        <a class="a-item" href="/friends/search">Найти друзей</a>
     </section>
     <section class="friends-search">
         <span>Поиск друзей: </span>
         <Input
-            {theme}
+            bind:theme
             searchArray={friends}
-            searchedArray={searchedFriends}
+            bind:searchedArray={searchedFriends}
             showInput={true}
             isStatic={true}
         />
@@ -41,11 +41,11 @@
     <section class="friends-list">
         {#if friends.length}
             {#each friends as friend}
-                <FriendItem
-                    {theme}
-                    user_id={data.session.user_id}
-                    profile={friend}
-                />
+            <FriendItem
+                {theme}
+                user_id={data.session.user_id}
+                profile={friend}
+            />
             {/each}
         {:else}
             <div>
@@ -86,7 +86,7 @@
         align-items: center;
     }
 
-    .friends-header a {
+    .friends-header .a-item {
         display: inline-flex;
         align-items: center;
         background-color: var(--sidebar-color);
@@ -94,7 +94,6 @@
         border-style: none;
         box-shadow: rgba(0, 0, 0, .2) 0 3px 5px -1px,rgba(0, 0, 0, .14) 0 6px 10px 0,rgba(0, 0, 0, .12) 0 1px 18px 0;
         color: var(--text-color);
-        cursor: pointer;
         font-size: 14px;
         font-weight: 500;
         height: 48px;
@@ -105,6 +104,10 @@
         transition: box-shadow 280ms cubic-bezier(.4, 0, .2, 1),opacity 15ms linear 30ms,transform 270ms cubic-bezier(0, 0, .2, 1) 0ms, color 0.2s linear;
         touch-action: manipulation;
         will-change: transform,opacity;
+    }
+
+    .friends-header a {
+        cursor: pointer;
     }
 
     .friends-header a:hover {
@@ -126,11 +129,13 @@
     }
 
     .friends-list {
-        min-height: 72vh;
+        height: 72vh;
         display: flex;
         flex-direction: column;
         align-items: stretch;
+        overflow-y: auto;
     }
+
     .friends-list div {
         flex: 1 1 auto;
         align-items: center;

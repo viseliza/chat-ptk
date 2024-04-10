@@ -27,10 +27,9 @@ export class MessagesGateway {
 	}
 
 	@SubscribeMessage('takeMessages')
-	async findAll(@MessageBody() { room_id, row }) {
+	async findAll(@ConnectedSocket() client: Socket, @MessageBody() { room_id, row }) {
 		const response = await this.messagesService.findAll({ room_id, row });
-		this.server.emit("getMessages", response);
-		return response;
+		client.emit("getMessages", response);
 	}
 
 	@SubscribeMessage('readMessage')

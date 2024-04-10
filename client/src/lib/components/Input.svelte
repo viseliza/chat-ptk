@@ -20,6 +20,7 @@
         isFocused = false;
     }
 
+
     function isChatPrewiew(object: any): object is IChatPreview {
         return 'name' in object;
     }
@@ -32,7 +33,7 @@
         return 'first_name' in object;
     }
 
-    function searchingChats(where: string, array: IMessage[] | IChatPreview[] | IProfile[]): any[] | string{
+    function searchingChats(where: string, array: IMessage[] | IChatPreview[] | IProfile[]): any[] | string {
         let result: any[] = [];
         array.forEach((object: any) => {
             if (isMessages(object)) {

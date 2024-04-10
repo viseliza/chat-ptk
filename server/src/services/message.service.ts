@@ -48,11 +48,14 @@ export class MessageService {
 			where: {
 				room_id: data.room_id
 			},
+			orderBy: {
+				id: 'desc'
+			},
 			skip: data.row,
 			take
 		});
 		
-		return response;
+		return response.reverse();
 	}
 
 	update(id: number, message: UpdateMessageDto) {

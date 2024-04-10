@@ -32,9 +32,9 @@ export class GroupController {
     }
 
 	@ApiOperation({ summary: 'Выборка всех групп в базе' })
-    @Get('/list')
-    findMany() {
-        return this.groupService.findMany({});
+    @Get('/')
+    async getAllGroups() {
+        return await this.groupService.findMany();
     }
 
 	// @ApiOperation({ summary: 'Добавление записи в таблицу групп' })

@@ -1,11 +1,11 @@
 <script lang="ts">
-    import ArrowDown from "../../../lib/components/Chat/ArrowDown.svelte";
     import type { PageData } from "./$types";
+    import type { IMessage, IProfile } from "../../../lib/types";
     import { onMount, tick } from "svelte";
     import Chat from "../../../lib/utils/Chat";
+    import ArrowDown from "../../../lib/components/Chat/ArrowDown.svelte";
     import ChatHeader from "../../../lib/components/Chat/ChatHeader.svelte";
     import ChatFooter from "../../../lib/components/Chat/ChatFooter.svelte";
-    import type { IMessage, IProfile } from "../../../lib/types";
     import RenderChats from "../../../lib/components/Chat/RenderChats.svelte";
     export let data: PageData;
         
@@ -43,10 +43,12 @@
         chat.getNextMessages(row);
         
 		chat.socket.on("getMessages", async (response: IMessage[]) => {
-            // console.log("getMessages")
             messagesPreloader = false;
+
 			chat.messages = [...chat.messages, ...response];
+            
             await tick();
+            
             if (!response.length) 
                 row -= 100;
             if(scroll && !lastReadMessage) {
@@ -137,7 +139,7 @@
         background-color: var(--sidebar-color);
         height: 100%;
         min-height: 95vh;
-        border-radius: 10px;
+        border-radius: 15px;
         box-shadow: 0 0 20px var(--box-shadow);
     }
 

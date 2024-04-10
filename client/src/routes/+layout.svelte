@@ -40,6 +40,7 @@
         width: 100%;
         display: flex;
         justify-content: center;
+        background-image: linear-gradient(to bottom right, var(--sidebar-color), var(--primary-color));
         align-items: center;
     }
 

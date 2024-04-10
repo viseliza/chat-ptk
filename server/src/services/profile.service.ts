@@ -86,6 +86,7 @@ export class ProfileService {
 
 	async getAllProfiles(): Promise<Profile[]> {
 		return await this.prisma.profile.findMany({
+			where: {},
 			include: {
 				group: {
 					select: {

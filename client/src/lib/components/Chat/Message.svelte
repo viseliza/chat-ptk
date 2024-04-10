@@ -17,13 +17,20 @@
 </script>
 
 <div bind:this={scroll} class="message message_{isMe} message_less_{isLessThan5Minute}_{isPrevious} message_is_read_{isMe}_{message.is_read}">
-    <div class="content content_{isMe}">
-        {#each message.text.split("\n") as string}
-            <span class="text">{string}</span>
-        {/each}
-        <span style="font-size: 12px; align-self: flex-end; margin-top: 2px;">
-            {formattedTime()}
-        </span>
+    <div class="message-content">
+        {#if !isMe && (!isLessThan5Minute || !isPrevious)}
+            <div class="data">
+                <a href="#">Иванов Владислав</a>
+            </div>
+        {/if}
+        <div class="content content_{isMe}">
+            {#each message.text.split("\n") as string}
+                <span class="text">{string}</span>
+            {/each}
+            <span style="font-size: 12px; align-self: flex-end; margin-top: 2px;">
+                {formattedTime()}
+            </span>
+        </div>
     </div>
     {#if !isPrevious || !isLessThan5Minute}
         <div class="icon icon_{isMe}">
@@ -82,5 +89,15 @@
     .message_is_read_true_false {
         background-color: var(--message-back-shadow);
         border-radius: 5px 5px 0 0;
+    }
+
+    .message-content {
+        display: flex;
+        flex-direction: column;
+    }
+    .data {
+        font-size: 14px;
+        margin: 0 10px 5px 10px;
+        font-weight: 500;
     }
 </style>
