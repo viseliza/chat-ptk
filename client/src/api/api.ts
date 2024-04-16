@@ -111,7 +111,7 @@ export class AppAPI {
      * @returns {Promise<Group>}
      */
     async getAllGroups() {
-        return await this.callApi('group/list');
+        return await this.callApi('group/');
     }
 
     /** Получение последнего сообщения из чата
@@ -127,7 +127,7 @@ export class AppAPI {
      * @returns {Promise<Profile>}
      */
     async getAllProfiles(): Promise<Profile[]> {
-        return await this.callApi('profile/list');
+        return await this.callApi('profile/');
     }
 
     /** Получить профиль по login

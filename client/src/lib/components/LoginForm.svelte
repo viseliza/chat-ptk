@@ -1,11 +1,24 @@
 <script lang="ts">    
     import { enhance } from '$app/forms';
+    import { onMount } from 'svelte';
+    import swapTheme from '../utils/swapTheme';
     export let form: any;
 
     let login_label: HTMLLabelElement, password_label: HTMLLabelElement, login_value: string, password_value: string, close: string = "";
+    let theme: string;
 
     $: if (form?.error) {
         close = "_close";
+    }   
+
+    onMount(() => {
+        theme == "black" ? document.documentElement.classList.add("dark") : document.documentElement.classList.remove("dark")
+    });
+
+    function changeTheme() {
+        setTimeout(async () => {
+            theme = await swapTheme(theme);
+        }, 100)
     }
 </script>
 
@@ -32,14 +45,26 @@
         <label bind:this={password_label}>NovSU пароль</label>
         <span class="focus-border"></span>
     </div>
-<!-- 
-    <span>Novsu логин</span>
-    <input placeholder="Введите логин..." type="login" name="login" id="login" />
 
-    <span>Novsu пароль</span>
-    <input placeholder="Введите пароль..." type="password" name="password" id="password" /> -->
     <button type="submit">Войти</button>
 </form>
+
+<div class="swap-theme">
+    <div class="sun-moon">
+        <i class="bx bx-moon icon moon" />
+        <i class="bx bx-sun icon sun" />
+    </div>
+
+    <div class="toggle-switch">
+        <!-- svelte-ignore a11y-click-events-have-key-events -->
+        <span
+            on:click={() => changeTheme()}
+            class="switch"
+            role="button"
+            tabindex={0}
+        />
+    </div>
+</div>
 
 
 <style>
@@ -56,33 +81,6 @@
         font-weight: 600;
         margin-bottom: 25px;
     }
-    /* span {
-        padding-bottom: 20px;
-        width: 100%;
-    }
-    input {
-        display: block; 
-        width: 100%;
-        height: 45px;
-        padding: 0.375rem 0.75rem;
-        font-family: inherit;
-        font-size: 1rem;
-        font-weight: 400;
-        outline: none;
-        padding: 0 20px 0 20px;
-        line-height: 1.5;
-        margin-bottom: 30px;
-        background-color: #fff;
-        background-clip: padding-box;
-        border: 1px solid #bdbdbd;
-        border-radius: 10px;
-        transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-    }
-    input[type=login], input[type=password] {
-        background-color: var(--sidebar-color);
-        color: var(--text-color);
-    } */
-    
     .input-column {
         z-index: 2;
         margin: 25px 0;
@@ -210,4 +208,66 @@
             opacity: 0;
         }
     }
+
+    .swap-theme {
+        border-radius: 6px;
+        background-color: var(--primary-color-light);
+        position: fixed;
+        bottom: 36px;
+        display: flex;
+        left: 15px;
+        transition: var(--tran-05);
+    }
+
+    .swap-theme .sun-moon {
+        height: 50px;
+        width: 60px;
+    }
+
+    .swap-theme .sun-moon i {
+        position: absolute;
+    }
+    .swap-theme .sun-moon i.sun {
+        opacity: 0;
+    }
+    body.dark .swap-theme .sun-moon i.sun {
+        opacity: 1;
+    }
+    body.dark .swap-theme .sun-moon i.moon {
+        opacity: 0;
+    }
+
+    .toggle-switch {
+        position: absolute;
+        right: 0;
+        height: 100%;
+        min-width: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 6px;
+    }
+    .toggle-switch .switch {
+        position: relative;
+        height: 22px;
+        width: 40px;
+        border-radius: 25px;
+        background-color: var(--toggle-color);
+        transition: var(--tran-05);
+        cursor: pointer;
+    }
+
+    .switch::before {
+        content: "";
+        position: absolute;
+        height: 15px;
+        width: 15px;
+        border-radius: 50%;
+        top: 50%;
+        left: var(--left);
+        transform: translateY(-50%);
+        background-color: var(--sidebar-color);
+        transition: var(--tran-04);
+    }
+
 </style>

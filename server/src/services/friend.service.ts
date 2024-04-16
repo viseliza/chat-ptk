@@ -87,14 +87,14 @@ export class FriendService {
                 data: {
                     me_id: myUserId,
                     friend_id: someUserId,
-                    status: "subscribeTo"
+                    status: "subscribeTo",
+                    relation: `${myUserId}_${someUserId}`
                 }
             })
         } else {
             return await this.prisma.friend.update({
                 where: {
-                    me_id: myUserId,
-                    friend_id: someUserId
+                    relation: `${myUserId}_${someUserId}`
                         
                 }, data: {
                     status: "friends"
@@ -104,10 +104,22 @@ export class FriendService {
     }   
 
     async unsubscribe(myUserId: number, someUserId: number) {
-        return await this.prisma.friend.delete({
+        let exist = await this.prisma.friend.findFirst({
             where: {
                 me_id: myUserId,
                 friend_id: someUserId
+            }
+        }); 
+
+        if (!exist) {
+           let temp = myUserId;
+           myUserId = someUserId;
+           someUserId = temp;
+        }
+
+        return await this.prisma.friend.delete({
+            where: {
+                relation: `${myUserId}_${someUserId}`
             }
         })
     }

@@ -1,7 +1,14 @@
 import axios from 'axios';
 import cheerio from 'cheerio';
+import { Replacement } from './utils/Replacement';
+import { Schedule } from './utils/Schedule';
 
 class Tasks {
+    static pushReplacement() {
+        const replacement = new Replacement(new Date().toLocaleDateString("ru"));
+    }
+
+
     static async pushGroups() {
         let groupsData = [];
 
@@ -19,25 +26,25 @@ class Tasks {
             console.error('Ошибка:', error);
         }
 
-        try {
-            const response = await axios.get('https://portal.novsu.ru/univer/timetable/spo/');
-            const $ = cheerio.load(response.data);
+        // try {
+        //     const response = await axios.get('https://portal.novsu.ru/univer/timetable/spo/');
+        //     const $ = cheerio.load(response.data);
 
-            $('.block2:nth-child(1)').find('tr').each((_, row) => {
-                $(row).find('td').find('a').each(async (_, cell) => {
-                    groupsData = [...groupsData, { 'name': $(cell).text(), 'href': $(cell).attr('href')}];
-                    console.log({ 'name': $(cell).text(), 'href': $(cell).attr('href')})
-                })
-            })
-        } catch (error) {
-            console.error('Ошибка:', error);
-        }
+        //     $('.block2:nth-child(1)').find('tr').each((_, row) => {
+        //         $(row).find('td').find('a').each(async (_, cell) => {
+        //             groupsData = [...groupsData, { 'name': $(cell).text(), 'href': $(cell).attr('href')}];
+        //             console.log({ 'name': $(cell).text(), 'href': $(cell).attr('href')})
+        //         })
+        //     })
+        // } catch (error) {
+        //     console.error('Ошибка:', error);
+        // }
 
         console.log(`| PASS | ${groupsData.length} groups added`);
-        /* try {
+        try {
             const response = await axios.request({
                 method: 'POST',
-                url: 'http://localhost:18001/groups',
+                url: 'http://localhost:18001/api/group/groups',
                 data: groupsData,
                 validateStatus: (status) => { 
                     return true;
@@ -50,8 +57,13 @@ class Tasks {
                 console.log(`| FAIL | Error: ${error.cause.message}`)
             else
                 console.log(`| FAIL | Error: ${error}`)
-        } */
+        }
     }
+
+
 }
 
-Tasks.pushGroups()
+Schedule.dowmloadSchedules();
+// Tasks.start();
+// Tasks.pushGroups()
+// Tasks.checkRole("s241910")

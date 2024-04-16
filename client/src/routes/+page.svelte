@@ -5,9 +5,8 @@
 
     export let data: PageData;
 
-    const schedule = data.schedule.split("\n");
-	const replacement = data.replacement.split("\n\n");
-
+    const schedule = data.schedule.result.split("\n");
+    const replacement = data.replacement.split("\n\n");
 </script>
 
 <svelte:head>
@@ -15,13 +14,17 @@
     <meta name="description" content="Svelte demo app" />
 </svelte:head>
 
-
 <section>
-	<h1>Расписание</h1>
-    <Schedule schedule={schedule} isHome={true}/>
-    
-	<h1>Замены</h1>
-	<Replacement replacement={replacement} isHome={true}/>
+    <h1>Расписание</h1>
+    <Schedule
+        theme={data.session.theme}
+        scheduleList={data.schedule.resultList}
+        {schedule}
+        isHome={true}
+    />
+
+    <h1 style="margin-top: 50px;">Замены</h1>
+    <Replacement {replacement} isHome={true} />
 </section>
 
 <style>
@@ -29,15 +32,22 @@
         display: flex;
         flex-direction: column;
         justify-content: center;
-        align-items: center;
-        flex: 0.6;
+        align-items: stretch;
+        max-width: 65vh;
+        width: 100%;
+        margin: 10px auto;
     }
-
     h1 {
         width: 80%;
-        font-size: 28px;
+        font-size: 20px;
         font-weight: 700;
-        margin: 40px;
+        margin: 10px 0;
         text-align: left;
+        padding: 20px;
+        max-width: 65vh;
+        width: 100%;
+        border-radius: 10px;
+        box-shadow: 0 0 20px var(--box-shadow);
+        background-color: var(--sidebar-color);
     }
 </style>

@@ -20,7 +20,6 @@
         isFocused = false;
     }
 
-
     function isChatPrewiew(object: any): object is IChatPreview {
         return 'name' in object;
     }
@@ -33,6 +32,7 @@
         return 'first_name' in object;
     }
 
+
     function searchingChats(where: string, array: IMessage[] | IChatPreview[] | IProfile[]): any[] | string {
         let result: any[] = [];
         array.forEach((object: any) => {
@@ -43,7 +43,7 @@
                 if(object.name.includes(where) || object.id.includes(where))
                     result = [...result, object];
             } else if (isProfile(object)) {
-                if(object.first_name?.includes(where) || object.last_name?.includes(where) || object.father_name?.includes(where))
+                if(object.first_name?.includes(where) || object.last_name?.includes(where) || object.father_name?.includes(where)) 
                     result = [...result, object];
             }
         })
@@ -55,17 +55,11 @@
 
 {#if isStatic || (!isFocused && !showInput)} 
     <slot>
-        <div style="margin: 0;" class="search">
+        <div style="margin: 0; position: relative; width: 100%" class="search">
             <!-- svelte-ignore a11y-autofocus -->
-            <input type="text" bind:value on:input={() => searchedArray = searchingChats(value, searchArray)} placeholder="Поиск...">
+            <input style="padding-right: 35px;" type="text" bind:value on:input={() => searchedArray = searchingChats(value, searchArray)} placeholder="Поиск...">
+            <i class="fa fa-search" style="position: absolute; right: 10px; top: 10px; font-size: 18px"></i>
         </div>
-        <button style="margin: 0 0 0 15px;">
-            {#if theme == "black"}
-                <img class="nav_icon" src={search_dark} alt="">
-            {:else}
-                <img class="nav_icon" src={search} alt="">
-            {/if}
-        </button>
     </slot>
 {:else}
     <div class="search">
@@ -97,7 +91,7 @@
         height: 40px;
         background: var(--primary-head);
         border-radius: 4px;
-        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+        box-shadow: var(--box-shadow) 0px 4px 12px; 
         outline: none;
         opacity: 0;
         transition: 0.5s;
@@ -112,6 +106,11 @@
         float: left;
         padding: 8px;
         background: none;
+    }
+    button img {
+        height: 24px;
+        width: 24px;
+        max-width: 24px;
     }
     @keyframes show {
         0% {

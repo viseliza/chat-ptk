@@ -13,7 +13,6 @@
     $: profile = data.profile
     $: replacement = data.replacement.split('\n\n');
 
-    console.log(data.isFriend)
 
     async function subscribe() {
         if (data.isFriend.friendStatus == "subscribeTo")
@@ -100,15 +99,20 @@
         </div>
     </div>
 
-    <div class="replacement">
-        <p>Расписание на сегодня</p>
-        <Schedule schedule = {schedule.split('\n')} isHome={false}/>
+    <div class="title">
+        Расписание на сегодня
     </div>
 
     <div class="schedule">
-        <p>Замены на сегодня</p>
-        <Replacement replacement = {replacement} isHome={false}/>
+        <Schedule theme={data.session.theme} scheduleList = {schedule.resultList} isHome={true}/>
     </div>
+
+    <div class="title">
+        Замены на сегодня
+    </div>
+
+    <Replacement replacement = {replacement} isHome={true}/>
+    
 </section>
 
 <style lang="scss">
@@ -254,21 +258,29 @@
         border-image-slice: 1;
     } 
 
-    .replacement {
+    .schedule {
+        padding-top: 20px;
         border-radius: 10px;
         box-shadow: 0 0 20px var(--box-shadow);
         background-color: var(--sidebar-color);
-        padding: 30px;
         display: flex;
         flex-direction: column;
         justify-content: space-around;
         margin-bottom: 20px;
     }
-    .schedule {
+    .title {
         border-radius: 10px;
         box-shadow: 0 0 20px var(--box-shadow);
         background-color: var(--sidebar-color);
-        padding: 30px;
+        padding: 20px;
+        margin-bottom: 10px;
+        font-size: 18px;
+        font-weight: 700;
+    }
+    .replacement {
+        border-radius: 10px;
+        box-shadow: 0 0 20px var(--box-shadow);
+        background-color: var(--sidebar-color);
         display: flex;
         flex-direction: column;
         justify-content: space-around;

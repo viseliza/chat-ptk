@@ -103,31 +103,8 @@ export class ProfileService {
 	}
 
 	async create(data): Promise<Profile> {
-		const group = await this.prisma.group.findFirst({
-			where: {
-				id: data.group_id
-			}, select: {
-				name: true
-			}
-		})
-
 		return this.prisma.profile.create({
-			data: {
-				email: data.email,
-				first_name: data.first_name,
-				last_name: data.last_name,
-				father_name: data.father_name,
-				theme: data.theme,
-				role: data.role,
-				user_id: data.user_id,
-				group_id: data.group_id,
-				room: {
-					connectOrCreate: {
-						where: { name: group.name },
-						create: { name: group.name }
-					}
-				}
-			}
+			data
 		});
 	}
 

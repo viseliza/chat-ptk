@@ -16,6 +16,8 @@ import { GroupService } from 'src/services/group.service';
 import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UserEntity } from 'src/entities/user.entity';
 import { NewUserDTO } from 'src/dto/create.user.dto';
+import axios from 'axios';
+import cheerio from 'cheerio';
 
 
 @ApiBearerAuth()
@@ -65,20 +67,38 @@ export class UserController {
 
 			const params = new URLSearchParams(result.split('src=')[1]);
 			const groupName = params.get('name');
-
+			
 			// Creating new NovSU user
 			const newUser = await this.userService.create(data);
 			
-			if (!groupName) {
-				role = 'TEACHER'
+			// Check role
+			try {
+				const response = await axios.get(`https://portal.novsu.ru/person/detail/${newUser.login}/r.3453.0.4/i.3453.0.0/?mode=test`);
+				const $ = cheerio.load(response.data);
+	
+				var category = $('b:contains("Преподаватель (242)")').text()
+			  
+				if (category) 
+					role = 'TEACHER';
+			} catch (error) {
+				console.error('Ошибка:', error);
+			}
 
+			if (!groupName) {
 				profile = await this.profileService.create({
-					data: { 
-						first_name,
-						last_name,
-						father_name,
-						role,
-						user_id: newUser.id
+					first_name,
+					last_name,
+					father_name,
+					role,
+					user_id: newUser.id
+				})
+
+				await this.groupService.create({
+					name: last_name,
+					profiles: {
+						connect: {
+							id: profile.id
+						}
 					}
 				})
 			} else {
@@ -93,7 +113,13 @@ export class UserController {
 					father_name,
 					role,
 					group_id: group.id,
-					user_id: newUser.id
+					user_id: newUser.id,
+					room: {
+						connectOrCreate: {
+							where: { name: group.name },
+							create: { name: group.name }
+						}
+					}
 				})
 			}
 		} else {

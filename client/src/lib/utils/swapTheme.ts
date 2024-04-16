@@ -1,4 +1,4 @@
-export default async function (theme: string, user_id: number) {
+export default async function (theme: string, user_id?: number) {
     theme = theme == "black" ? "white" : "black";
     document.cookie=`theme=${theme};path=/; SameSite=None; Secure`;
     
@@ -14,16 +14,17 @@ export default async function (theme: string, user_id: number) {
         }
     }
     
-    await fetch(`https://viseliza.site/api/profile/${user_id}`, {
-        method: "PATCH",
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            "theme": theme
-        })
-    });
-
+    if (user_id) {
+        await fetch(`https://viseliza.site/api/profile/${user_id}`, {
+            method: "PATCH",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                "theme": theme
+            })
+        });    
+    };
 
     return theme
 } 

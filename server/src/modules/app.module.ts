@@ -6,6 +6,7 @@ import { RoomModule } from './room.module';
 import { MessagesModule } from './message.module';
 import { FriendModule } from './friend.module';
 import { RouterModule, Routes } from '@nestjs/core';
+import { ReplacementModule } from './replacement.module';
 
 const routes: Routes = [
 	{
@@ -17,6 +18,7 @@ const routes: Routes = [
 			{ 'path': 'room', module: RoomModule },
 			{ 'path': 'messages', module: MessagesModule },
 			{ 'path': 'friend', module: FriendModule },
+			{ 'path': 'replacement', module: ReplacementModule },
 		]
 	}
 ]
@@ -30,6 +32,7 @@ const routes: Routes = [
 		RoomModule, 
 		MessagesModule, 
 		FriendModule,
+		ReplacementModule,
 		RouterModule.register(routes),
 	]
 })

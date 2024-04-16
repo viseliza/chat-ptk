@@ -1,22 +1,32 @@
-import { CronJob } from 'cron';
+import { Schedule } from './utils/Schedule';
+import { Replacement } from './utils/Replacement';
+import { FileController } from './utils/FileController';
+import { scheduleJob } from 'node-schedule';
+
 
 export class CronStart {
 
-    cronJob: CronJob;
-
     constructor() {
-        this.cronJob = new CronJob('*/10 * * * * *', async () => {
-            // try { await GroupController.instertGroup() }
-            // catch (e) { console.error(e) }
-            // fetch('http://localhost:3000/auth')
-            //     .then((response) => {
-            //         return response.json();
-            //     })
-            //     .then((data) => {
-            //         console.log(data);
-            //     });
-        })
-        if (!this.cronJob.running) 
-            this.cronJob.start();
+        const scheduleDeleteTrash = scheduleJob('20 0 * * 0', () => {
+            console.log("| PASS | " + new Date().toLocaleDateString("ru") + " | " + new Date().toLocaleTimeString() + " | CRON DELETE TRASH STARTED");
+            FileController.deleteTrash();
+            console.log("| PASS | " + new Date().toLocaleDateString("ru") + " | " + new Date().toLocaleTimeString() + " | CRON DELETE TRASH ENDED");
+        });
+
+        const scheduleDownloadReplacement = scheduleJob('30 0 * * *', () => {
+            console.log("| PASS | " + new Date().toLocaleDateString("ru") + " | " + new Date().toLocaleTimeString() + " | CRON UPDATE REPLACEMENT STARTED");
+            const replacement = new Replacement(new Date().toLocaleDateString("ru"));
+            const replacementMC = new Replacement(new Date().toLocaleDateString("ru"), "МК");
+            const replacementGEK = new Replacement(new Date().toLocaleDateString("ru"), "ГЭК");
+            console.log("| PASS | " + new Date().toLocaleDateString("ru") + " | " + new Date().toLocaleTimeString() + " | CRON UPDATE REPLACEMENT ENDED");
+        });
+        
+        const scheduleDownloadSchedule = scheduleJob('30 0 * * 0', () => {
+            console.log("| PASS | " + new Date().toLocaleDateString("ru") + " | " + new Date().toLocaleTimeString() + " | CRON UPDATE SCHEDULE STARTED");
+            Schedule.dowmloadSchedules();
+            console.log("| PASS | " + new Date().toLocaleDateString("ru") + " | " + new Date().toLocaleTimeString() + " | CRON UPDATE SCHEDULE ENDED");
+        });
     }
 }
+
+const cronStart = new CronStart();

@@ -82,7 +82,7 @@ html.dark {
 	--left: 20px;
 	--button-background: #ccc;
 	--button-hover: #8a8a8a;
-	--box-shadow:rgba(0, 0, 0, 0.3);
+	--box-shadow:rgba(0, 0, 0, 0.4);
 	--message-back: rgb(0, 90, 150);
 	--message-back-shadow: rgb(0, 90, 150, 0.7);
 	--primary-head: rgba(255, 255, 255, 0.25);

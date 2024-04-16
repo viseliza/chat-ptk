@@ -11,6 +11,6 @@ export const load: PageServerLoad = async ({ locals }) => {
 	
 	return {
 		schedule: schedule.getTheWeeklySchedule(),
-		replacement: replacement.getReplacement(group.name)
+		replacement: replacement.getReplacement()
 	}
 }

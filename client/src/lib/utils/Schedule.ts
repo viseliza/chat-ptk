@@ -2,8 +2,8 @@ import xlsx from 'node-xlsx';
 import cheerio from 'cheerio';
 
 interface ISchedule {
-    getTheWeeklySchedule: () => string;
-    getTheDailySchedule: (day_of_the_weak: number) => Promise<string>;
+    getTheWeeklySchedule: () => Object;
+    getTheDailySchedule: (day_of_the_weak: number) => Promise<Object>;
 }
 
 interface IParsedDocument {
@@ -50,16 +50,22 @@ export class Schedule implements ISchedule {
     /** Получение расписания заданной группы на неделю
      * @returns {string}
      */
-    public getTheWeeklySchedule(): string {
+    public getTheWeeklySchedule(): Object {
         let result = '';
+        let index: number = -1;
+        let resultList: string[][] = [];
         
         for (let row = 7; row < Object.keys(this.parsedDocumnent.data).length - 1; row++) {
             let time = this.parsedDocumnent.data[row][this.parsedDocumnent.column - 2];
             let replacement = this.parsedDocumnent.data[row][this.parsedDocumnent.column - 1];
             let day_of_the_weak = this.parsedDocumnent.data[row][this.parsedDocumnent.column - 3];
             
-            if (day_of_the_weak != undefined && this.days_array.includes(day_of_the_weak.toLowerCase().trim()))
+            if (day_of_the_weak != undefined && this.days_array.includes(day_of_the_weak.toLowerCase().trim())) {
+                index++;
+                resultList[index] = [];
                 result += `\n${day_of_the_weak}\n`;
+                resultList[index].push(day_of_the_weak);
+            }
             
             if (replacement == undefined && time == undefined) continue;
 
@@ -71,21 +77,27 @@ export class Schedule implements ISchedule {
             if (replacement.includes("_")) continue;
             
             time == "8.30-10.10" ? result += `08.30-10.10 | ${replacement}\n` : result += `${time} | ${replacement}\n`
+            time == "8.30-10.10" ? resultList[index].push(`08.30-10.10 | ${replacement}`) : resultList[index].push(`${time} | ${replacement}`);
         }
-        return result;
+        return {
+            result,
+            resultList
+        };
     }
 
     /** Получение расписания на выбранный день недели
      * @param {string} day_of_the_weak
      * @returns {Promise<string>}
      */
-    public async getTheDailySchedule(day_of_the_weak_num: number): Promise<string> {
+    public async getTheDailySchedule(day_of_the_weak_num: number): Promise<Object> {
         // Получение порядка недели (верхняя/нижнняя)
         const response = await fetch('https://portal.novsu.ru/univer/timetable/spo/');
         const $ = cheerio.load(await response.text());
         const weak = $('#npe_instance_125464_npe_content > div:nth-child(4) > b:nth-child(2)').text().trim();
         
         let result = '';
+        let resultList: string[] = [];
+        let index: number = -1;
         
         for (let row = 7; row < Object.keys(this.parsedDocumnent.data).length - 1; row++) {
             let day_of_the_weak = this.parsedDocumnent.data[ row ][ this.parsedDocumnent.column - 3 ];
@@ -105,20 +117,25 @@ export class Schedule implements ISchedule {
                         today = false;
                     
                     if (replacement == undefined && time == undefined) continue;
+
                     if (replacement == undefined) continue;
-    
-                    if (time == undefined && weak == "(верхняя)") continue;
-                    else if (time == undefined && weak == "(нижняя)") continue;
-                    else if (time == undefined) time = this.parsedDocumnent.data[row - 1][this.parsedDocumnent.column - 1];
+                    
+                    if (time == undefined) 
+                        time = this.parsedDocumnent.data[row - 2][this.parsedDocumnent.column - 2];
+        
                     if (replacement.includes("_")) continue;
                     
-                    time == "8.30-10.10" ? result += `08.30-10.10 | ${replacement}\n` : result += `${time} | ${replacement}\n`
+                    time == "8.30-10.10" ? result += `08.30-10.10 | ${replacement}\n` : result += `${time} | ${replacement}\n`;
+                    time == "8.30-10.10" ? resultList.push(`08.30-10.10 | ${replacement}`) : resultList.push(`${time} | ${replacement}`);
                 }
                 break;
             }
         }
         if (!result) 
             result = `Замен в группе ${this.group} нет`;
-        return result.trim();
+        return { 
+            result: result.trim(),
+            resultList
+        };
     };
 }

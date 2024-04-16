@@ -1,5 +1,6 @@
 <script lang="ts">
     import type { PageData } from "../$types";
+    import FriendsHeader from "../../lib/components/Friends/FriendsHeader.svelte";
     import FriendItem from "../../lib/components/FriendItem.svelte";
     import Input from "../../lib/components/Input.svelte";
     import user_add from "/images/user-add.svg";
@@ -18,18 +19,10 @@
 </svelte:head>
 
 <section class="friends">
-    <section class="friends-header">
-        <div class="friends-left">
-            <div class="myFriends a-item">
-                <span>Мои друзья: <strong>{friends.length}</strong></span>
-            </div>
-            <a class="request a-item" href="/friends/request">Мои заявки</a>
-        </div>
-        
-        <a class="a-item" href="/friends/search">Найти друзей</a>
-    </section>
+    <FriendsHeader 
+        activeMyFriends={true}
+    />
     <section class="friends-search">
-        <span>Поиск друзей: </span>
         <Input
             bind:theme
             searchArray={friends}
@@ -80,54 +73,6 @@
         box-shadow: 0 0 20px var(--box-shadow);
         background-color: var(--sidebar-color);
     }
-    .friends-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-    .friends-header .a-item {
-        display: inline-flex;
-        align-items: center;
-        background-color: var(--sidebar-color);
-        border-radius: 10px;
-        border-style: none;
-        box-shadow: rgba(0, 0, 0, .2) 0 3px 5px -1px,rgba(0, 0, 0, .14) 0 6px 10px 0,rgba(0, 0, 0, .12) 0 1px 18px 0;
-        color: var(--text-color);
-        font-size: 14px;
-        font-weight: 500;
-        height: 48px;
-        justify-content: center;
-        letter-spacing: .25px;
-        max-width: 100%;
-        padding: 2px 20px;
-        transition: box-shadow 280ms cubic-bezier(.4, 0, .2, 1),opacity 15ms linear 30ms,transform 270ms cubic-bezier(0, 0, .2, 1) 0ms, color 0.2s linear;
-        touch-action: manipulation;
-        will-change: transform,opacity;
-    }
-
-    .friends-header a {
-        cursor: pointer;
-    }
-
-    .friends-header a:hover {
-        text-decoration: none;
-        color: #174ea6;
-    }
-
-    .friends-header a:active {
-        box-shadow: 0 4px 4px 0 rgb(60 64 67 / 30%), 0 8px 12px 6px rgb(60 64 67 / 15%);
-        outline: none;
-    }
-    .friends-left {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-    .request {
-        margin-left: 15px;
-    }
-
     .friends-list {
         height: 72vh;
         display: flex;
@@ -168,14 +113,6 @@
     .friends-search span {
         white-space: nowrap;
         margin-right: 15px;
-    }
-    .myFriends {
-        padding: 15px;
-        height: 48px;
-        display: flex;
-        align-items: center;
-        border-radius: 10px;
-        box-shadow: 0 0 20px var(--box-shadow);
     }
 </style>
 

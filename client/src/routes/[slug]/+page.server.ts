@@ -23,6 +23,6 @@ export const load: PageServerLoad = async ({ params, locals }) => {
         login: params.slug,
         profile,
         schedule: await schedule.getTheDailySchedule(new Date().getDay() - 1),
-        replacement: replacement.getReplacement("1992"),
+        replacement: replacement.getReplacement(profile.group.name),
     }
 }

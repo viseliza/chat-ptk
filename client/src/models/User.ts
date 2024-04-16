@@ -8,15 +8,15 @@ import { IUser } from "../lib/types/user";
  * @param {Profile} params.profile
  */
 export class User implements IUser{
-    id: number;
+    id?: number;
     login: string;
     password: string;
-    profile: Profile;
+    profile?: Profile;
 
     constructor(opts: IUser){
         this.id = opts?.id;
         this.login = opts.login;
         this.password = opts.password;
-        this.profile = opts.profile;
+        this.profile = opts?.profile;
     }
 }

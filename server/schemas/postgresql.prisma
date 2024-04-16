@@ -62,9 +62,11 @@ model Profile {
 
 model Friend {
     id          Int             @id @default(autoincrement())
-    me_id       Int             @unique
-    friend_id   Int             @unique
+    me_id       Int             
+    friend_id   Int          
     status      FriendStatus
+
+    relation    String          @unique
 }
 
 
@@ -84,4 +86,11 @@ model Message {
     is_read     Boolean? @default(false)
     room        Room     @relation(fields: [room_id], references: [id])
     room_id     Int
+}
+
+
+model Replacement {
+    id      Int         @id @default(autoincrement())
+    date    String      @unique
+    text    String
 }

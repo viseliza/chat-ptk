@@ -15,7 +15,7 @@
     export let theme: string;
     export let user_id: number;
     export let profile: IProfile;
-
+    
     async function subscribe() {
         if (profile.friendStatus == "subscribeTo")
             return 0;
@@ -40,7 +40,6 @@
         });
         profile.friendStatus = "";
     }
-
 </script>
 
 <section class="friend-item">
@@ -101,7 +100,7 @@
         padding: 20px 30px;
         border-radius: 10px;
         background-color: var(--sidebar-color);
-        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+        box-shadow: var(--box-shadow) 0px 7px 29px 0px;
         margin: 10px 0;
     }
     .friend-item .left {
@@ -157,18 +156,25 @@
     }
     .button-remove,
     .button-tick {
-        background-color: transparent;
         padding: 3px 5px;
-        border-radius: 10px;
-        border: 2px solid var(--primary-head);
-        transition: background .3s;
+        border-radius: 7px;
+        opacity: 0.5;
+        border: none;
+        box-shadow: var(--box-shadow) 0px 5px 15px;
+        transition: opacity .5s;
+    }
+    .button-remove {
+        background-color: #f00;
+    }
+    .button-tick {
+        background-color: #008000;
     }
     .button-remove:hover {
         cursor: pointer;
-        background-color: rgba(255, 0, 0, 0.50);
+        opacity: 1;
     }
     .button-tick:hover {
         cursor: pointer;
-        background-color: rgba(0, 128, 0, 0.50);
+        opacity: 1;
     }
 </style>

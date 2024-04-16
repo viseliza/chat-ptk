@@ -22,7 +22,7 @@ export class Replacement implements IReplacement {
         this.date = new Date(formatDate);
     }
 
-    public async getReplacement(group: string): Promise<string> {
+    public async getReplacement(group?: string): Promise<string> {
         const extractor = new WordExtractor();
         const extracted = await extractor.extract(this.path);
         const body = extracted.getBody().split("\n").filter(function (el) {

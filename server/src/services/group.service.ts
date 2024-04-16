@@ -29,7 +29,8 @@ export class GroupService {
     findMany() {
         return this.prisma.group.findMany({
             select: {
-                name: true
+                name: true,
+                href: true
             }
         });
     }
