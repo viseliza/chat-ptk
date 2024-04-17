@@ -8,8 +8,12 @@ export class Schedule {
     static async dowmloadSchedules() {
         const response = await fetch("https://viseliza.site/api/group/");
         const groups: IGroup[] = await response.json();
-        const hrefs = groups.map((group: IGroup) => {
-            return group.href.split('?')[0];
+        let hrefs = [];
+        let scheduleLists = [];
+
+        groups.forEach((group: IGroup) => {
+            if (group.href && group.name != "_30")
+                hrefs = [...hrefs, group.href.split('?')[0]];
         });
         const hrefsUnique = new Set(hrefs);
 
@@ -22,21 +26,26 @@ export class Schedule {
             const arrayBuffer = await result.arrayBuffer();
             const buffer = Buffer.from(arrayBuffer);
             writeFileSync(path, buffer);
-
-            const schedule = fileName.split(' ').filter(async (group: string) => {
-                await fetch("https://viseliza.site/api/replacement/", {
-                    method: "POST",
-                    headers: {
-                        'Content-Type': 'application/json;charset=utf-8'
-                    },
-                    body: JSON.stringify({
-                        group_name: group,
-                        schedule: Schedule.getTheWeeklySchedule(path, group)
+                fileName.split(' ').forEach(async (group: string) => {
+                    let scheduleList = Schedule.getTheWeeklySchedule(path, group);
+                    scheduleLists = [...scheduleLists, scheduleList];
+                    await fetch("https://viseliza.site/api/schedule/", {
+                        method: "POST",
+                        headers: {
+                            'Content-Type': 'application/json;charset=utf-8'
+                        },
+                        body: JSON.stringify({
+                            group_name: group,
+                            scheduleList: scheduleList
+                        })
                     })
                 })
+        });
+        setTimeout(() => {
+            scheduleLists.forEach((schedule) => {
+                console.log(schedule)
             })
-
-        })
+        }, 5000);
     }
 
     static async refreshLinks() {
@@ -67,15 +76,36 @@ export class Schedule {
     static getTheWeeklySchedule(path: string, group: string) {
         const workSheetsFromFile = xlsx.parse(path);
         const data = workSheetsFromFile[0].data;
+        let rowStart = 7;
         let column: number = 0;
-    
+
         // Перебирает группы из файла
         for (let el of data[6]) {
-            if (el != undefined && String(el) == group) {
+            if (el != undefined && String(el).includes(group))
                 break;
-            }
             column += 1;
         }
+
+        if (column == data[6].length) {
+            rowStart = 9;
+            column = 0;
+            for (let el of data[8]) {
+                if (el != undefined && String(el).includes(group))
+                    break;
+                column += 1;
+            }
+        }
+
+        if (column == data[8].length) {
+            rowStart = 10;
+            column = 0;
+            for (let el of data[9]) {
+                if (el != undefined && String(el).includes(group))
+                    break;
+                column += 1;
+            }
+        }
+
 
         const parsedDocumnent = { data, column };
         const days_array = [
@@ -90,29 +120,31 @@ export class Schedule {
 
         let index: number = -1;
         let resultList: string[][] = [];
-        
-        for (let row = 7; row < Object.keys(parsedDocumnent.data).length - 1; row++) {
-            let time = parsedDocumnent.data[row][parsedDocumnent.column - 2];
-            let replacement = parsedDocumnent.data[row][parsedDocumnent.column - 1];
-            let day_of_the_weak = parsedDocumnent.data[row][parsedDocumnent.column - 3];
-            
+
+        for (let row = rowStart; row < Object.keys(parsedDocumnent.data).length - 1; row++) {
+            let time = parsedDocumnent.data[row][parsedDocumnent.column - 1];
+            let replacement = parsedDocumnent.data[row][parsedDocumnent.column];
+            let day_of_the_weak = parsedDocumnent.data[row][parsedDocumnent.column - 2];
+
             if (day_of_the_weak != undefined && days_array.includes(day_of_the_weak.toLowerCase().trim())) {
                 index++;
                 resultList[index] = [];
-                resultList[index].push(day_of_the_weak);
+                resultList[index] = [...resultList[index], day_of_the_weak];
             }
-            
+
             if (replacement == undefined && time == undefined) continue;
 
             if (replacement == undefined) continue;
-            
-            if (time == undefined) 
-                time = parsedDocumnent.data[row - 1][parsedDocumnent.column - 2];
+
+            if (time == undefined)
+                time = parsedDocumnent.data[row - 1][parsedDocumnent.column - 1];
 
             if (replacement.includes("_")) continue;
-            
-            time == "8.30-10.10" ? resultList[index].push(`08.30-10.10 | ${replacement}`) : resultList[index].push(`${time} | ${replacement}`);
+
+            resultList[index] = time == "8.30-10.10" ? [...resultList[index], `08.30-10.10 | ${replacement}`] : [...resultList[index], `${time} | ${replacement}`];
         }
         return resultList;
     }
+
+    
 }

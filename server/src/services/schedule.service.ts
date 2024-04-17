@@ -60,12 +60,12 @@ export class ScheduleService {
                     group_id: exist.group_id
                 },
                 data: {
-                    monday: [...exist.monday, ...data.scheduleList[0]],
-                    tuesday: [...exist.thursday, ...data.scheduleList[1]],
-                    wednesday: [...exist.wednesday, ...data.scheduleList[2]],
-                    thursday: [...exist.thursday, ...data.scheduleList[3]],
-                    friday: [...exist.friday, ...data.scheduleList[4]],
-                    saturday: [...exist.saturday, ...data.scheduleList[5]]
+                    monday:     [data.scheduleList[0]],
+                    tuesday:    [data.scheduleList[1]],
+                    wednesday:  [data.scheduleList[2]],
+                    thursday:   [data.scheduleList[3]],
+                    friday:     [data.scheduleList[4]],
+                    saturday:   [data.scheduleList[5]]
                 }
             })
         }

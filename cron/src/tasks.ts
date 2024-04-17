@@ -1,6 +1,7 @@
 import axios from 'axios';
 import cheerio from 'cheerio';
 import { Replacement } from './utils/Replacement';
+import { Schedule } from './utils/Schedule';
 
 class Tasks {
     static pushReplacement() {
@@ -15,10 +16,10 @@ class Tasks {
             const response = await axios.get('https://portal.novsu.ru/univer/timetable/spo/');
             const $ = cheerio.load(response.data);
 
-            $('.block_content.content:nth-child(1)').find('tr').each((_, row) => {
+            $('#npe_instance_125460_npe_content').find('tr').each((_, row) => {
                 $(row).find('td').find('a').each(async (_, cell) => {
                     groupsData = [...groupsData, { 'name': $(cell).text(), 'href': $(cell).attr('href')}];
-
+                    console.log($(cell).text())
                 })
             })
         } catch (error) {
@@ -43,7 +44,7 @@ class Tasks {
         try {
             const response = await axios.request({
                 method: 'POST',
-                url: 'http://localhost:18001/api/group/groups',
+                url: 'https://viseliza.site/api/group/groups',
                 data: groupsData,
                 validateStatus: (status) => { 
                     return true;
@@ -62,6 +63,7 @@ class Tasks {
 
 }
 
+Schedule.dowmloadSchedules();
 // Tasks.start();
 // Tasks.pushGroups()
 // Tasks.checkRole("s241910")
