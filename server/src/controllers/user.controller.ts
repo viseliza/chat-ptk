@@ -78,8 +78,9 @@ export class UserController {
 	
 				var category = $('b:contains("Преподаватель (242)")').text()
 			  
-				if (category) 
+				if (category) {
 					role = 'TEACHER';
+				}
 			} catch (error) {
 				console.error('Ошибка:', error);
 			}
@@ -91,15 +92,6 @@ export class UserController {
 					father_name,
 					role,
 					user_id: newUser.id
-				})
-
-				await this.groupService.create({
-					name: last_name,
-					profiles: {
-						connect: {
-							id: profile.id
-						}
-					}
 				})
 			} else {
 				// Selecting group from the database by group number
@@ -121,6 +113,17 @@ export class UserController {
 						}
 					}
 				})
+				
+			}
+			if (category) {
+				await this.groupService.create({
+					name: last_name,
+					profiles: {
+						connect: {
+							id: profile.id
+						}
+					}
+				});
 			}
 		} else {
 			profile = await this.profileService.getByLogin(data.login);

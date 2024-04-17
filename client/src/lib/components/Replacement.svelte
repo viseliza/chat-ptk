@@ -39,7 +39,7 @@
             flex-direction: column;
             max-width: 65vh;
             width: 100%;
-            margin: 10px auto 50px auto;
+            margin: 0px auto 20px auto;
             border-radius: 10px;
             box-shadow: 0 0 20px var(--box-shadow);
             background-color: var(--sidebar-color);

@@ -7,7 +7,7 @@
     export let scheduleList: string[][] | string[];
     export let isHome: boolean;
     export let theme: string;
-
+    console.log(scheduleList)
     let slideIndex: number;
     let currentDay: number;
     let isToday = typeof scheduleList[0] === "string";
@@ -18,7 +18,8 @@
     let slides: any[] = [];
     let dots: any[] = [];
 
-    onMount(() => showSlides(slideIndex));
+    if (!isToday) 
+        onMount(() => showSlides(slideIndex));
     // Next/previous controls
 
     function changeSlide(n: number) {

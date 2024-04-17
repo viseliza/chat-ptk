@@ -49,7 +49,7 @@ export class Replacement implements IReplacement {
                 };
             }
         }
-        return result == '' ? 'Замены для выбранной группы не найдены!' : result
+        return result == '' ? 'На сегодня замен в вашей группе нет' : result
     }
 
     private addItem(_value: string[], body: string[], line: number): IRow {

@@ -119,7 +119,7 @@ export class Replacement implements IReplacement {
                 return 0;
             }, 300);
         } else {
-            await fetch("http://localhost:18001/api/replacement/", {
+            await fetch("https://viseliza.site/api/replacement/", {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json;charset=utf-8'

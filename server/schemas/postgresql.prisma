@@ -39,7 +39,8 @@ model Group {
     name        String   @unique
     href        String?
 
-    profiles    Profile[] @relation("ProfileToGroup")
+    profiles    Profile[]   @relation("ProfileToGroup")
+    schedule    Schedule?   
 }
 
 
@@ -93,4 +94,16 @@ model Replacement {
     id      Int         @id @default(autoincrement())
     date    String      @unique
     text    String
+}
+
+model Schedule {
+    id          Int         @id @default(autoincrement())
+    group       Group       @relation(fields: [group_id], references: [id])
+    group_id    Int         @unique
+    monday      String[]
+    tuesday     String[]
+    wednesday   String[]
+    thursday    String[]
+    friday      String[]
+    saturday    String[]
 }

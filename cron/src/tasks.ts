@@ -1,7 +1,6 @@
 import axios from 'axios';
 import cheerio from 'cheerio';
 import { Replacement } from './utils/Replacement';
-import { Schedule } from './utils/Schedule';
 
 class Tasks {
     static pushReplacement() {
@@ -63,7 +62,6 @@ class Tasks {
 
 }
 
-Schedule.dowmloadSchedules();
 // Tasks.start();
 // Tasks.pushGroups()
 // Tasks.checkRole("s241910")
