@@ -86,13 +86,19 @@ export class UserController {
 			}
 
 			if (!groupName) {
+				group = await this.groupService.get({
+					name: last_name
+				});
+
 				profile = await this.profileService.create({
 					first_name,
 					last_name,
 					father_name,
 					role,
-					user_id: newUser.id
+					user_id: newUser.id,
+					group_id: group.id
 				})
+				console.log(profile)
 			} else {
 				// Selecting group from the database by group number
 				group = await this.groupService.get({
@@ -113,17 +119,7 @@ export class UserController {
 						}
 					}
 				})
-				
-			}
-			if (category) {
-				await this.groupService.create({
-					name: last_name,
-					profiles: {
-						connect: {
-							id: profile.id
-						}
-					}
-				});
+				console.log(profile)
 			}
 		} else {
 			profile = await this.profileService.getByLogin(data.login);
