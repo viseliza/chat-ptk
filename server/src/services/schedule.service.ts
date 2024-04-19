@@ -41,16 +41,17 @@ export class ScheduleService {
             exist = await this.prisma.schedule.create({
                 data: {
                     group: {
-                        connect: {
-                            name: data.group_name
-                        }
+						connectOrCreate: {
+							where: { name: data.group_name },
+							create: { name: data.group_name }
+						}
                     },
-                    monday: data.scheduleList[0],
-                    tuesday: data.scheduleList[1],
-                    wednesday: data.scheduleList[2],
-                    thursday: data.scheduleList[3],
-                    friday: data.scheduleList[4],
-                    saturday: data.scheduleList[5]
+                    monday:     data.scheduleList[0],
+                    tuesday:    data.scheduleList[1],
+                    wednesday:  data.scheduleList[2],
+                    thursday:   data.scheduleList[3],
+                    friday:     data.scheduleList[4],
+                    saturday:   data.scheduleList[5]
                 }
             });
         }
@@ -60,12 +61,12 @@ export class ScheduleService {
                     group_id: exist.group_id
                 },
                 data: {
-                    monday:     [data.scheduleList[0]],
-                    tuesday:    [data.scheduleList[1]],
-                    wednesday:  [data.scheduleList[2]],
-                    thursday:   [data.scheduleList[3]],
-                    friday:     [data.scheduleList[4]],
-                    saturday:   [data.scheduleList[5]]
+                    monday:     data.scheduleList[0],
+                    tuesday:    data.scheduleList[1],
+                    wednesday:  data.scheduleList[2],
+                    thursday:   data.scheduleList[3],
+                    friday:     data.scheduleList[4],
+                    saturday:   data.scheduleList[5]
                 }
             })
         }
