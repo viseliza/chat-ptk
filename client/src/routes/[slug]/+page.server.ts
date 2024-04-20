@@ -15,13 +15,14 @@ export const load: PageServerLoad = async ({ params, locals }) => {
         isFriend = await api.getFriend(locals.session.user_id, profile.user_id);
 
 	const replacement = new Replacement("30.10.2023");
-	const schedule = new Schedule(profile.group.name);
+	const schedule = await api.getSchedule(profile.group.name);
+    const currentDay = new Date().getDay(); 
     
     return { 
         isFriend,
         login: params.slug,
         profile,
-        schedule: await schedule.getTheDailySchedule(new Date().getDay() - 1),
+        schedule: await schedule.scheduleList[currentDay == 0 ? 0 : currentDay - 1],
         replacement: replacement.getReplacement(profile.group.name),
     }
 }

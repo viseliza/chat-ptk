@@ -163,6 +163,15 @@ export class AppAPI {
     }
 
 
+    /**
+     * Получение расписания по названию группы или фамилии преподавателя
+     * @param {string} group 
+     */
+    async getSchedule(group: string) {
+        return await this.callApi('schedule', { name: group })
+    }
+
+
     /** Проверка пользователя
      * @param {User} data
      * @param {string | undefined} first_name

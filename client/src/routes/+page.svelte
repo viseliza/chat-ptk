@@ -4,8 +4,8 @@
     import Replacement from "../lib/components/Replacement.svelte";
 
     export let data: PageData;
-
-    const schedule = data.schedule.result.split("\n");
+    
+    const schedule = data.schedule;
     const replacement = data.replacement.split("\n\n");
 </script>
 
@@ -18,8 +18,7 @@
     <h1>Расписание</h1>
     <Schedule
         theme={data.session.theme}
-        scheduleList={data.schedule.resultList}
-        {schedule}
+        scheduleList={schedule}
         isHome={true}
     />
 

@@ -232,6 +232,9 @@ export class Schedule {
                 time = parsedDocumnent.data[row - 1][parsedDocumnent.column - 1];
 
             if (replacement.includes("_")) continue;
+            
+            if (time)
+                time = `${time.split('-')[0].trim()}-${time.split('-')[1].trim()}`;
 
             resultList[index] = time == "8.30-10.10" ? [...resultList[index], `08.30-10.10 | ${replacement}`] : [...resultList[index], `${time} | ${replacement}`];
         }

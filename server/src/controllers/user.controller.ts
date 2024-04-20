@@ -89,7 +89,7 @@ export class UserController {
 				group = await this.groupService.get({
 					name: last_name
 				});
-
+				
 				profile = await this.profileService.create({
 					first_name,
 					last_name,

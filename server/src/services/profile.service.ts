@@ -54,7 +54,11 @@ export class ProfileService {
 					login: data
 				}
 			}, include: {
-				group: true
+				group: {
+					select: {
+						schedule: true
+					}
+				}
 			}
 		});
 		if (!response) throw new NotFoundException('Пользователь не найден!')

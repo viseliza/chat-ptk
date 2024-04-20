@@ -2,12 +2,15 @@
     import type { IChatPreview } from "../types";
     import placeholder from "/images/50x50.svg";
     import read from "/images/read.svg";
+    import message_search from '/images/message_search.svg';
+    import message_search_dark from '/images/message_search_dark.svg';
 
     export let chats: IChatPreview[];
+    export let theme: string;
 </script>
 
 <div class="chats">
-    {#if chats}
+    {#if chats.length}
         {#each chats as chat}
             <a href="messanger/{chat.id}"
                 ><div class="chat">
@@ -38,7 +41,11 @@
             >
         {/each}
     {:else}
-        <div>Кажестя тут ничего нет...</div>
+        <div class="chats-none">
+            <img class="nav_icon" src={theme == 'white' ? message_search : message_search_dark} alt="">
+            <span>Ваш список переписок пуст</span> 
+            <span style="font-size: 16px; font-weight: 500; width: 430px; text-align: center">Вы можете найти друзей на вкладке найти друзей, Вы можете общаться со своими друзьями в этом разделе!</span> 
+        </div>
     {/if}
 </div>
 
@@ -89,5 +96,19 @@
     .right img {
         height: 10px;
         width: 10px;
+    }
+    .chats-none {
+        height: 80vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        font-size: 18px;
+        font-weight: 700;
+    }
+    .chats-none img {
+        width: 50px;
+        height: 50px;
+        margin-bottom: 5px;
     }
 </style>

@@ -5,8 +5,8 @@
     import user_dark from "/images/user_dark.svg";
     import home from "/images/home.svg";
     import home_dark from "/images/home_dark.svg";
-    import message from "/images/message.svg";
-    import message_dark from "/images/message_dark.svg";
+    import messages from "/images/messages.svg";
+    import messages_dark from "/images/messages_dark.svg";
     import friends from "/images/friends.svg";
     import friends_dark from "/images/friends_dark.svg";
     import swapTheme from "../utils/swapTheme";
@@ -54,9 +54,9 @@
                 <li class="nav-link">
                     <a href="/messanger">
                         {#if theme != "black"}
-                            <img id="icon" class="nav_icon" src={message} alt="message" />
+                            <img id="icon" class="nav_icon" src={messages} alt="message" />
                         {:else}
-                            <img id="icon" class="nav_icon" src={message_dark} alt="message" />
+                            <img id="icon" class="nav_icon" src={messages_dark} alt="message" />
                         {/if}
                         <span class="tooltip-text">Сообщения</span>
                     </a>

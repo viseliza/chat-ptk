@@ -104,7 +104,7 @@
     </div>
 
     <div class="schedule">
-        <Schedule theme={data.session.theme} scheduleList = {schedule.resultList} isHome={true}/>
+        <Schedule theme={data.session.theme} scheduleList = {schedule} isHome={false}/>
     </div>
 
     <div class="title">

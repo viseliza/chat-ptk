@@ -39,13 +39,13 @@
         </Input>       
     </div>
     {#if !searchedChats.length}
-        <Chats chats={chats}/>
+        <Chats {theme} chats={chats}/>
     {:else if (typeof searchedChats === 'string')}
-        <div class="chats" style="margin: 30px; display: flex; justify-content: center; align-items: center; height: 70vh; font-size: 16px;">
+        <div class="chats" style="margin: 30px; display: flex; justify-content: center; align-items: center; height: 70vh; font-size: 20px; font-weight:700;">
             <span>{searchedChats}</span>
         </div>
     {:else}
-        <Chats chats={searchedChats}/>
+        <Chats {theme} chats={searchedChats}/>
     {/if}
 </section>
 
@@ -56,16 +56,16 @@
         margin: 10px auto;
         background-color: var(--sidebar-color);
         height: 100%;
-        min-height: 95vh;
-        border-radius: 20px;
+        min-height: 94.5vh;
+        border-radius: 10px;
         box-shadow: 0 0 20px var(--box-shadow);
     }
     .title_messanger {
-        border-radius: 15px 15px 0 0;
+        border-radius: 10px 10px 0 0;
         height: 55px;
         display: flex;
         align-items: center;
-        background-color: var(--primary-head);
+        background-color: var(--body-color);
         justify-content: space-between;
     }   
     .title {

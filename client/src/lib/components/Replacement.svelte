@@ -1,6 +1,8 @@
 <script lang="ts">
     export let replacement: string[];
     export let isHome: boolean;
+
+    console.log(replacement)
 </script>
 
 <table>
@@ -23,11 +25,11 @@
             {/if}
         {/each}
     {:else}
-        <tr>
-            <td colspan="4" style="text-align: center;"
-                >На сегодня замен в вашей группе нет</td
-            >
-        </tr>
+        <div style="height: 150px;" class="column-none">
+            <span>
+                На сегодня у Вас нет замен
+            </span>
+        </div>
     {/if}
 </table>
 
@@ -67,11 +69,19 @@
         .row-replace {
             width: 200px;
         }
-
         td {
             padding: 15px;
             background-color: var(--sidebar-color);
             color: var(--text-color);
+        }
+        .column-none {
+            display: flex;
+            width: 100%;
+            height: 250px;
+            justify-content: center;
+            align-items: center;
+            font-weight: 700;
+            font-size: 18px;
         }
     </style>
 {:else}
@@ -84,6 +94,15 @@
             padding: 5px 15px;
             background-color: var(--sidebar-color);
             color: var(--text-color);
+        }
+        .column-none {
+            display: flex;
+            width: 100%;
+            height: 250px;
+            justify-content: center;
+            align-items: center;
+            font-weight: 700;
+            font-size: 18px;
         }
     </style>
 {/if}
