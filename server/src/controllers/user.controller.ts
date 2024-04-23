@@ -7,7 +7,14 @@ import {
 	Body,
 	Delete,
 	NotFoundException,
+	Req,
+	Res
 } from '@nestjs/common';
+import {
+	Request,
+	Response
+} from 'express';
+import { JwtService } from '@nestjs/jwt';
 import { UserService } from '../services/user.service';
 import { Group, Prisma, Profile, User, User as UserModel } from '@prisma/client';
 import { ProfileService } from 'src/services/profile.service';
@@ -16,9 +23,11 @@ import { GroupService } from 'src/services/group.service';
 import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UserEntity } from 'src/entities/user.entity';
 import { NewUserDTO } from 'src/dto/create.user.dto';
+import { UseGuards } from '@nestjs/common';
+import { AuthGuard } from '../guards/auth.guard';
 import axios from 'axios';
 import cheerio from 'cheerio';
-
+import { endWith } from 'rxjs';
 
 @ApiBearerAuth()
 @ApiTags('User')
@@ -28,8 +37,10 @@ export class UserController {
 		private readonly userService: UserService,
 		private readonly profileService: ProfileService,
 		private readonly groupService: GroupService,
+		private readonly JwtService: JwtService
 	) { }
 
+	// @UseGuards(AuthGuard)
 	@Get('/:login')
 	@ApiOperation({ summary: 'Выборка пользователя из таблицы User по логину' })
 	@ApiResponse({
@@ -47,6 +58,7 @@ export class UserController {
   	@ApiResponse({ status: 403, description: 'Forbidden.' })
 	@ApiTags('Authorization')
 	async create (
+		@Res({ passthrough: true }) response: Response,
 		@Body() data
 	): Promise<Profile> {
 		const user = await this.userService.findOne({ login: data.login });
@@ -97,8 +109,7 @@ export class UserController {
 					role,
 					user_id: newUser.id,
 					group_id: group.id
-				})
-				console.log(profile)
+				});
 			} else {
 				// Selecting group from the database by group number
 				group = await this.groupService.get({
@@ -118,17 +129,23 @@ export class UserController {
 							create: { name: group.name }
 						}
 					}
-				})
-				console.log(profile)
+				});
 			}
 		} else {
 			profile = await this.profileService.getByLogin(data.login);
 		}
+		
+		response.cookie(
+			'AuthorizationToken', 
+			await this.JwtService.signAsync(profile, { secret: process.env.SERVER_JWT_SECRET })
+		);
 
 		return profile;
 	}
 
 
+
+	// @UseGuards(AuthGuard)
 	@ApiOperation({ summary: 'Обновление данных пользователя из таблицы User по логину' })
 	@Patch('/:login')
 	update(

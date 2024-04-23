@@ -67,11 +67,7 @@
         <input autofocus type="text" on:blur={onBlur} on:focus={onFocus} bind:value on:input={() => searchedArray = searchingChats(value, searchArray)} placeholder="Поиск...">
     </div>
     <button on:click={() => {showInput = !showInput}}>
-        {#if theme == "black"}
-            <img class="nav_icon" src={search_dark} alt="">
-        {:else}
-            <img class="nav_icon" src={search} alt="">
-        {/if}
+        <img class="nav_icon" src={theme == "white" ? search : search_dark} alt="">
     </button>
 {/if}
 

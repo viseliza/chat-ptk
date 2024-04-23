@@ -28,7 +28,9 @@
         display: flex;
         flex-direction: column;
         min-height: 100vh;
+        max-width: 100%;
         color: var(--text-color);
+        background-image: linear-gradient(to bottom right, var(--body-color), var(--sidebar-color));
     }
 
     .auth {
@@ -36,7 +38,7 @@
         width: 100%;
         display: flex;
         justify-content: center;
-        background-image: linear-gradient(to bottom right, var(--body-color), var(--primary-color));
+        background-image: linear-gradient(to bottom right, var(--body-color), var(--sidebar-color));
         align-items: center;
     }
 

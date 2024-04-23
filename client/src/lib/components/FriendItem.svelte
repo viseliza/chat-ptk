@@ -57,37 +57,17 @@
     <section class="right">
         <button class="button" on:click={() =>  subscribe()}>
             {#if !profile.friendStatus}
-                {#if theme == "white"}
-                    <img class="nav_icon" src={user_add} alt="">
-                {:else}
-                    <img class="nav_icon" src={user_add_dark} alt="">
-                {/if}
+                <img class="nav_icon" src={theme == 'white' ? user_add : user_add_dark} alt="">
             {:else if (profile.friendStatus == "subscribeTo")}
-                {#if theme == "white"}
                 <div class="friend-time">
                     <button on:click={() => unsubscribe()}>Отменить заявку</button>
-                    <img class="nav_icon" src={clock} alt="">
+                    <img class="nav_icon" src={theme == 'white' ? clock : clock_dark} alt="">
                 </div>
-                {:else}
-                    <div class="friend-time">
-                        <button on:click={() => unsubscribe()}>Отменить заявку</button>
-                        <img class="nav_icon" src={clock_dark} alt="">
-                    </div>
-                {/if}
             {:else if (profile.friendStatus == "friends")}
-                {#if theme == "white"}
-                    <a href="/messanger/@{profile.user?.login}"><img class="nav_icon" src={message} alt=""></a>
-                {:else}
-                    <a href="/messanger/@{profile.user?.login}"><img class="nav_icon" src={message_dark} alt=""></a>
-                {/if}
+                <a href="/messanger/@{profile.user?.login}"><img class="nav_icon" src={theme == 'white' ? message : message_dark} alt=""></a>
             {:else if (profile.friendStatus == "subscribeOnMe")}
-                {#if theme == "white"}
-                    <button on:click={() => unsubscribe()} class="button-remove"><img class="nav_icon" src={user_remove} alt=""></button>
-                    <button on:click={() => subscribe()} class="button-tick"><img class="nav_icon" src={user_tick} alt=""></button>
-                {:else}
-                    <button on:click={() => unsubscribe()} class="button-remove"><img class="nav_icon" src={user_remove_dark} alt=""></button>
-                    <button on:click={() => subscribe()} class="button-tick"><img class="nav_icon" src={user_tick_dark} alt=""></button>
-                {/if}
+                <button on:click={() => unsubscribe()} class="button-remove"><img class="nav_icon" src={theme == 'white' ? user_remove : user_add_dark} alt=""></button>
+                <button on:click={() => subscribe()} class="button-tick"><img class="nav_icon" src={theme == 'white' ? user_tick : user_tick_dark} alt=""></button>
             {/if}
         </button>
     </section>

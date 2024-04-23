@@ -30,11 +30,7 @@
             <span class="title">Чаты</span>
 
             <button on:click={() => {showInput = !showInput}}>
-                {#if theme == "black"}
-                    <img class="nav_icon" src={search_dark} alt="">
-                {:else}
-                    <img class="nav_icon" src={search} alt="">
-                {/if}
+                <img class="nav_icon" src={theme == 'white' ? search : search_dark} alt="">
             </button>
         </Input>       
     </div>
@@ -58,7 +54,7 @@
         height: 100%;
         min-height: 94.5vh;
         border-radius: 10px;
-        box-shadow: 0 0 20px var(--box-shadow);
+        box-shadow: var(--box-shadow) 0px 8px 24px;
     }
     .title_messanger {
         border-radius: 10px 10px 0 0;

@@ -136,8 +136,6 @@ export class Schedule {
             console.log(teachers[teacherIndex])
             await setTimeout(200);
         }
-        // console.log(teachers)
-
     }
 
     static async refreshLinks() {

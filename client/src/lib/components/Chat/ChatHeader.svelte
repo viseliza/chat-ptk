@@ -49,11 +49,7 @@
     >
     <div class="back">
         <a on:click={() => {chat.disconect()}} class="back" href="./" style="text-decoration: none;">
-            {#if theme == "white"}
-                <img class="nav_icon" src={arrow_left} alt="" />
-            {:else}
-                <img class="nav_icon" src={arrow_left_dark} alt="" />
-            {/if}
+            <img class="nav_icon" src={theme == 'white' ? arrow_left : arrow_left_dark} alt="" />
             <span>Назад</span>
         </a>
     </div>
@@ -92,7 +88,7 @@
      .chat_header {
         border-radius: 15px 15px 0 0;
         height: 55px;
-        background-color: var(--primary-head);
+        background-color: var(--body-color);
         display: flex;
         align-items: center;
         flex-direction: row;

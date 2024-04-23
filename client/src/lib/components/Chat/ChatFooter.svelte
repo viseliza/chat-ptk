@@ -1,9 +1,13 @@
 <script lang="ts">
-    import attachment from "/images/attachment.svg";
-    import attachment_dark from "/images/attachment_dark.svg";
+    import smiles from "/images/smiles.svg";
     import play from "/images/navigation.svg";
+    import attachment from "/images/attachment.svg";
+    import smiles_dark from "/images/smiles_dark.svg";
     import play_dark from "/images/navigation_dark.svg";
+    import smiles_active from "/images/smiles_active.svg";
+    import attachment_dark from "/images/attachment_dark.svg";
     import type Chat from "../../utils/Chat";
+    import Emojies from "./Emojies.svelte";
 
     export let user_id: number;
     export let theme: string;
@@ -11,7 +15,9 @@
     export let chat: Chat;
 
     let is_read = false;
+    let isActiveSmiles = false;
     let text: string;
+    let textarea: HTMLTextAreaElement;
 
     if (chat.count_of_profiles == 1)
         is_read = true;
@@ -30,20 +36,24 @@
         if (event.key == "Enter") 
             sendMessage();
     }
+
+
+    const handleEmojie = (event: { detail: { emojie: number } }) => {
+        chat.addEmojieToMessage(text, textarea.selectionStart, event);
+    }
+
 </script>
+
 
 <div class="chat_footer">
     {#if typing}
         <section class="typing">{typing}</section>
     {/if}
     <button title="Прикрепить файл">
-        {#if theme == "white"}
-            <img id="icon" class="nav_icon" src={attachment} alt="" />
-        {:else}
-            <img id="icon" class="nav_icon" src={attachment_dark} alt="" />
-        {/if}
+        <img id="icon" class="nav_icon" src={theme == 'white' ? attachment : attachment_dark} alt="" />
     </button>
-    <textarea
+    <div class="search">
+        <textarea
         on:keypress={(event) => {
             if (event.key === 'Enter' && !event.shiftKey) {
                 event.preventDefault();
@@ -51,29 +61,45 @@
             }
         }}
         placeholder="Введите сообщение..."
+        bind:this={textarea}
         bind:value={text}
         on:input={() => chat.emitTyping()}
     />
+    
+    <Emojies
+        on:emojie={handleEmojie}
+        bind:isActiveSmiles={isActiveSmiles}
+    />
+
+    <button id="emojies_button" on:click={() => isActiveSmiles = !isActiveSmiles} class="search-block">
+        {#if !isActiveSmiles}
+            <img id="emojies_button" class="nav_icon" src={theme == 'white' ? smiles : smiles_dark} alt="">
+        {:else}
+            <img id="emojies_button" src={smiles_active} alt="">
+        {/if}
+    </button>
+    </div>
+
+
     <button
         title="Отправить"
         type="submit"
         on:click={() => sendMessage()}
         on:keydown={on_key_down}
     >
-        {#if theme == "white"}
-            <img id="icon" class="nav_icon" src={play} alt="" />
-        {:else}
-            <img id="icon" class="nav_icon" src={play_dark} alt="" />
-        {/if}
+        
+        <img id="icon" class="nav_icon" src={theme == 'white' ? play : play_dark} alt="" />
+        
     </button>
 </div>
 
 <style>
     .chat_footer {
         z-index: 2;
+        position: relative;
         height: 65px;
         border-radius: 0 0 15px 15px;
-        background-color: var(--primary-head);
+        background-color: var(--body-color);
         display: flex;
         flex-direction: row;
         padding: 0 10px;
@@ -93,8 +119,9 @@
         cursor: pointer;
     }
     .chat_footer button img {
-        height: 24px;
-        width: 24px;
+        width: 28px;
+        height: 28px;
+        margin: auto 10px;
     }
     textarea {
         margin: 10px;
@@ -103,7 +130,7 @@
         border-radius: 5px;
         border: none;
         padding: 12px 15px;
-        font-size: 14px;
+        font-size: 16px;
         color: var(--text-color);
         font-weight: 500;
         outline: none;
@@ -117,4 +144,11 @@
         bottom: 90px;
         font-weight: 500;
     }
+    .search {
+        margin: 0; 
+        position: relative; 
+        width: 100%;
+        display: flex;
+    }
+
 </style>

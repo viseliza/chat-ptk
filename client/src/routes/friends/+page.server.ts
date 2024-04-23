@@ -7,14 +7,16 @@ export const load: PageServerLoad = async ({ locals }) => {
     const friends = (await api.getAllFriends(locals.session.user_id));
     let ids: number[] = [];
     
-    friends.forEach((friend: any) => {
-        if (friend.me_id) {
-            if (friend.me_id != locals.session.user_id) 
-                ids = [...ids, friend.me_id]
-            else if (friend.friend != locals.session.user_id)
-                ids = [...ids, friend.friend_id]
-        }
-    })
+    if (friends.lenght) {
+        friends.forEach((friend: any) => {
+            if (friend.me_id) {
+                if (friend.me_id != locals.session.user_id) 
+                    ids = [...ids, friend.me_id]
+                else if (friend.friend != locals.session.user_id)
+                    ids = [...ids, friend.friend_id]
+            }
+        })
+    }
 
     let profiles = await api.profilesFriends(ids);
     

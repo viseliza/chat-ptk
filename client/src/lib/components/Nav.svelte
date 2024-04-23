@@ -42,32 +42,20 @@
             <ul class="menu-links">
                 <li class="nav-link">
                     <a href="/">
-                        {#if theme != "black"}
-                            <img id="icon" class="nav_icon" src={home} alt="home" />
-                        {:else}
-                            <img id="icon" class="nav_icon" src={home_dark} alt="home" />
-                        {/if}
+                        <img id="icon" class="nav_icon" src={theme == 'white' ? home : home_dark} alt="home" />
                         <span class="tooltip-text">Главная</span>
                     </a>
                 </li>
                 <!-- ./nav-link -->
                 <li class="nav-link">
                     <a href="/messanger">
-                        {#if theme != "black"}
-                            <img id="icon" class="nav_icon" src={messages} alt="message" />
-                        {:else}
-                            <img id="icon" class="nav_icon" src={messages_dark} alt="message" />
-                        {/if}
+                        <img id="icon" class="nav_icon" src={theme == 'white' ? messages : messages_dark} alt="message" />
                         <span class="tooltip-text">Сообщения</span>
                     </a>
                 </li>
                 <li class="nav-link">
                     <a href="/friends">
-                        {#if theme != "black"}
-                            <img id="icon" class="nav_icon" src={friends} alt="friends" />
-                        {:else}
-                            <img id="icon" class="nav_icon" src={friends_dark} alt="friends" />
-                        {/if}
+                        <img id="icon" class="nav_icon" src={theme == 'white' ? friends : friends_dark} alt="friends" />
                         <span class="tooltip-text">Друзья</span>
                     </a>
                 </li>
@@ -79,11 +67,7 @@
         <div class="bottom-content">
             <li class="">
                 <a href="/{$page.data.session.login}">
-                    {#if theme != "black"}
-                        <img id="icon" class="nav_icon" src={user} alt="user" />
-                    {:else}
-                        <img id="icon" class="nav_icon" src={user_dark} alt="user" />
-                    {/if}
+                    <img id="icon" class="nav_icon" src={theme == 'white' ? user : user_dark} alt="user" />
                     <span class="tooltip-text">Профиль</span>
                 </a>
             </li>

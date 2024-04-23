@@ -46,11 +46,7 @@
         {#if actives.isAllActive}
             {#if !profilesByMe.length && !profilesForMe.length}
             <div>
-                {#if theme === "white"}
-                    <img src={user_search} alt="user-add">
-                {:else}
-                    <img src={user_search_dark} alt="user-add">
-                {/if}
+                <img src={theme == 'white' ? user_search : user_search_dark} alt="user-add">
                 <span class="friends-title">Ваш список заявок пуст</span>
                 <span>Здесь будут отображаться ваши отправленные и полученные заявки в друзья.Вы можете отправлять заявки в друзья на вкладке "Найти друзей"</span>
             </div>
@@ -77,11 +73,7 @@
         {:else if actives.isForMeActive}
             {#if !profilesForMe.length}
             <div>
-                {#if theme === "white"}
-                    <img src={user_search} alt="user-add">
-                {:else}
-                    <img src={user_search_dark} alt="user-add">
-                {/if}
+                <img src={theme == 'white' ? user_search : user_search_dark} alt="user-add">
                 <span class="friends-title">Ваш список полученных заявок пуст</span>
                 <span>Здесь будут отображаться ваши полученные заявки в друзья. Вы можете подождать когда кто-то отправит вам заявку на вкладке "Найти друзей" или вы можете сделать это сами</span>
             </div>
@@ -99,11 +91,7 @@
         {:else if actives.isByMeActive}
             {#if !profilesByMe.length}
             <div>
-                {#if theme === "white"}
-                    <img src={user_search} alt="user-add">
-                {:else}
-                    <img src={user_search_dark} alt="user-add">
-                {/if}
+                <img src={theme == 'white' ? user_search : user_search_dark} alt="user-add">
                 <span class="friends-title">Ваш список отправленных заявок пуст</span>
                 <span>Здесь будут отображаться ваши отправленные заявки в друзья.Вы можете отправлять заявки в друзья на вкладке "Найти друзей"</span>
             </div>

@@ -7,7 +7,7 @@
     export let scheduleList: string[][] | string[];
     export let isHome: boolean;
     export let theme: string;
-    export let role = "TEACHER";
+    export let role: string;
     
     let slideIndex: number;
     let currentDay: number;
@@ -26,9 +26,9 @@
         'ЧЕТВЕРГ',
         'ПЯТНИЦА',
         'СУББОТА'
-    ]
+    ];
 
-    if (!isToday) 
+    if (isHome) 
         onMount(() => showSlides(slideIndex));
     // Next/previous controls
 
@@ -83,21 +83,13 @@
     <!-- svelte-ignore a11y-click-events-have-key-events -->
     <!-- svelte-ignore a11y-missing-attribute -->
     <button class="prev" on:click={() => changeSlide(-1)}>
-        {#if theme == "white"}
-            <img class="nav_icon" src={arrow_left} />
-        {:else}
-            <img class="nav_icon" src={arrow_left_dark} />
-        {/if}
+        <img class="nav_icon" src={theme == 'white' ? arrow_left : arrow_left_dark} />
     </button>
     <!-- svelte-ignore a11y-no-static-element-interactions -->
     <!-- svelte-ignore a11y-missing-attribute -->
     <!-- svelte-ignore a11y-click-events-have-key-events -->
     <button class="next" on:click={() => changeSlide(1)}>
-        {#if theme == "white"}
-            <img class="nav_icon" src={arrow_right} />
-        {:else}
-            <img class="nav_icon" src={arrow_right_dark} />
-        {/if}
+        <img class="nav_icon" src={theme == 'white' ? arrow_right : arrow_right_dark} />
     </button>
 
     <section class="table">
@@ -172,7 +164,7 @@
         {/each}
     </div>
 {:else}
-    <div class="item">
+    <div class="item" bind:this={slides[0]}>
         {#if !scheduleList.length}
             <div style="height: 150px;" class="column-none">
                 <span>
@@ -181,63 +173,32 @@
             </div>
         {/if}
         {#each scheduleList as row, index}
-            {#if index == 0}
-                <div class="column">
-                    <span style="width: 100px;" class="time">{row.split(" | ")[0]}</span>
-                    <span class="row-text">{row.split(" | ")[1]}</span>
-                </div>
-            {:else if scheduleList[index + 1] && scheduleList[index].split(" | ")[0] == scheduleList[index + 1].split(" | ")[0]}
-                <div class="column column-split">
-                    <div class="prev-row">
+            {#if !days_array.includes(row.trim())}    
+                {#if scheduleList[index + 1] && scheduleList[index].split(" | ")[0] == scheduleList[index + 1].split(" | ")[0]}
+                    <div class="column column-split">
+                        <div class="prev-row">
+                            <span class="time">{row.split(" | ")[0]}</span>
+                            <span class="row-text">{row.split(" | ")[1]}</span>
+                        </div>
+                        <div style="border-top: 1px solid var(--primary-color);" class="next-row">
+                            <span class="time">{scheduleList[index + 1].split(" | ")[0]}</span>
+                            <span class="row-text">{scheduleList[index + 1].split(" | ")[1]}</span>
+                        </div>
+                    </div>
+                {:else if scheduleList[index - 1] && scheduleList[index].split(" | ")[0] != scheduleList[index - 1].split(" | ")[0]}
+                    <div class="column">
                         <span class="time">{row.split(" | ")[0]}</span>
                         <span class="row-text">{row.split(" | ")[1]}</span>
                     </div>
-                    <div
-                        style="border-top: 1px solid var(--primary-color);"
-                        class="next-row"
-                    >
-                        <span class="time"
-                            >{scheduleList[index + 1].split(
-                                " | ",
-                            )[0]}</span
-                        >
-                        <span class="row-text"
-                            >{scheduleList[index + 1].split(
-                                " | ",
-                            )[1]}</span
-                        >
-                    </div>
-                </div>
-            {:else if scheduleList[index - 1] && scheduleList[index].split(" | ")[0] != scheduleList[index - 1].split(" | ")[0]}
-                <div class="column">
-                    <span class="time">{row.split(" | ")[0]}</span>
-                    <span class="row-text">{row.split(" | ")[1]}</span>
-                </div>
+                {/if}
             {/if}
         {/each}
     </div>
 {/if}
 
-{#if isHome}
     <style>
         .time {
             width: 120px;
-        }
-        table {
-            width: 600px;
-            overflow: hidden;
-            box-shadow: 0 0 20px var(--box-shadow);
-        }
-        th,
-        td {
-            padding: 15px;
-            background-color: var(--sidebar-color);
-            color: var(--text-color);
-        }
-        th {
-            padding: 20px;
-            text-align: center;
-            background-color: var(--primary-head);
         }
         .table {
             display: flex;
@@ -365,25 +326,6 @@
             background-color: var(--primary-color-light);
         }
 
-        /* Caption text */
-        .text {
-            color: #f2f2f2;
-            font-size: 15px;
-            padding: 8px 12px;
-            position: absolute;
-            bottom: 8px;
-            width: 100%;
-            text-align: center;
-        }
-
-        /* Number text (1/3 etc) */
-        .numbertext {
-            color: #f2f2f2;
-            font-size: 12px;
-            padding: 8px 12px;
-            position: absolute;
-            top: 0;
-        }
 
         /* The dots/bullets/indicators */
         .dot {
@@ -401,113 +343,4 @@
         .dot:hover {
             background-color: #717171;
         }
-
-        /* Fading animation */
-        .fade {
-            animation-name: fade;
-            animation-duration: 5s;
-        }
-
-        @keyframes fade {
-            from {
-                opacity: 0.4;
-            }
-            to {
-                opacity: 1;
-            }
-        }
     </style>
-{:else}
-    <style>
-        table {
-            overflow: hidden;
-            margin-top: 20px;
-        }
-        td {
-            padding: 5px 15px;
-            background-color: var(--sidebar-color);
-            color: var(--text-color);
-        }
-
-        /* Next & previous buttons */
-        .prev,
-        .next {
-            cursor: pointer;
-            position: absolute;
-            top: 50%;
-            width: auto;
-            margin-top: -22px;
-            padding: 16px;
-            color: white;
-            font-weight: bold;
-            font-size: 18px;
-            transition: 0.6s ease;
-            border-radius: 0 3px 3px 0;
-            user-select: none;
-        }
-
-        /* Position the "next button" to the right */
-        .next {
-            right: 0;
-            border-radius: 3px 0 0 3px;
-        }
-
-        /* On hover, add a black background color with a little bit see-through */
-        .prev:hover,
-        .next:hover {
-            background-color: rgba(0, 0, 0, 0.8);
-        }
-
-        /* Caption text */
-        .text {
-            color: #f2f2f2;
-            font-size: 15px;
-            padding: 8px 12px;
-            position: absolute;
-            bottom: 8px;
-            width: 100%;
-            text-align: center;
-        }
-
-        /* Number text (1/3 etc) */
-        .numbertext {
-            color: #f2f2f2;
-            font-size: 12px;
-            padding: 8px 12px;
-            position: absolute;
-            top: 0;
-        }
-
-        /* The dots/bullets/indicators */
-        .dot {
-            cursor: pointer;
-            height: 15px;
-            width: 15px;
-            margin: 0 2px;
-            background-color: #bbb;
-            border-radius: 50%;
-            display: inline-block;
-            transition: background-color 0.6s ease;
-        }
-
-        .active,
-        .dot:hover {
-            background-color: #717171;
-        }
-
-        /* Fading animation */
-        .fade {
-            animation-name: fade;
-            animation-duration: 1.5s;
-        }
-
-        @keyframes fade {
-            from {
-                opacity: 0.4;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-    </style>
-{/if}

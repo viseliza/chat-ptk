@@ -42,11 +42,7 @@
             {/each}
         {:else}
             <div>
-                {#if theme === "white"}
-                    <img src={user_add} alt="user-add">
-                {:else}
-                    <img src={user_add_dark} alt="user-add">
-                {/if}
+                <img src={theme == 'white' ? user_add : user_add_dark} alt="user-add">
                 <span class="friends-title">Ваш список друзей пуст</span>
                 <span>Вы можете найти новых друзей используя поиск!<br>Новые друзья будут появляться здесь</span>
             </div>

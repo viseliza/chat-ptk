@@ -6,7 +6,8 @@ declare global {
 			session: {
 				user_id: number,
 				login: string,
-				theme: string
+				theme: string,
+				role: string
 			}
 		}
 		// interface Error {}

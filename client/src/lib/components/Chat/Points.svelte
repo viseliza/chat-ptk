@@ -11,19 +11,12 @@
     <!-- svelte-ignore a11y-no-redundant-roles -->
     <summary role="button">
         <!-- svelte-ignore a11y-missing-attribute -->
-        {#if theme == "white"}
-            <a style="height: 35px;" class="button"><img class="nav_icon" src={points} alt=""></a>
-        {:else}
-            <a style="height: 35px;" class="button"><img class="nav_icon" src={points_dark} alt=""></a>
-        {/if}
+        <a style="height: 35px;" class="button"><img class="nav_icon" src={theme == 'white' ? points : points_dark} alt=""></a>
     </summary>
     <ul>
         <li><button on:click={() => showInput = !showInput}>
-            {#if theme == "white"}
-            <img class="nav_icon" src={search} alt="">
-            {:else}
-            <img class="nav_icon" src={search_dark} alt="">
-            {/if}
+
+            <img class="nav_icon" src={theme == 'white' ? search : search_dark} alt="">
             Поиск сообщений
         </button></li>
         <li><button>In Pure CSS</button></li>

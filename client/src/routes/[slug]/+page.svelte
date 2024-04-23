@@ -8,6 +8,7 @@
 
     export let data: PageData;
 
+    let role = data.session.role;
     $: user_id = data.session.user_id
     $: schedule = data.schedule;
     $: profile = data.profile
@@ -104,7 +105,12 @@
     </div>
 
     <div class="schedule">
-        <Schedule theme={data.session.theme} scheduleList = {schedule} isHome={false}/>
+        <Schedule 
+            theme={data.session.theme} 
+            scheduleList = {schedule} 
+            isHome={false}
+            {role}
+        />
     </div>
 
     <div class="title">

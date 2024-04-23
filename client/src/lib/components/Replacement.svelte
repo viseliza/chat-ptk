@@ -1,8 +1,6 @@
 <script lang="ts">
     export let replacement: string[];
     export let isHome: boolean;
-
-    console.log(replacement)
 </script>
 
 <table>

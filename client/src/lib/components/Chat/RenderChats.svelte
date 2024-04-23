@@ -7,6 +7,8 @@
     export let messagesPreloader: boolean;
     export let chat: Chat;
     export let messages: IMessage[];
+
+    let selectedMessagesCount = 0;
 </script>
 
 {#if messages.length != 0 && typeof messages !== 'string'}
@@ -17,16 +19,21 @@
             </section>
         {/if}
         {#if index == 0}
-            <Message isMe={message.user_id == user_id} {message} />
+            <Message 
+                isMe={message.user_id == user_id} 
+                {message} 
+                bind:selectedMessagesCount={selectedMessagesCount}
+            />
         {:else}
             <Message
                 isLessThan5Minute={chat.isLessThan5Minute(
                     message.time,
-                    messages[index - 1].time,
+                    messages[index - 1].time
                 )}
                 isPrevious={message.user_id == messages[index - 1].user_id}
                 isMe={message.user_id == user_id}
                 {message}
+                bind:selectedMessagesCount={selectedMessagesCount}
             />
         {/if}
     {/each}

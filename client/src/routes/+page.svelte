@@ -5,6 +5,7 @@
 
     export let data: PageData;
     
+    const role = data.session.role;
     const schedule = data.schedule;
     const replacement = data.replacement.split("\n\n");
 </script>
@@ -20,6 +21,7 @@
         theme={data.session.theme}
         scheduleList={schedule}
         isHome={true}
+        {role}
     />
 
     <h1 style="margin-top: 50px;">Замены</h1>

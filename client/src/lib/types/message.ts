@@ -8,4 +8,5 @@ export interface IMessage {
     is_read?: boolean;
     room_id?: number;
     room?: Room;
+    reactions?: Object;
 }

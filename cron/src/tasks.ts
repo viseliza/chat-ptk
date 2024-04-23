@@ -63,7 +63,8 @@ class Tasks {
 
 }
 
-Schedule.dowmloadSchedules();
+Tasks.pushGroups();
+// Schedule.dowmloadSchedules();
 // Tasks.start();
 // Tasks.pushGroups()
 // Tasks.checkRole("s241910")

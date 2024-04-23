@@ -50,7 +50,8 @@ export const handle: Handle = async ({ event, resolve }) => {
 			event.locals.session = {
 				user_id: jwtUser.user_id,
 				login: jwtUser.login,
-				theme: theme || jwtUser.theme
+				theme: theme || jwtUser.theme,
+				role: jwtUser.role
 			};
 		} catch (error) {
 			console.error(error);

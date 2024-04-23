@@ -1,6 +1,6 @@
 import { error } from "@sveltejs/kit";
 import { AppAPI } from "../../api/api";
-import { Replacement, Schedule } from "../../lib/utils";
+import { Replacement } from "../../lib/utils";
 import type { PageServerLoad } from "./$types";
 
 export const load: PageServerLoad = async ({ params, locals }) => {

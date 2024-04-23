@@ -8,6 +8,7 @@ import { FriendModule } from './friend.module';
 import { RouterModule, Routes } from '@nestjs/core';
 import { ReplacementModule } from './replacement.module';
 import { ScheduleModule } from './schedule.module';
+import { JwtModule } from '@nestjs/jwt'
 
 const routes: Routes = [
 	{
@@ -28,6 +29,11 @@ const routes: Routes = [
 
 @Module({
 	imports: [
+		JwtModule.register({
+			global: true,
+			secret: process.env.SERVER_JWT_SECRET,
+			signOptions: { expiresIn: process.env.SERVER_JWT_EXPIRES },
+		}),
 		UserModule, 
 		ProfileModule,
 		GroupModule, 

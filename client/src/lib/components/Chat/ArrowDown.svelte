@@ -46,6 +46,7 @@
         margin-left: 540px;
         transition: 0.5s;
         transform: translateY(-100%);
+        background-color: var(--primary-color-light);
     }
     .arrow-down-block.false {
         transition: 0.3s;

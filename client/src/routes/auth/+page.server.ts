@@ -38,7 +38,8 @@ export const actions: Actions = {
 		const token = jsonwebtoken.sign({ 
 			user_id: profile.user_id,
 			login: user.login,
-			theme: profile.theme
+			theme: profile.theme,
+			role: profile.role
 		}, JWT_ACCESS_TOKEN, {
 			expiresIn: '1d'
 		});

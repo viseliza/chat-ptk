@@ -3,6 +3,7 @@ import type { IChatPreview, IMessage, IMessanger } from "../types";
 
 export default class Messanger implements IMessanger {
     public user_id: number;
+    public selectedMessages = [];
     private chats: IChatPreview[] = [];
     private api = new AppAPI('');
 
@@ -66,7 +67,7 @@ export default class Messanger implements IMessanger {
     }
 
     /**
-     * Форматироване даты и времени последнего сообщения
+     * Форматироване даты и времени последнего сообщения 
      * @param date Дата отправки сообщения
      * @returns Форматированная дата
      */
@@ -79,6 +80,11 @@ export default class Messanger implements IMessanger {
             return "вчера"
         else 
             return date.toLocaleDateString();
+        
+    }
+
+
+    public selectMessage() {
         
     }
 }

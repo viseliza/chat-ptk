@@ -58,11 +58,23 @@ export class MessageService {
 		return response.reverse();
 	}
 
-	update(id: number, message: UpdateMessageDto) {
-		return `This action updates a #${id} message`;
+	async update(id: number, message: any) {
+		return await this.prisma.message.update({
+			where: {
+				id
+			}, data: {
+				text: message.text,
+				is_read: message.is_read,
+				reactions: message.reactions
+			}
+		})
 	}
 
-	remove(id: number) {
-		return `This action removes a #${id} message`;
+	async delete(id: number) {
+		return await this.prisma.message.delete({
+			where: {
+				id
+			}
+		})
 	}
 }

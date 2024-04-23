@@ -121,14 +121,15 @@ export default class Chat extends SocketService implements IChat {
                 
                 if (this.messages[i].user_id != user_id && !this.messages[i].is_read) {
                     count += 1;
-                    if (!lastReadMessage) {
+                    if (!lastReadMessage) 
                         return rect['y'] - 80;
-                    }
+                    
                 } else if (this.messages[i].user_id == user_id && this.messages[i].is_read) {
                     (messages[i] as HTMLElement).style.backgroundColor = "rgb(50, 50, 255, 0)";
                 }
                 if (rect['y'] < (scroll.clientHeight + rect['height']) && this.messages[i].user_id != user_id && !this.messages[i].is_read) {
                     this.messages[i].is_read = true;
+                    (messages[i] as HTMLElement).style.backgroundColor = "transparent";
                     this.socket.emit('readMessage', { message: this.messages[i]} );
                 }
                 
@@ -137,5 +138,25 @@ export default class Chat extends SocketService implements IChat {
         if (!lastReadMessage)
             return scroll.scrollHeight;
         return count;
+    }
+
+    /**
+     * Добавление эмоции в текст сообщения
+     * @param text текст сообщения
+     * @param index индекс каретки
+     * @param event выбранная эмоция
+     */
+    public addEmojieToMessage(text: string, index: number, event: { detail: { emojie: number } }): void {
+        if (!text || !text.length) {
+            text = String.fromCodePoint(event.detail.emojie);
+        } else {
+            if (index == text.length)
+                text += String.fromCodePoint(event.detail.emojie);
+            else {
+                let textArray = Array.from(text);
+                textArray.splice(index, 1, `${text[index]}${String.fromCodePoint(event.detail.emojie)}`)
+                text = textArray.join('');
+            }
+        }
     }
 }
