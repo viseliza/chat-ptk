@@ -146,7 +146,7 @@ export default class Chat extends SocketService implements IChat {
      * @param index индекс каретки
      * @param event выбранная эмоция
      */
-    public addEmojieToMessage(text: string, index: number, event: { detail: { emojie: number } }): void {
+    public addEmojieToMessage(text: string, index: number, event: { detail: { emojie: number } }): string {
         if (!text || !text.length) {
             text = String.fromCodePoint(event.detail.emojie);
         } else {
@@ -158,5 +158,6 @@ export default class Chat extends SocketService implements IChat {
                 text = textArray.join('');
             }
         }
+        return text;
     }
 }

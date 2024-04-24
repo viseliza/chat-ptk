@@ -18,7 +18,9 @@ export class MessagesGateway {
 	constructor(private readonly messagesService: MessageService) { }
 
 	@SubscribeMessage('createMessage')
-	async create(@MessageBody() createMessageDto: CreateMessageDto) {
+	async create(
+		@MessageBody() createMessageDto: CreateMessageDto
+	) {
 		const message = await this.messagesService.create(createMessageDto);
 		
 		this.server.to(createMessageDto.room.name).emit("message", message);
@@ -27,13 +29,18 @@ export class MessagesGateway {
 	}
 
 	@SubscribeMessage('takeMessages')
-	async findAll(@ConnectedSocket() client: Socket, @MessageBody() { room_id, row }) {
+	async findAll(
+		@ConnectedSocket() client: Socket, 
+		@MessageBody() { room_id, row }
+	) {
 		const response = await this.messagesService.findAll({ room_id, row });
 		client.emit("getMessages", response);
 	}
 
 	@SubscribeMessage('readMessage')
-	async readMessage(@MessageBody('message') message: UpdateMessageDto) {
+	async readMessage(
+		@MessageBody('message') message: UpdateMessageDto
+	) {
 		return await this.messagesService.updateMessage(message);
 	}
 
@@ -46,7 +53,10 @@ export class MessagesGateway {
 	}
 
 	@SubscribeMessage('joinRoom')
-	handleRoomJoin(client: Socket, room: Room) {
+	handleRoomJoin(
+		client: Socket, 
+		room: Room
+	) {
 		client.join(room.name);
 	}
 
@@ -63,6 +73,15 @@ export class MessagesGateway {
 		const name = this.messagesService.getClientName(client.id);
 		
 		client.broadcast.emit('typing', { name, isTyping });
+	}
+
+	@SubscribeMessage('addReaction')
+	async addReaction(
+		@MessageBody() data: { reaction: Object, message_id: number},
+		@ConnectedSocket() client: Socket
+	) {
+		await this.messagesService.update(data.message_id, { reactions: data.reaction })
+		client.emit('getNewReaction', { reaction: data.reaction });
 	}
 
 	// @SubscribeMessage('updateMessage')

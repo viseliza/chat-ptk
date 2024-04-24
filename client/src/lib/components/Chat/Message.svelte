@@ -1,27 +1,27 @@
 <script lang="ts">
     import type { IMessage } from "../../types";
+    import type Chat from "../../utils/Chat";
     import Reaction from "./Reaction.svelte";
     import placeholder from "/images/50x50.svg";
 
     export let isLessThan5Minute: boolean = false;
+    export let selectedMessagesCount: number;
     export let isPrevious: boolean = false;
     export let message: IMessage;
+    export let user_id: number;
     export let isMe: boolean;
-    export let selectedMessagesCount: number;
-    
+    export let chat: Chat;
+
     let reactions: number[] = [];
     let reactionsCount: number[] = [];
+    let reactionsResultObject: any[] = [];
     let lastReactionIndex = 0;
     let isSelected = false;
-    let isSelectedReaction: boolean;
-    if (message.reactions) {
-        Object.keys(message.reactions).forEach((key) => {
-            // if(isMe && key == message.user_id)
-            console.log(key, message.reactions[key])
-        })
-    }
-    console.log(message)
-    
+    let isSelectedReaction: boolean = false;
+
+    chat.socket.on('getNewReaction', (data) => {
+        console.log(data)
+    })
 
     const formattedTime = () => {
         return new Date(message.time).toLocaleTimeString("en-GB", {
@@ -35,27 +35,76 @@
         selectedMessagesCount += isSelected ? + 1 : - 1;
     }
 
-    const handleReaction = async (event: { detail: { reaction: number } }) => {
-        let reaction = event.detail.reaction;
-        let isIndexReaction = reactions.indexOf(reaction);
-        if (isIndexReaction != -1) {
-            reactionsCount[isIndexReaction] += 1;
-        } else {
+    const pushEmojieOnArrays = (indexReaction: number, reaction: number) => {
+        if (indexReaction == -1) {
             reactions[lastReactionIndex] = reaction;
             reactionsCount[lastReactionIndex] = 1;
             lastReactionIndex++;
-            await fetch("https://viseliza.site/api/replacement/", {
-                method: "PATCH",
-                headers: {
-                    'Content-Type': 'application/json;charset=utf-8'
-                },
-                body: JSON.stringify({
-                    date: this.date.toLocaleDateString("ru"),
-                    text: await this.parseReplacement()
-                })
-            })
-        }
+        } else
+            reactionsCount[indexReaction] += 1;
+        
+        reactionsResultObject.push({ user_id, reaction });
+        chat.addReaction(reactionsResultObject, message.id);
     }
+
+
+    const handleReaction = async (event: { detail: { reaction: number } }) => {
+        let reaction = event.detail.reaction;
+        let indexReaction = reactions.indexOf(reaction);
+        
+        if (!reactionsResultObject.length) {
+            pushEmojieOnArrays(indexReaction, reaction);
+        } else { 
+            let isDeleted = false;
+            isSelectedReaction = false;
+            reactionsResultObject.filter((reactionObject) => {
+                if (reactionObject.user_id == user_id && !isSelectedReaction) {
+                    let prevIndexReaction = reactions.indexOf(reactionObject.reaction);
+                    reactionObject.reaction = reaction;
+                    isSelectedReaction = true;
+                    lastReactionIndex--;
+                    reactionsResultObject.splice(prevIndexReaction, 1);
+
+                    if (reactionsCount[prevIndexReaction] == 1) {
+                        reactionsCount.splice(prevIndexReaction, 1);
+                        let deleted = reactions.splice(prevIndexReaction, 1);
+                        if (deleted[0] == reaction) {
+                            // isSelectedReaction = false;
+                            isDeleted = true;
+                            if (!reactions.length) 
+                                reactions = [];
+                            if (!reactionsResultObject.length)
+                                reactionsResultObject = [];
+                        }
+                    } else
+                        reactionsCount[prevIndexReaction] -= 1;
+
+                    if (!isDeleted)
+                        pushEmojieOnArrays(indexReaction, reaction);
+                }
+            });
+            
+            if(!isSelectedReaction && !isDeleted)
+                pushEmojieOnArrays(indexReaction, reaction);
+
+            // console.log(reaction)
+            // console.log(reactionsResultObject)
+        }
+        // const response = await fetch(`https://viseliza.site/api/messages/${message.id}`, {
+        //     method: "PATCH",
+        //     headers: {
+        //         'Content-Type': 'application/json;charset=utf-8'
+        //     },
+        //     body: JSON.stringify({
+        //         text: "123",
+        //         is_read: message.is_read,
+        //         reactions: reactionsResultObject
+        //     })
+        // })
+        // console.log(await response.json())
+    }
+
+    $: console.log(reactions)
 </script>
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
@@ -84,7 +133,7 @@
             {/each}
             <div class="bottom">
                 {#if isMe}
-                    <div class="reactions">
+                    <div class="reactions reactions_{reactions.length > 0}">
                         {#each reactions as reaction, index}
                             <div class="reaction">
                                 <div class="emojie">
@@ -103,8 +152,19 @@
                     {formattedTime()}
                 </span>
                 {#if !isMe}
-                    <div class="reactions">
-                        
+                    <div class="reactions reactions_{reactions.length > 0}">
+                        {#each reactions as reaction, index}
+                            <div class="reaction">
+                                <div class="emojie">
+                                    {String.fromCodePoint(reaction)}
+                                </div>
+                                {#if reactionsCount[index] != 1}
+                                    <div class="reaction_count">
+                                        {reactionsCount[index]}
+                                    </div>
+                                {/if}
+                            </div>
+                        {/each}
                     </div>
                 {/if}
             </div>
@@ -190,7 +250,7 @@
         flex-direction: column;
     }
     .data {
-        font-size: 14px;
+        font-size: 15px;
         margin: 0 10px 5px 10px;
         font-weight: 500;
     }
@@ -203,11 +263,22 @@
         font-size: 14px;
         margin-top: 6px;
     }
-    .reactions .reaction {
+    .reactions .reactions_true {
+        display: block;
+    }
+    .reactions .reactions_false {
+        display: none;
+    }
+    .reactions_true .reaction {
         display: flex;
         padding: 5px 10px;
-        background-color: var(--box-shadow);
+        background-color: var(--primary-color-light);
         border-radius: 15px;
         margin-right: 10px;
+        justify-content: center;
+        align-items: center;
+    }
+    .reactions_true .reaction_count {
+        margin-left: 5px;
     }
 </style>

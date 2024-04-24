@@ -1,6 +1,4 @@
 <script lang="ts">
-    import arrow_left from "/images/arrow-left.svg";
-    import arrow_left_dark from "/images/arrow-left_dark.svg";
     import Input from "../../../lib/components/Input.svelte";
     import DropDown from "../../../lib/components/DropDown.svelte";
     import FriendItem from "../../../lib/components/FriendItem.svelte";

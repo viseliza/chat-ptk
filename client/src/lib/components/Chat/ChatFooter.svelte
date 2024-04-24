@@ -4,7 +4,6 @@
     import attachment from "/images/attachment.svg";
     import smiles_dark from "/images/smiles_dark.svg";
     import play_dark from "/images/navigation_dark.svg";
-    import smiles_active from "/images/smiles_active.svg";
     import attachment_dark from "/images/attachment_dark.svg";
     import type Chat from "../../utils/Chat";
     import Emojies from "./Emojies.svelte";
@@ -37,9 +36,8 @@
             sendMessage();
     }
 
-
     const handleEmojie = (event: { detail: { emojie: number } }) => {
-        chat.addEmojieToMessage(text, textarea.selectionStart, event);
+        text = chat.addEmojieToMessage(text, textarea.selectionStart, event);
     }
 
 </script>
@@ -71,12 +69,8 @@
         bind:isActiveSmiles={isActiveSmiles}
     />
 
-    <button id="emojies_button" on:click={() => isActiveSmiles = !isActiveSmiles} class="search-block">
-        {#if !isActiveSmiles}
-            <img id="emojies_button" class="nav_icon" src={theme == 'white' ? smiles : smiles_dark} alt="">
-        {:else}
-            <img id="emojies_button" src={smiles_active} alt="">
-        {/if}
+    <button id="emojies_button" on:click={() => isActiveSmiles = !isActiveSmiles} class="search-block_{isActiveSmiles}">
+        <img id="emojies_button" class="nav_icon" src={theme == 'white' ? smiles : smiles_dark} alt="">
     </button>
     </div>
 
@@ -122,6 +116,13 @@
         width: 28px;
         height: 28px;
         margin: auto 10px;
+    }
+    .search-block_false {
+        box-shadow: none;
+    }
+    .search-block_true img {
+        border-radius: 50%;
+        box-shadow: var(--message-back) 0px 5px 15px;
     }
     textarea {
         margin: 10px;

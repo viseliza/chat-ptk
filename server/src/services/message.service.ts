@@ -59,13 +59,29 @@ export class MessageService {
 	}
 
 	async update(id: number, message: any) {
+		let exist = await this.prisma.message.findFirst({
+			where: {
+				id
+			}
+		});
+		exist.reactions.push(message.reaction);
 		return await this.prisma.message.update({
 			where: {
 				id
 			}, data: {
 				text: message.text,
 				is_read: message.is_read,
-				reactions: message.reactions
+				reactions: exist.reactions
+			}
+		})
+	}
+
+	async getAllReactions(id: number) {
+		return await this.prisma.message.findFirst({
+			where: {
+				id
+			}, select: {
+				reactions: true
 			}
 		})
 	}

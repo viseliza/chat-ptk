@@ -20,8 +20,10 @@
         {/if}
         {#if index == 0}
             <Message 
+                {chat}
                 isMe={message.user_id == user_id} 
                 {message} 
+                {user_id}
                 bind:selectedMessagesCount={selectedMessagesCount}
             />
         {:else}
@@ -30,9 +32,11 @@
                     message.time,
                     messages[index - 1].time
                 )}
+                {chat}
                 isPrevious={message.user_id == messages[index - 1].user_id}
                 isMe={message.user_id == user_id}
                 {message}
+                {user_id}
                 bind:selectedMessagesCount={selectedMessagesCount}
             />
         {/if}

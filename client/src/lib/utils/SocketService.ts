@@ -80,4 +80,8 @@ export default class SocketService implements ISocketService {
             this.timeout = setTimeout(() => this.timeoutStopTyping(), 2000);
         }
     }
+
+    public addReaction(reaction: Object, message_id: number) {
+        this.socket.emit('addReaction', { reaction, message_id })
+    } 
 };

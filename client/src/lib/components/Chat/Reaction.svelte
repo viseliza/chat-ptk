@@ -42,7 +42,6 @@
         background-color: var(--body-color);
         border-radius: 15px;
         overflow: hidden;
-        align-self: flex-end;
         height: 30px;
         position: absolute;
         bottom: 0;
@@ -65,11 +64,9 @@
     }
     .reactionSelect span {
         padding: 0 2px;
+        margin-top: 5px;
     }
     .reactionSelect span:hover {
         cursor: pointer;
-    }
-    .emojie {
-        margin-right: 5px;
     }
 </style>
