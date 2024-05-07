@@ -8,7 +8,8 @@ import {
 	Delete,
 	NotFoundException,
 	Req,
-	Res
+	Res,
+	Render
 } from '@nestjs/common';
 import {
 	Request,
@@ -27,7 +28,7 @@ import { UseGuards } from '@nestjs/common';
 import { AuthGuard } from '../guards/auth.guard';
 import axios from 'axios';
 import cheerio from 'cheerio';
-import { endWith } from 'rxjs';
+
 
 @ApiBearerAuth()
 @ApiTags('User')
@@ -142,9 +143,7 @@ export class UserController {
 
 		return profile;
 	}
-
-
-
+	
 	// @UseGuards(AuthGuard)
 	@ApiOperation({ summary: 'Обновление данных пользователя из таблицы User по логину' })
 	@Patch('/:login')
@@ -157,5 +156,4 @@ export class UserController {
 			data: updateLinkDto,
 		});
 	}
-
 }

@@ -9,6 +9,8 @@ import { RouterModule, Routes } from '@nestjs/core';
 import { ReplacementModule } from './replacement.module';
 import { ScheduleModule } from './schedule.module';
 import { JwtModule } from '@nestjs/jwt'
+import { ReportModule } from './report.module';
+import { AdminModule } from './admin.module';
 
 const routes: Routes = [
 	{
@@ -22,10 +24,11 @@ const routes: Routes = [
 			{ 'path': 'friend', module: FriendModule },
 			{ 'path': 'replacement', module: ReplacementModule },
 			{ 'path': 'schedule', module: ScheduleModule },
+			{ 'path': 'report', module: ReportModule },
+			{ 'path': 'admin', module: AdminModule },
 		]
 	}
 ]
-
 
 @Module({
 	imports: [
@@ -42,6 +45,8 @@ const routes: Routes = [
 		FriendModule,
 		ReplacementModule,
 		ScheduleModule,
+		ReportModule,
+		AdminModule,
 		RouterModule.register(routes),
 	]
 })

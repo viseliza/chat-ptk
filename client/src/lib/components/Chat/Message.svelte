@@ -12,114 +12,118 @@
     export let isMe: boolean;
     export let chat: Chat;
 
-    let reactions: number[] = [];
-    let reactionsCount: number[] = [];
+    let reactionsObject: any[] = [];
     let reactionsResultObject: any[] = [];
-    let lastReactionIndex = 0;
     let isSelected = false;
-    let isSelectedReaction: boolean = false;
+    let isHoveredMouse = false;
+    let isTempHoveredMouse = false;
 
-    chat.socket.on('getNewReaction', (data) => {
-        console.log(data)
-    })
+
+    chat.socket.on("getNewReaction", (data) => {    
+        reactionsObject = data.reaction;
+        formatedReactionsObject(data.message_id);
+    });
+
+
+    const formatedReactionsObject = (message_id = message.id) => {
+        if (message_id == message.id) {
+            reactionsResultObject = [];
+            reactionsObject.forEach((reactionObject) => {
+                const existReaction = reactionsResultObject.map(reactionObjectRow => reactionObjectRow.reaction).indexOf(reactionObject.reaction);
+                const isMeSelectedThisReaction = reactionsObject.map(row => {
+                    if (row.reaction == reactionObject.reaction)
+                        return row.user_id == user_id ? true : false
+                }).indexOf(true);
+                let lastReactionsResultIndex = reactionsResultObject.length;
+                if (existReaction == -1) {
+                    reactionsResultObject[lastReactionsResultIndex] = { reaction: reactionObject.reaction, count: 1, isSelectedByMe: !!(isMeSelectedThisReaction != -1)};
+                    lastReactionsResultIndex++;
+                } else 
+                    reactionsResultObject[existReaction].count += 1;
+            });
+        }
+
+        reactionsResultObject.sort(function(a, b) {
+            if (a.isSelectedByMe == true)
+                return -1;
+            if (b.isSelectedByMe == true)
+                return 1;
+            return 0;
+        });
+    }
+
+
+    reactionsObject = message.reactions ?? [];
+    formatedReactionsObject();
+
 
     const formattedTime = () => {
         return new Date(message.time).toLocaleTimeString("en-GB", {
             hour: "numeric",
-            minute: "numeric"
-        })
-    }
+            minute: "numeric",
+        });
+    };
 
     const select = () => {
         isSelected = !isSelected;
-        selectedMessagesCount += isSelected ? + 1 : - 1;
-    }
-
-    const pushEmojieOnArrays = (indexReaction: number, reaction: number) => {
-        if (indexReaction == -1) {
-            reactions[lastReactionIndex] = reaction;
-            reactionsCount[lastReactionIndex] = 1;
-            lastReactionIndex++;
-        } else
-            reactionsCount[indexReaction] += 1;
-        
-        reactionsResultObject.push({ user_id, reaction });
-        chat.addReaction(reactionsResultObject, message.id);
-    }
+        selectedMessagesCount += isSelected ? +1 : -1;
+    };
 
 
     const handleReaction = async (event: { detail: { reaction: number } }) => {
-        let reaction = event.detail.reaction;
-        let indexReaction = reactions.indexOf(reaction);
+        const isAlreadySelected = reactionsObject.map(row => row.user_id).indexOf(user_id);
+        let deleted: { user_id: number, reaction: number }[];
+
+        if (isAlreadySelected != -1)
+            deleted = reactionsObject.splice(isAlreadySelected, 1);
         
-        if (!reactionsResultObject.length) {
-            pushEmojieOnArrays(indexReaction, reaction);
-        } else { 
-            let isDeleted = false;
-            isSelectedReaction = false;
-            reactionsResultObject.filter((reactionObject) => {
-                if (reactionObject.user_id == user_id && !isSelectedReaction) {
-                    let prevIndexReaction = reactions.indexOf(reactionObject.reaction);
-                    reactionObject.reaction = reaction;
-                    isSelectedReaction = true;
-                    lastReactionIndex--;
-                    reactionsResultObject.splice(prevIndexReaction, 1);
-
-                    if (reactionsCount[prevIndexReaction] == 1) {
-                        reactionsCount.splice(prevIndexReaction, 1);
-                        let deleted = reactions.splice(prevIndexReaction, 1);
-                        if (deleted[0] == reaction) {
-                            // isSelectedReaction = false;
-                            isDeleted = true;
-                            if (!reactions.length) 
-                                reactions = [];
-                            if (!reactionsResultObject.length)
-                                reactionsResultObject = [];
-                        }
-                    } else
-                        reactionsCount[prevIndexReaction] -= 1;
-
-                    if (!isDeleted)
-                        pushEmojieOnArrays(indexReaction, reaction);
-                }
-            });
-            
-            if(!isSelectedReaction && !isDeleted)
-                pushEmojieOnArrays(indexReaction, reaction);
-
-            // console.log(reaction)
-            // console.log(reactionsResultObject)
-        }
-        // const response = await fetch(`https://viseliza.site/api/messages/${message.id}`, {
-        //     method: "PATCH",
-        //     headers: {
-        //         'Content-Type': 'application/json;charset=utf-8'
-        //     },
-        //     body: JSON.stringify({
-        //         text: "123",
-        //         is_read: message.is_read,
-        //         reactions: reactionsResultObject
-        //     })
-        // })
-        // console.log(await response.json())
+        if (isAlreadySelected == -1 || (deleted[0].reaction && deleted[0].reaction != event.detail.reaction)) 
+            reactionsObject.push({ user_id, reaction: event.detail.reaction });
+        
+        formatedReactionsObject();
+        chat.changeReactions(reactionsObject, message.id);
     }
 
-    $: console.log(reactions)
+    const handlerOnMouseEnter = async () => {
+        isTempHoveredMouse = true;
+        setTimeout(() => {
+            if (isTempHoveredMouse)
+                isHoveredMouse = true;
+        }, 700);
+    }    
+    
+    const handlerOnMouseLeave = async () => {
+        isTempHoveredMouse = false;
+        isHoveredMouse = false;
+    }
+
+    const handlerReactionClick = (eventParent) => {
+        let reaction = eventParent.target;
+        if (!reaction.className.includes('reaction reaction_')) 
+            reaction = eventParent.explicitOriginalTarget.parentElement;
+
+        const reactionCode = reaction.innerText.codePointAt(0);
+        const event: any = { detail: { reaction: reactionCode } };
+        handleReaction(event)
+    }
 </script>
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
-<div 
-    on:contextmenu={select} 
+<div
+    on:contextmenu={select}
     class="message message_{isMe} 
     message_less_{isLessThan5Minute}_{isPrevious} 
     message_is_read_{isMe}_{message.is_read}"
 >
-
-    <div class="message-content">
-        {#if isMe}
-            <Reaction
-                on:reaction={handleReaction}
-                {isMe}
+    <div 
+        on:mouseenter={handlerOnMouseEnter}
+        on:mouseleave={handlerOnMouseLeave}
+        class="message-content"
+    >
+        {#if isMe && isHoveredMouse}
+            <Reaction 
+                on:reaction={handleReaction} 
+                {isMe} 
             />
         {/if}
         {#if !isMe && (!isLessThan5Minute || !isPrevious)}
@@ -133,18 +137,23 @@
             {/each}
             <div class="bottom">
                 {#if isMe}
-                    <div class="reactions reactions_{reactions.length > 0}">
-                        {#each reactions as reaction, index}
-                            <div class="reaction">
+                    <div class="reactions reactions_{reactionsObject.length > 0}">
+                        {#each reactionsResultObject as reactionObject}
+                            <!-- svelte-ignore a11y-click-events-have-key-events -->
+                            <div 
+                                class="reaction reaction_{reactionObject.isSelectedByMe}" 
+                                on:click={handlerReactionClick}
+                            >
                                 <div class="emojie">
-                                    {String.fromCodePoint(reaction)}
+                                    {String.fromCodePoint(reactionObject.reaction)}
                                 </div>
-                                {#if reactionsCount[index] != 1}
+                                {#if reactionObject.count != 1}
                                     <div class="reaction_count">
-                                        {reactionsCount[index]}
+                                        {reactionObject.count}
                                     </div>
                                 {/if}
                             </div>
+
                         {/each}
                     </div>
                 {/if}
@@ -152,29 +161,30 @@
                     {formattedTime()}
                 </span>
                 {#if !isMe}
-                    <div class="reactions reactions_{reactions.length > 0}">
-                        {#each reactions as reaction, index}
-                            <div class="reaction">
+                    <div class="reactions reactions_{reactionsObject.length > 0}">
+                        {#each reactionsResultObject as reactionObject}
+                            <div class="reaction reaction_{reactionObject.isSelectedByMe}">
                                 <div class="emojie">
-                                    {String.fromCodePoint(reaction)}
+                                    {String.fromCodePoint(reactionObject.reaction)}
                                 </div>
-                                {#if reactionsCount[index] != 1}
+                                {#if reactionObject.count != 1}
                                     <div class="reaction_count">
-                                        {reactionsCount[index]}
+                                        {reactionObject.count}
                                     </div>
                                 {/if}
                             </div>
+
                         {/each}
                     </div>
                 {/if}
             </div>
         </div>
-    {#if !isMe}
-        <Reaction
-            on:reaction={handleReaction}
-            {isMe}
-        />
-    {/if}
+        {#if !isMe && isHoveredMouse}
+            <Reaction
+                on:reaction={handleReaction} 
+                {isMe} 
+            />
+        {/if}
     </div>
     {#if !isPrevious || !isLessThan5Minute}
         <div class="icon icon_{isMe}">
@@ -196,7 +206,7 @@
         padding-left: 60px;
     }
     .message_true.message_less_true_true {
-        padding-top: 0; 
+        padding-top: 0;
         padding-right: 60px;
         border-radius: 0;
     }
@@ -235,15 +245,19 @@
         border-radius: 5px 5px 0 0;
     }
     .time_false {
-        align-self: flex-start;
+        font-size: 12px;
+        align-self: flex-end;
+        margin-left: 2px;
+        margin-right: 15px;
     }
 
-    .time {
-        font-size: 12px; 
-        align-self: flex-end; 
+    .time_true {
+        font-size: 12px;
+        align-self: flex-end;
         margin-top: 2px;
+        margin-left: 10px;
     }
-   
+
     .message-content {
         display: flex;
         position: relative;
@@ -264,19 +278,28 @@
         margin-top: 6px;
     }
     .reactions .reactions_true {
-        display: block;
+        display: flex;
     }
     .reactions .reactions_false {
         display: none;
     }
-    .reactions_true .reaction {
+    .reaction  {
         display: flex;
         padding: 5px 10px;
-        background-color: var(--primary-color-light);
+        box-shadow: var(--box-shadow) 0px 8px 24px;
+        border: 1px solid var(--primary-color-light);
         border-radius: 15px;
-        margin-right: 10px;
+        margin-right: 5px;
         justify-content: center;
         align-items: center;
+        transition: background-color 0.5s ease;
+    }
+    .reactions .reaction:hover {
+        cursor: pointer;
+        background-color: var(--primary-color);
+    }
+    .reactions .reaction_true {
+        background-color: var(--primary-color-light);
     }
     .reactions_true .reaction_count {
         margin-left: 5px;

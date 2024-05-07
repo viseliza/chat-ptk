@@ -1,0 +1,67 @@
+<section class="table">
+    {{#each schedule}}
+        <div class="item">
+            {{#with this}}
+                <span class="day">{{ day }}</span>
+                {{#if column_none}}
+                    <div class="column-none">
+                        <span>
+                            В этот день нет занятий
+                        </span>
+                    </div>
+                {{else}}
+                    {{#each columns}}
+                        {{#if (isSplitedRow this)}}
+                            {{#if (isTeacher columns.role)}}
+                                <div class="column column-split">
+                                    {{#with this}}
+                                        <div class="prev-row">
+                                            <span class="time">{{time}}</span>
+                                            <span class="group">{{group}}</span>
+                                            <span class="row-text">{{text}}</span>
+                                        </div>
+                                        <div style="border-top: 1px solid #e7e7e7;" class="next-row">
+                                            <span class="time">{{nextTime}}</span>
+                                            <span class="group">{{nextGroup}}</span>
+                                            <span class="row-text">{{nextText}}</span>
+                                        </div>
+                                    {{/with}}
+                                </div>
+                            {{else}}
+                                <div class="column column-split">
+                                    {{#with this}}
+                                        <div class="prev-row">
+                                            <span class="time">{{time}}</span>
+                                            <span class="row-text">{{text}}</span>
+                                        </div>
+                                        <div style="border-top: 1px solid #e7e7e7;" class="next-row">
+                                            <span class="time">{{nextTime}}</span>
+                                            <span class="row-text">{{nextText}}</span>
+                                        </div>
+                                    {{/with}}
+                                </div>
+                            {{/if}}
+                        {{else}}
+                            {{#if (isTeacher role)}}
+                                <div class="column">
+                                    {{#with this}}
+                                        <span class="time">{{time}}</span>
+                                        <span class="group">{{group}}</span>
+                                        <span class="row-text">{{text}}</span>
+                                    {{/with}}
+                                </div>
+                            {{else}}
+                                <div class="column">
+                                    {{#with this}}
+                                        <span class="time">{{time}}</span>
+                                        <span class="row-text">{{text}}</span>
+                                    {{/with}}
+                                </div>
+                            {{/if}}
+                        {{/if}}
+                    {{/each}}
+                {{/if}}
+            {{/with}}
+        </div>
+    {{/each}}
+</section>

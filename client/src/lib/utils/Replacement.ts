@@ -60,10 +60,14 @@ export class Replacement implements IReplacement {
         else 
             data += `${_value[2]}\n`;
 
-        if (_value[3] != undefined && _value[3].toLowerCase() == "не будет")
+        if (_value[3] && _value[3].trim().toLowerCase() == "не будет")
             data += `${_value[3]}\n\n`;
-        else if (_value[3] != undefined && ['дистанционное обучение', 'до'].includes(_value[3].toLowerCase())) 
+        else if (_value[4] && _value[4].trim().toLowerCase() == "не будет")
+            data += `${_value[4]}\n\n`;
+        else if (_value[3] && ['дистанционное обучение', 'до'].includes(_value[3].toLowerCase().trim()))
             data += `Заменена на ${_value[3]}\n\n`;
+        else if (_value[4] && ['дистанционное обучение', 'до'].includes(_value[4].toLowerCase().trim()))
+            data += `Заменена на ${_value[4]}\n\n`;
         else {
             if (line < body.length && body[line + 1].split("\t")[0].toLowerCase() == "вся группа") {
                 data += `${_value[3]} ${body[line + 1].split('\t')[0]}\n\n`;

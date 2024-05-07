@@ -280,6 +280,7 @@
         right: -50px;
         bottom: 75px;
         overflow-y: auto;
+        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
         opacity: 0;
         transition: 0.5s;
         animation: show 0.5s 1;
@@ -292,15 +293,23 @@
     .emojies .chapter .title {
         margin-bottom: 10px;
         font-size: 14px;
-        font-weight: 500;
+        font-weight: 550;
     }
     .emojies .chapter .list {
-        font-size: 20px;
+        font-size: 18px;
+        display: flex;
+        flex-wrap: wrap;
     }
     .emojies .chapter .list span {
-        padding: 0 5px;
+        padding: 5px;
         box-shadow: var(--box-shadow) 0px 8px 24px;
         border-radius: 50%;
+        margin: 5px 2.5px;
+        height: 32px;
+        width: 32px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
     .emojies .chapter .list span:hover {
         cursor: pointer;

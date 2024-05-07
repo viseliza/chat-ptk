@@ -48,36 +48,12 @@
         for (let i = 0; i < slides.length; i++) {
             slides[i].style.display = "none";
         }
-        for (let i = 0; i < dots.length; i++) {
-            dots[i].className = dots[i].className.replace(" active", "");
-        }
 
         slides[slideIndex].style.display = "flex";
-        dots[slideIndex].className += " active";
     }
 </script>
 
-<!-- <table>
-    {#each schedule as row, index}
-        {#if row}
-            <tr>
-                {#if days_array.includes(row.toLowerCase().trim())}
-                    <th bind:this={slides[slides.length]} colspan="3">{row}</th>
-                {:else if schedule[index + 1] && schedule[index].split(" ")[0] == schedule[index + 1].split(" | ")[0]}
-                    <td style="width: 50px; text-align: center;" rowspan="2">{numbers[row.split(" | ")[0]]}</td>
-                    <td class='time' rowspan="2">{row.split(" | ")[0]}</td>
-                    <td>{row.split(" | ")[1]}</td>
-                {:else if schedule[index - 1] && schedule[index - 1].split(" ")[0] == schedule[index].split(" | ")[0]}
-                    <td>{row.split(" | ")[1]}</td>
-                {:else}
-                    <td style="width: 50px; text-align: center;">{numbers[row.split(" | ")[0]]}</td>
-                    <td class='time'>{row.split(" | ")[0]}</td>
-                    <td>{row.split(" | ")[1]}</td>
-                {/if}
-            </tr>
-        {/if}
-    {/each}
-</table> -->
+
 {#if isHome}
     <!-- svelte-ignore a11y-no-static-element-interactions -->
     <!-- svelte-ignore a11y-click-events-have-key-events -->
@@ -140,10 +116,10 @@
                                 <span class="row-text">{row.split(" | ")[2]}</span>
                             </div>
                         {:else}
-                        <div class="column">
-                            <span class="time">{row.split(" | ")[0]}</span>
-                            <span class="row-text">{row.split(" | ")[1]}</span>
-                        </div>
+                            <div class="column">
+                                <span class="time">{row.split(" | ")[0]}</span>
+                                <span class="row-text">{row.split(" | ")[1]}</span>
+                            </div>
                         {/if}
                     {/if}
                 {/each}
@@ -157,7 +133,7 @@
             <!-- svelte-ignore a11y-no-static-element-interactions -->
             <!-- svelte-ignore a11y-click-events-have-key-events -->
             <span
-                class="dot"
+                class="dot dot_{slideIndex == index}"
                 bind:this={dots[index]}
                 on:click={() => currentSlide(index)}
             ></span>
@@ -196,151 +172,150 @@
     </div>
 {/if}
 
-    <style>
-        .time {
-            width: 120px;
-        }
-        .table {
-            display: flex;
-            flex-direction: column;
-            max-width: 65vh;
-            width: 100%;
-            margin: 10px auto 15px auto;
-            border-radius: 10px;
-            box-shadow: 0 0 20px var(--box-shadow);
-            background-color: var(--sidebar-color);
-            min-height: 400px;
-        }
-        .table .item {
-            display: flex;
-            flex-direction: column;
-        }
-        .item .day {
-            text-align: center;
-            padding: 20px;
-            align-self: stretch;
-            background-color: var(--primary-color-light);
-            font-size: 20px;
-            font-weight: 700;
-            border-radius: 10px 10px 0 0;
-            margin-bottom: 20px;
-        }
-        .item .currentDay {
-            background-color: var(--primary-head);
-        }
-        .item .column {
-            padding: 15px;
-            display: flex;
-            flex-direction: row;
-            margin: 0 20px 20px 20px;
-            border-radius: 10px;
-            box-shadow: var(--box-shadow) 0px 2px 8px 0px;
-            background-color: var(--sidebar-color);
-        }
-        .item .column .time {
-            width: 100px;
-            align-self: center;
-        }
-        .item .column .group {
-            width: 100px;
-            text-align: center;  
-            position: relative;
-            align-self: center;
-            display: inline-block;
-        }
-        .item .column .group:before{ 
-            content: " ";
-            background: var(--primary-color);
-            width: 1px;
-            height: calc(100% + 30px);
-            right: 13px;
-            position: absolute;
-            top: -15px;
-        }
+<style>
+    .time {
+        width: 120px;
+    }
+    .table {
+        display: flex;
+        flex-direction: column;
+        max-width: 65vh;
+        width: 100%;
+        margin: 10px auto 15px auto;
+        border-radius: 10px;
+        box-shadow: 0 0 20px var(--box-shadow);
+        background-color: var(--sidebar-color);
+        min-height: 400px;
+    }
+    .table .item {
+        display: flex;
+        flex-direction: column;
+    }
+    .item .day {
+        text-align: center;
+        padding: 20px;
+        align-self: stretch;
+        background-color: var(--primary-color-light);
+        font-size: 20px;
+        font-weight: 700;
+        border-radius: 10px 10px 0 0;
+        margin-bottom: 20px;
+    }
+    .item .currentDay {
+        background-color: var(--primary-head);
+    }
+    .item .column {
+        padding: 15px;
+        display: flex;
+        flex-direction: row;
+        margin: 0 20px 20px 20px;
+        border-radius: 10px;
+        box-shadow: var(--box-shadow) 0px 2px 8px 0px;
+        background-color: var(--sidebar-color);
+    }
+    .item .column .time {
+        width: 100px;
+        align-self: center;
+    }
+    .item .column .group {
+        width: 100px;
+        text-align: center;  
+        position: relative;
+        align-self: center;
+        display: inline-block;
+    }
+    .item .column .group:before{ 
+        content: " ";
+        background: var(--primary-color);
+        width: 1px;
+        height: calc(100% + 30px);
+        right: 13px;
+        position: absolute;
+        top: -15px;
+    }
 
-        .item .column .group:after{ 
-            content: " ";
-            background: var(--primary-color);
-            width: 1px;
-            height: calc(100% + 30px);
-            left: 10px;
-            position: absolute;
-            top: -15px;
-        }
-        .item .column-split {
-            display: flex;
-            flex-direction: column;
-        }
-        .item .column-none {
-            display: flex;
-            width: 100%;
-            height: 250px;
-            justify-content: center;
-            align-items: center;
-            font-weight: 700;
-            font-size: 18px;
-        }
-        .prev-row,
-        .next-row {
-            display: flex;
-        }
-        .prev-row {
-            padding-bottom: 10px;
-        }
-        .next-row {
-            padding-top: 10px;
-        }
-        .row-text {
-            width: 450px;
-        }
-        /* Next & previous buttons */
-        .prev,
-        .next {
-            cursor: pointer;
-            position: relative;
-            bottom: -260px;
-            width: 30px;
-            height: 30px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-top: -35px;
-            padding: 16px;
-            border-radius: 50%;
-            border: 1px solid var(--primary-color);
-            transition: 0.6s ease;
-            user-select: none;
-            background-color: var(--primary-color);
-            box-shadow: var(--box-shadow) 0px 7px 29px 0px;
-            left: -60px;
-        }
+    .item .column .group:after{ 
+        content: " ";
+        background: var(--primary-color);
+        width: 1px;
+        height: calc(100% + 30px);
+        left: 10px;
+        position: absolute;
+        top: -15px;
+    }
+    .item .column-split {
+        display: flex;
+        flex-direction: column;
+    }
+    .item .column-none {
+        display: flex;
+        width: 100%;
+        height: 250px;
+        justify-content: center;
+        align-items: center;
+        font-weight: 700;
+        font-size: 18px;
+    }
+    .prev-row,
+    .next-row {
+        display: flex;
+    }
+    .prev-row {
+        padding-bottom: 10px;
+    }
+    .next-row {
+        padding-top: 10px;
+    }
+    .row-text {
+        width: 450px;
+    }
+    /* Next & previous buttons */
+    .prev,
+    .next {
+        cursor: pointer;
+        position: relative;
+        bottom: -260px;
+        width: 30px;
+        height: 30px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: -35px;
+        padding: 16px;
+        border-radius: 50%;
+        border: 1px solid var(--primary-color);
+        transition: 0.6s ease;
+        user-select: none;
+        background-color: var(--primary-color);
+        box-shadow: var(--box-shadow) 0px 7px 29px 0px;
+        left: -60px;
+    }
 
-        /* Position the "next button" to the right */
-        .next {
-            left: 630px;
-        }
+    /* Position the "next button" to the right */
+    .next {
+        left: 630px;
+    }
 
-        /* On hover, add a black background color with a little bit see-through */
-        .prev:hover,
-        .next:hover {
-            background-color: var(--primary-color-light);
-        }
+    /* On hover, add a black background color with a little bit see-through */
+    .prev:hover,
+    .next:hover {
+        background-color: var(--primary-color-light);
+    }
 
 
-        /* The dots/bullets/indicators */
-        .dot {
-            cursor: pointer;
-            height: 15px;
-            width: 15px;
-            margin: 0 2px;
-            background-color: #bbb;
-            border-radius: 50%;
-            display: inline-block;
-            transition: background-color 0.6s ease;
-        }
-
-        .active,
-        .dot:hover {
-            background-color: #717171;
-        }
-    </style>
+    /* The dots/bullets/indicators */
+    .dot {
+        cursor: pointer;
+        height: 15px;
+        width: 15px;
+        margin: 0 2px;
+        background-color: #bbb;
+        border-radius: 50%;
+        display: inline-block;
+        transition: background-color 0.6s ease;
+    }
+    .dot_true,
+    .dot:hover {
+        background-color: #717171;
+    }
+</style>

@@ -39,19 +39,23 @@
         padding: 0 5px 5px 5px;
         display: flex;
         flex-direction: column-reverse;
-        background-color: var(--body-color);
+        background-color: var(--primary-color-light);
         border-radius: 15px;
         overflow: hidden;
         height: 30px;
         position: absolute;
         bottom: 0;
-        transition: height .1s linear;
+        box-shadow: var(--box-shadow) 0px 8px 24px;
+        opacity: 0;
+        transition: 0.2s;
+        animation: show 0.2s 1;
+        animation-fill-mode: forwards;
     }
     .reactionSelect_false {
-        right: -30px;
+        right: -25px;
     }
     .reactionSelect_true {
-        left: -30px;
+        left: -25px;
     }
     .reactionSelect:hover {
         height: 120px;
@@ -68,5 +72,13 @@
     }
     .reactionSelect span:hover {
         cursor: pointer;
+    }
+    @keyframes show {
+        0% {
+            opacity: 0;
+        }
+        100% {
+            opacity: 1;
+        }
     }
 </style>

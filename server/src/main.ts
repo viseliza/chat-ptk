@@ -1,13 +1,16 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './modules/app.module';
+import { NestExpressApplication } from '@nestjs/platform-express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import * as helpers from '../public/scripts/helpers';
+import * as exphbs from 'express-handlebars';
 import * as cookieParser from 'cookie-parser';
 import * as dotenv from 'dotenv';
+import { CronStart } from './cron/cron';
 dotenv.config();
 
-
 async function bootstrap() {
-	const app = await NestFactory.create(AppModule, { cors: true });
+	const app = await NestFactory.create<NestExpressApplication>(AppModule, { cors: true });
 	app.use(cookieParser());
 	// app.enableCors();
 
@@ -20,6 +23,21 @@ async function bootstrap() {
 	const document = SwaggerModule.createDocument(app, config);
 	SwaggerModule.setup('api', app, document);
 
+	app.useStaticAssets('./public');
+	app.setBaseViewsDir('./views');
+
+	const hbs = exphbs.create({
+		defaultLayout: 'main',
+		layoutsDir: './views/layouts',
+		helpers
+	});
+
+	app.engine('handlebars', hbs.engine);
+	app.set('view engine', 'handlebars');
+	app.set('views', './views');
+	app.setViewEngine('handlebars');
+
+	// const cron = new CronStart();
 	await app.listen(18001);
 }
 bootstrap();

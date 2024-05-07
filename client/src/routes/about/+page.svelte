@@ -1,102 +1,29 @@
-<script>
-	import { fly } from 'svelte/transition';
-	
-	let emojiSets = [
-		{ type: "faces", minVal:128512, maxVal: 128580 },
-		{ type: "faces2", minVal:129296, maxVal: 129327},
-		{ type: "body", minVal:128066, maxVal: 128080},
-		{ type: "animals", minVal:129408, maxVal: 129442},
-		{ type: "transport", minVal:128640, maxVal: 128676},
-		{ type: "misc", minVal:129494, maxVal: 129535},
-			
-	];
-	
-	let selectedSet = 0;
-	// $: console.log(selectedSet)
-	$: min = emojiSets[selectedSet].minVal;
-	$: max = emojiSets[selectedSet].maxVal;
-	
-	// storage of emojis to make emoji keyboard
-	let emojis = [];
-	
-	$: for (let i = min; i <= max; i++) {
-		//console.log(String.fromCharCode(i))
-		emojis = [...emojis, String.fromCodePoint(i)]
-	}
-	
-	const clearEmojiMenu = () => emojis = []; 
-	
-	const chooseEmojiSet = (e) => {	
-		selectedSet = Number(e.target.dataset.id);
-		clearEmojiMenu()
-	}
+<script lang="ts">
+    import { onMount } from "svelte";
+    import type { PageData } from "../$types";
+	export let data: PageData;
+	let aElem: HTMLAnchorElement;
+	let url;
+	console.log(data)
+	onMount(() => {
+		url = window.URL.createObjectURL(new Blob([new Uint8Array(data.buffer.data).buffer]));	
+		console.log(aElem.href)
+		aElem.href = url;
+		console.log(aElem.href)
+		aElem.setAttribute('download', 'yourcoolpdf.pdf');
+	})
 
-	// Header on emoji keyboard to select different emoji sets
-	let setIcons = [128512, 129313, 128074, 129417, 128664, 129504]
-	
-	// Emoji icon to open modal of emojis
-	let emojiIcon = String.fromCodePoint(128571);
-	
-	// Modal of emoji keyboard
-	let modalOpen = false;
-	
-	// CHAT MESSAGE
-	let textBox; // for bind:this
-	let message = "";
-	
-	const addEmoji = (e) => {
-		message += e.target.textContent
-	}
-	
-	const submitMsg = () => {
-		console.log(`The message: (${message}) has been sent.`);	
-		textBox.value = ""; // this line is not needed since message will control the value
-		message = "";
-		modalOpen = false; // close emoji menu
-	}
-	
-	// Emoji Testing Area
-	// console.log("😻".charCodeAt(0))
-	// console.log(String.fromCharCode(128571))
-	console.log("🧠".codePointAt(0))
-	console.log(String.fromCodePoint(127757))
 </script>
 
 
 <section>
-	<div class="chat-popup" id="myForm">
-		<form class="form-container" on:submit|preventDefault={submitMsg}>
-			<h1>Chat</h1>
-
-			<label for="msg"><b>Message</b></label>
-			<textarea placeholder="Type message.." 
-								name="msg" 
-								required
-								bind:this={textBox}
-								bind:value={message}></textarea>
-
-			<div id="btn-emoji-icon-cont">
-				<button type="submit" class="btn">Send</button>
-				<div id="emoji-opener-icon" on:click={() => modalOpen = true}>{emojiIcon}</div>
-			</div>
-		</form>
+	<div>
+		<!-- svelte-ignore a11y-missing-content -->
+		<!-- svelte-ignore a11y-missing-attribute -->
+		<a bind:this={aElem} href="#">фывыф</a>
+		<a href="path_to_file" download="proposed_file_name">Download</a>
 
 	</div>
-
-	{#if modalOpen}
-		<div id="emoji-cont" transition:fly={{ y: -30 }}>
-			<header>
-				{#each setIcons as icon, i}
-					<div data-id={i} on:click={chooseEmojiSet}>{String.fromCodePoint(icon)}</div>		
-				{/each}
-					<div id="closer-icon" on:click={() => modalOpen = false}>X</div>
-			</header>
-
-			{#each emojis as emoji}
-				<span on:click={addEmoji}>{emoji}</span>
-			{/each}
-		</div>
-	{/if}
 </section>	
 
 

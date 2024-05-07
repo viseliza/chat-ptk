@@ -1,10 +1,10 @@
 import type { Actions } from './$types';
 import { fail, redirect } from '@sveltejs/kit';
 import jsonwebtoken from 'jsonwebtoken';
-const { sign, decode, verify } = jsonwebtoken;
 import { AppAPI } from '../../api/api';
 import type { User } from '../../models/User';
 import isExistUser from '../../lib/utils/isExistUser';
+const { sign, decode, verify } = jsonwebtoken;
 
 const JWT_ACCESS_TOKEN = "d7a428bc721a2e90e5dce093933c5199aa7adadc11c04cdabceb282897d4a2bf";
 
@@ -24,16 +24,15 @@ export const actions: Actions = {
 			});
 		}
 		const user: User = formData as { login: string; password: string };
-		
-		if (!await isExistUser(user.login, user.password))
+		let isUser = await isExistUser(user.login, user.password); 
+
+		if (!isUser)
 			return fail(400, { error: 'Неравильный логин или пароль. Попробуйте еще раз' });
 		
 		// Inizialate frontend API
 		const api = new AppAPI('');
-		// Take full name from response
-		const fio = await isExistUser(user.login, user.password) as { firstName: string; lastName: string; midName: string, email: string, personId: string }
 		// Profile data
-		const profile = await api.checkUser(user, fio.firstName, fio.lastName, fio.midName);
+		const profile = await api.checkUser(user, isUser.firstName, isUser.lastName, isUser.midName);
 		// Generate jwt token for profile
 		const token = jsonwebtoken.sign({ 
 			user_id: profile.user_id,

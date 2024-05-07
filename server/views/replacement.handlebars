@@ -1,0 +1,27 @@
+<table>
+    {{#if isNotEmpty}}
+        <div style="margin-top: 20px;" class="row">
+            <div class="row-group">Группа</div>
+            <div class="row-number">№ пары</div>
+            <div class="row-perv">По расписанию</div>
+            <div class="row-replace">Изменения</div>
+        </div>
+
+        {{#each replacement}}
+                <div class="row">
+					{{#with this}}
+                        <div class="row-group">{{group}}</div>
+                        <div class="row-number">{{row_number}}</div>
+                        <div class="row-perv">{{perv}}</div>
+                        <div class="row-replace">{{replace}}</div>
+                    {{/with}}
+                </div>
+        {{/each}}
+    {{else}}
+        <div style="height: 150px;" class="column-none">
+            <span>
+                На сегодня у Вас нет замен
+            </span>
+        </div>
+    {{/if}}
+</table>

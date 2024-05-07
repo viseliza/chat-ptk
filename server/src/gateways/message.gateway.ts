@@ -81,7 +81,7 @@ export class MessagesGateway {
 		@ConnectedSocket() client: Socket
 	) {
 		await this.messagesService.update(data.message_id, { reactions: data.reaction })
-		client.emit('getNewReaction', { reaction: data.reaction });
+		client.broadcast.emit('getNewReaction', data);
 	}
 
 	// @SubscribeMessage('updateMessage')

@@ -100,18 +100,20 @@
     
     <div class="chat_messages" bind:this={scroll} on:scroll={scrollY}>
         {#if messagesPreloader}
-        <div class="container">
-            <div class="dot"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
-        </div>
+            <div class="container">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
         {/if}
+
         <RenderChats
             {chat}
             {user_id}
             {messagesPreloader}
             messages={searchedMessages.length ? searchedMessages : chat.messages}
         />
+        
         <ArrowDown 
             element={scroll} 
             {isShow}

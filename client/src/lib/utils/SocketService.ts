@@ -81,7 +81,7 @@ export default class SocketService implements ISocketService {
         }
     }
 
-    public addReaction(reaction: Object, message_id: number) {
+    public changeReactions(reaction: Object, message_id: number) {
         this.socket.emit('addReaction', { reaction, message_id })
     } 
 };

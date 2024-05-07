@@ -59,19 +59,13 @@ export class MessageService {
 	}
 
 	async update(id: number, message: any) {
-		let exist = await this.prisma.message.findFirst({
-			where: {
-				id
-			}
-		});
-		exist.reactions.push(message.reaction);
 		return await this.prisma.message.update({
 			where: {
 				id
 			}, data: {
 				text: message.text,
 				is_read: message.is_read,
-				reactions: exist.reactions
+				reactions: message.reactions
 			}
 		})
 	}
