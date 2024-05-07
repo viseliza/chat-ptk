@@ -1,12 +1,7 @@
 import {
     Controller,
     Get,
-    Param,
-    Patch,
-    Post,
-    Body,
-    Delete,
-    Res,
+    Param
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import puppeteer from 'puppeteer';

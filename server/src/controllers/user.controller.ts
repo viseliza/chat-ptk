@@ -63,7 +63,8 @@ export class UserController {
 		@Body() data
 	): Promise<Profile> {
 		const user = await this.userService.findOne({ login: data.login });
-
+		console.log(data)
+		console.log(user)
 		let profile: ProfileEntity;
 		let role = 'STUDENT';
 		let group: Group;
