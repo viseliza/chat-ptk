@@ -71,9 +71,9 @@ export class GroupController {
         });
     }
 
-	@ApiOperation({ summary: 'Удаление записи группы из таблицы' })
-    @Delete('/:name')
-    delete(@Param('name') name: string) {
-        return this.groupService.delete({ name });
+	@ApiOperation({ summary: 'Удаление всех записей групп из таблицы' })
+    @Delete('/')
+    delete() {
+        return this.groupService.delete();
     }
 }

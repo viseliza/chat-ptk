@@ -9,9 +9,11 @@ export class Replacement {
     private readonly path = 'public/docs/';
 
     constructor(date: string, collage: string = "ПТК") {
-        if (!existsSync(`public/docs/${date}`))
+        if (!existsSync(`public/docs/${date}`)) {
             mkdirSync(`public/docs/${date}`);
-
+            console.log(1)
+        }
+            
         const files = readdirSync(`public/docs/${date}`);
         files.filter((file) => {
             if (file == `${collage}.doc`)

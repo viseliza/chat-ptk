@@ -19,12 +19,14 @@ export class AdminController {
     async updateReplacement(@Param('date') date: string) {
         const replacement = new Replacement(date, 'ПТК');
         await replacement.main();
+        return {};
     }
 
     @ApiOperation({ summary: 'Проверка и обновление расписаний' })
     @Get('update/schedule/')
     async updateSchedule() {
-        Schedule.dowmloadSchedules();
+        await Schedule.dowmloadSchedules();
+        return {};
     }
 
     @ApiOperation({ summary: 'Получение фотографии отчета' })
@@ -33,16 +35,14 @@ export class AdminController {
             @Param('table') table: string,
             @Param('param') param: string
         ) {
-        const photoGenerate = async () => {
-            const browser = await puppeteer.launch();
-            const page = await browser.newPage();
-            await page.goto(`http://localhost:18001/api/report/${table}/${param}`);
-            const buffer = await page.pdf({ path: `public/photos/${table}/${param}.pdf`, format: 'A4' });
-            await browser.close();
-            return buffer;
-        }  
-        const pdf2 = await photoGenerate();
-        return pdf2;
+        const browser = await puppeteer.connect({
+            browserWSEndpoint: process.env.BROWSER_WS_ENDPOINT
+        });
+        const page = await browser.newPage();
+        await page.goto(`https://viseliza.site/api/report/${table}/${param}`);
+        const buffer = await page.pdf({ path: `public/photos/${param}.pdf`, format: 'A4' });
+        await browser.close();
+        return buffer;
     }
 
     @ApiOperation({ summary: 'Получение фотографии отчета' })

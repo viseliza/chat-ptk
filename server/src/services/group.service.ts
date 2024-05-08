@@ -58,9 +58,7 @@ export class GroupService {
         });
     }
 
-    delete(where: Prisma.GroupWhereUniqueInput): Promise<Group> {
-        return this.prisma.group.delete({
-            where,
-        });
+    async delete() {
+        await this.prisma.group.deleteMany({});
     }
 }
