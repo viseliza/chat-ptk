@@ -7,6 +7,7 @@ import * as exphbs from 'express-handlebars';
 import * as cookieParser from 'cookie-parser';
 import * as dotenv from 'dotenv';
 import { CronStart } from './cron/cron';
+import { join } from 'path';
 dotenv.config();
 
 async function bootstrap() {
@@ -23,18 +24,16 @@ async function bootstrap() {
 	const document = SwaggerModule.createDocument(app, config);
 	SwaggerModule.setup('api', app, document);
 
-	app.useStaticAssets('./public');
-	app.setBaseViewsDir('./views');
+	app.setBaseViewsDir(join(__dirname, '..', 'views'));
 
 	const hbs = exphbs.create({
-		defaultLayout: 'main',
-		layoutsDir: './views/layouts',
+		defaultLayout: 'main', 
+		layoutsDir: join(__dirname, '../views', 'layouts'),
 		helpers
 	});
 
+
 	app.engine('handlebars', hbs.engine);
-	app.set('view engine', 'handlebars');
-	app.set('views', './views');
 	app.setViewEngine('handlebars');
 
 	// const cron = new CronStart();

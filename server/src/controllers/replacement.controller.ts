@@ -30,7 +30,7 @@ export class ReplacementController {
         return this.replacementService.get( date );
     }
 
-    @ApiOperation({ summary: 'Выборка замены с заданым date' })
+    @ApiOperation({ summary: 'Создание записи замены на выбранную дату' })
     @Post('/')
     async create(@Body() data) {
         return this.replacementService.create( data );

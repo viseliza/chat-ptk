@@ -16,7 +16,11 @@ export class CronController {
         })
     }
 
-    async pushGroups() {
+    static async pushGroups() {
+        await fetch("https://viseliza.site/api/group/", {
+            method: "DELETE"
+        });
+        
         let groupsData = [];
 
         try {

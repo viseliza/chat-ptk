@@ -25,6 +25,7 @@ export class AdminController {
     @ApiOperation({ summary: 'Проверка и обновление расписаний' })
     @Get('update/schedule/')
     async updateSchedule() {
+        await CronController.pushGroups(); 
         await Schedule.dowmloadSchedules();
         return {};
     }
@@ -48,7 +49,6 @@ export class AdminController {
     @ApiOperation({ summary: 'Получение фотографии отчета' })
     @Get('groups/')
     async pushGroups() {
-        const cronController = new CronController();
-        await cronController.pushGroups();
+        await CronController.pushGroups();
     }
 }

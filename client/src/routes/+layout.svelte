@@ -3,7 +3,7 @@
     import { page } from "$app/stores";
     import { redirect } from "@sveltejs/kit";
     
-    if (!$page.data.session && $page.url.pathname != "/auth") {
+    if (!$page.data.session && $page.url.pathname != "/auth" && $page.url.pathname != "/stylesheets/style.css") {
         throw redirect(302, "/auth");
     }
 </script>

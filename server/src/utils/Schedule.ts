@@ -6,9 +6,6 @@ import { existsSync, unlinkSync, writeFileSync } from "fs";
 
 export class Schedule {
     static async dowmloadSchedules() {
-        const deleteAllRecords = await fetch("https://viseliza.site/api/group/", {
-            method: "DELETE"
-        });
         const response = await fetch("https://viseliza.site/api/group/");
         
         const groups: any = await response.json();

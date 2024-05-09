@@ -11,6 +11,8 @@ import { ScheduleModule } from './schedule.module';
 import { JwtModule } from '@nestjs/jwt'
 import { ReportModule } from './report.module';
 import { AdminModule } from './admin.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 const routes: Routes = [
 	{
@@ -31,7 +33,12 @@ const routes: Routes = [
 ]
 
 @Module({
-	imports: [
+imports: [
+		ServeStaticModule.forRoot({
+			rootPath: join(__dirname, '..', '..', 'public'),
+			// Tell NestJS to serve the files under ~/public/
+			serveRoot: '/public/',
+		}),
 		JwtModule.register({
 			global: true,
 			secret: process.env.SERVER_JWT_SECRET,

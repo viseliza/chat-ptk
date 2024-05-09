@@ -54,20 +54,19 @@
 </script>
 
 
+<!-- svelte-ignore a11y-no-static-element-interactions -->
+<!-- svelte-ignore a11y-click-events-have-key-events -->
+<!-- svelte-ignore a11y-missing-attribute -->
 {#if isHome}
-    <!-- svelte-ignore a11y-no-static-element-interactions -->
-    <!-- svelte-ignore a11y-click-events-have-key-events -->
-    <!-- svelte-ignore a11y-missing-attribute -->
-    <button class="prev" on:click={() => changeSlide(-1)}>
-        <img class="nav_icon" src={theme == 'white' ? arrow_left : arrow_left_dark} />
-    </button>
-    <!-- svelte-ignore a11y-no-static-element-interactions -->
-    <!-- svelte-ignore a11y-missing-attribute -->
-    <!-- svelte-ignore a11y-click-events-have-key-events -->
-    <button class="next" on:click={() => changeSlide(1)}>
-        <img class="nav_icon" src={theme == 'white' ? arrow_right : arrow_right_dark} />
-    </button>
-
+    <div class="buttons">
+        <button class="button-slide prev" on:click={() => changeSlide(-1)}>
+            <img class="nav_icon" src={theme == 'white' ? arrow_left : arrow_left_dark} />
+        </button>
+        <button class="button-slide next" on:click={() => changeSlide(1)}>
+            <img class="nav_icon" src={theme == 'white' ? arrow_right : arrow_right_dark} />
+        </button>    
+    </div>
+    
     <section class="table">
         {#each scheduleList as rows, index1}
             <div class="item" bind:this={slides[index1]}>
@@ -270,10 +269,12 @@
         width: 450px;
     }
     /* Next & previous buttons */
-    .prev,
-    .next {
-        cursor: pointer;
+    .buttons {
         position: relative;
+    }
+    .button-slide {
+        cursor: pointer;
+        position: absolute;
         bottom: -260px;
         width: 30px;
         height: 30px;
@@ -288,12 +289,14 @@
         user-select: none;
         background-color: var(--primary-color);
         box-shadow: var(--box-shadow) 0px 7px 29px 0px;
-        left: -60px;
     }
 
     /* Position the "next button" to the right */
-    .next {
-        left: 630px;
+    .button-slide.prev {
+        left: -60px;
+    }
+    .button-slide.next {
+        right: -60px;
     }
 
     /* On hover, add a black background color with a little bit see-through */

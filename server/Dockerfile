@@ -6,6 +6,8 @@ COPY package.json package-lock.json ./
 
 RUN npm install
 
+RUN npm install @nestjs/serve-static
+
 COPY . .
 
 RUN npm run prisma:prod
