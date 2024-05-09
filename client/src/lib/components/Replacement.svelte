@@ -4,7 +4,7 @@
 </script>
 
 <table>
-    {#if replacement[0] != "На сегодня замен в вашей группе нет"}
+    {#if replacement[0] != "Расписания для колледжа ПТК на " + new Date().toLocaleDateString() + " число нет"}
         <div style="margin-top: 20px;" class="row">
             <div class="row-group">Группа</div>
             <div class="row-number">№ пары</div>
@@ -25,7 +25,7 @@
     {:else}
         <div style="height: 150px;" class="column-none">
             <span>
-                На сегодня у Вас нет замен
+                На сегодня в ПТК замен нет!
             </span>
         </div>
     {/if}

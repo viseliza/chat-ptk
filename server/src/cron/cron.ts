@@ -16,8 +16,8 @@ export class CronStart {
         const scheduleDownloadReplacement = scheduleJob('30 0 * * * *', () => {
             console.log("| PASS | " + new Date().toLocaleDateString("ru") + " | " + new Date().toLocaleTimeString() + " | CRON UPDATE REPLACEMENT STARTED");
             const replacement = new Replacement(new Date().toLocaleDateString("ru"));
-            const replacementMC = new Replacement(new Date().toLocaleDateString("ru"), "МК");
-            const replacementGEK = new Replacement(new Date().toLocaleDateString("ru"), "ГЭК");
+            // const replacementMC = new Replacement(new Date().toLocaleDateString("ru"), "МК");
+            // const replacementGEK = new Replacement(new Date().toLocaleDateString("ru"), "ГЭК");
             console.log("| PASS | " + new Date().toLocaleDateString("ru") + " | " + new Date().toLocaleTimeString() + " | CRON UPDATE REPLACEMENT ENDED");
         });
         

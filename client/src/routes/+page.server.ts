@@ -4,7 +4,7 @@ import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ locals }) => {
 	const api = new AppAPI('');
-	
+	console.log(locals)
 	const group = await api.getGroup(locals.session.user_id);
 	
 	const replacement = new Replacement("30.10.2023");

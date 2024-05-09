@@ -138,6 +138,7 @@ h1 {
     margin-right: 10px;
     font-weight: 700;
     align-self: center;
+    white-space: nowrap;
 }
 
 .schedule .item .column .group {
@@ -191,9 +192,11 @@ h1 {
     margin-right: 15px;
 }
 .schedule .next-row {
+    border-top: 1px solid #e7e7e7;
     padding-top: 15px;
 }
 .schedule .row-text {
-    margin-left: 10px;
+    padding-left: 10px;
+    border: 1px solid #e7e7e7;
     width: auto;
 }

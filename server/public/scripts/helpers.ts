@@ -1,5 +1,8 @@
 export function isTeacher(role: string) {
-	return role == "TEACHER" ? true : false;
+	if (role == "TEACHER")
+		return true;
+	else if (role == "STUDENT")
+		return false;
 }
 
 export function isSplitedRow(rowObject: any) {

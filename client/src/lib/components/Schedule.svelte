@@ -95,7 +95,7 @@
                                 <span class="row-text">{scheduleList[index1][index + 1].split(" | ")[2]}</span>
                             </div>
                         </div>
-                    {:else}
+                    {:else if role == "STUDENT"}
                         <div class="column column-split">
                             <div class="prev-row">
                                 <span class="time">{row.split(" | ")[0]}</span>
@@ -114,7 +114,7 @@
                                 <span class="group">{row.split(" | ")[1]}</span>
                                 <span class="row-text">{row.split(" | ")[2]}</span>
                             </div>
-                        {:else}
+                        {:else if role == "STUDENT"}
                             <div class="column">
                                 <span class="time">{row.split(" | ")[0]}</span>
                                 <span class="row-text">{row.split(" | ")[1]}</span>
@@ -148,23 +148,25 @@
             </div>
         {/if}
         {#each scheduleList as row, index}
-            {#if !days_array.includes(row.trim())}    
-                {#if scheduleList[index + 1] && scheduleList[index].split(" | ")[0] == scheduleList[index + 1].split(" | ")[0]}
-                    <div class="column column-split">
-                        <div class="prev-row">
+            {#if row === 'string'}
+                {#if !days_array.includes(row.trim())}    
+                    {#if scheduleList[index + 1] && scheduleList[index].split(" | ")[0] == scheduleList[index + 1].split(" | ")[0]}
+                        <div class="column column-split">
+                            <div class="prev-row">
+                                <span class="time">{row.split(" | ")[0]}</span>
+                                <span class="row-text">{row.split(" | ")[1]}</span>
+                            </div>
+                            <div style="border-top: 1px solid var(--primary-color);" class="next-row">
+                                <span class="time">{scheduleList[index + 1].split(" | ")[0]}</span>
+                                <span class="row-text">{scheduleList[index + 1].split(" | ")[1]}</span>
+                            </div>
+                        </div>
+                    {:else if scheduleList[index - 1] && scheduleList[index].split(" | ")[0] != scheduleList[index - 1].split(" | ")[0]}
+                        <div class="column">
                             <span class="time">{row.split(" | ")[0]}</span>
                             <span class="row-text">{row.split(" | ")[1]}</span>
                         </div>
-                        <div style="border-top: 1px solid var(--primary-color);" class="next-row">
-                            <span class="time">{scheduleList[index + 1].split(" | ")[0]}</span>
-                            <span class="row-text">{scheduleList[index + 1].split(" | ")[1]}</span>
-                        </div>
-                    </div>
-                {:else if scheduleList[index - 1] && scheduleList[index].split(" | ")[0] != scheduleList[index - 1].split(" | ")[0]}
-                    <div class="column">
-                        <span class="time">{row.split(" | ")[0]}</span>
-                        <span class="row-text">{row.split(" | ")[1]}</span>
-                    </div>
+                    {/if}
                 {/if}
             {/if}
         {/each}
@@ -213,8 +215,11 @@
         background-color: var(--sidebar-color);
     }
     .item .column .time {
-        width: 100px;
+        width: auto;
+        margin-right: 10px;
+        font-weight: 700;
         align-self: center;
+        white-space: nowrap;
     }
     .item .column .group {
         width: 100px;
@@ -260,13 +265,16 @@
         display: flex;
     }
     .prev-row {
-        padding-bottom: 10px;
+        margin-bottom: 15px;
     }
     .next-row {
-        padding-top: 10px;
+        border-top: 1px solid #e7e7e7;
+        padding-top: 15px;
     }
     .row-text {
-        width: 450px;
+        padding-left: 10px;
+        border-left: 1px solid var(--primary-color);
+        width: auto;
     }
     /* Next & previous buttons */
     .buttons {
