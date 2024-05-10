@@ -3,15 +3,12 @@
     import Chats from "../../lib/components/Chats.svelte";
     import type { IChatPreview } from "../../lib/types";
     import Input from "../../lib/components/Input.svelte";
-    import search from "/images/search.svg";
-    import search_dark from "/images/search_dark.svg";
     export let data: PageData;
 
     $: theme = data.session.theme;
 
     const chats = data.chats;
     let searchedChats: IChatPreview[] | string = [];
-    let showInput: boolean = false;
 </script>
 
 <svelte:head>
@@ -22,16 +19,10 @@
 <section>
     <div class="title_messanger">
         <Input 
-            bind:showInput
-            bind:theme
             searchArray={chats}
             bind:searchedArray={searchedChats}
+            isMessager={true}
         >
-            <span class="title">Чаты</span>
-
-            <button on:click={() => {showInput = !showInput}}>
-                <img class="nav_icon" src={theme == 'white' ? search : search_dark} alt="">
-            </button>
         </Input>       
     </div>
     {#if !searchedChats.length}

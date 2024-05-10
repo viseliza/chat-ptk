@@ -58,6 +58,9 @@ export class FriendService {
             });
         }
 
+        if (!exist) 
+            return {};
+
         return exist;
     }
 

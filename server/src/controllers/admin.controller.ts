@@ -13,7 +13,6 @@ import { Schedule } from 'src/utils/Schedule';
 @ApiTags('Admin')
 @Controller()
 export class AdminController {
-
 	@ApiOperation({ summary: 'Проверка и обновление замен' })
     @Get('update/replacement/:date')
     async updateReplacement(@Param('date') date: string) {

@@ -181,14 +181,10 @@ export class AppAPI {
      * @returns {User}
      */
     async checkUser(data: User, first_name?: string, last_name?: string, father_name?: string) {
-        let user;
-        try {
-            user = await this.getProfileByLogin(data.login);
-            if (user.statusCode == 404)
-                throw "Пользователь не найден"
-        } catch {
-            user = await this.callApi("user/auth", { body: { login: data.login, password: data.password, first_name, last_name, father_name } });
-        }
+        let user = await this.callApi("user/auth", { body: { login: data.login, password: data.password, first_name, last_name, father_name } });
+
+        if (user.statusCode == 404)
+            throw "Пользователь не найден"
         return user;
     }
 

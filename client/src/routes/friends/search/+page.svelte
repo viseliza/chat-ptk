@@ -64,11 +64,9 @@
                 bind:value
             />
             <Input
-                bind:theme
                 searchArray={profilesWithFriends}
                 bind:searchedArray={searchedFriends}
-                isStatic={true}
-                showInput={true}
+                isFriends={true}
             />
         </div>
     </section>

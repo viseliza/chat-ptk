@@ -6,10 +6,10 @@
 <table>
     {#if replacement[0] != "Расписания для колледжа ПТК на " + new Date().toLocaleDateString() + " число нет"}
         <div style="margin-top: 20px;" class="row">
-            <div class="row-group">Группа</div>
-            <div class="row-number">№ пары</div>
-            <div class="row-perv">По расписанию</div>
-            <div class="row-replace">Изменения</div>
+            <div style="font-weight: 600;" class="row-group">Группа</div>
+            <div style="font-weight: 600;" class="row-number">№ пары</div>
+            <div style="font-weight: 600;" class="row-perv">По расписанию</div>
+            <div style="font-weight: 600;" class="row-replace">Изменения</div>
         </div>
 
         {#each replacement as row}
@@ -54,7 +54,8 @@
             padding: 15px;
         }
         .row-group {
-            width: 70px; 
+            max-width: 60px;
+            width: 100%; 
             text-align: center;
         }
         .row-number {

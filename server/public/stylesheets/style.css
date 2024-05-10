@@ -142,7 +142,8 @@ h1 {
 }
 
 .schedule .item .column .group {
-    width: 100px;
+    max-width: 65px;
+    width: 100%;
     text-align: center;  
     position: relative;
     align-self: center;
@@ -154,7 +155,7 @@ h1 {
     background: #e7e7e7;
     width: 1px;
     height: calc(100% + 30px);
-    right: 13px;
+    right: 3px;
     position: absolute;
     top: -15px;
 }
@@ -164,7 +165,7 @@ h1 {
     background: #e7e7e7;
     width: 1px;
     height: calc(100% + 30px);
-    left: 10px;
+    left: 3px;
     position: absolute;
     top: -15px;
 }
@@ -189,7 +190,7 @@ h1 {
     display: flex;
 }
 .schedule .prev-row {
-    margin-right: 15px;
+    margin-bottom: 15px;
 }
 .schedule .next-row {
     border-top: 1px solid #e7e7e7;
@@ -197,6 +198,5 @@ h1 {
 }
 .schedule .row-text {
     padding-left: 10px;
-    border: 1px solid #e7e7e7;
     width: auto;
 }

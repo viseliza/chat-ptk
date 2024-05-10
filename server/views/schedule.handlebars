@@ -12,7 +12,7 @@
                 {{else}}
                     {{#each columns}}
                         {{#if (isSplitedRow this)}}
-                            {{#if (isTeacher columns.role)}}
+                            {{#if (isTeacher this)}}
                                 <div class="column column-split">
                                     {{#with this}}
                                         <div class="prev-row">
@@ -42,7 +42,7 @@
                                 </div>
                             {{/if}}
                         {{else}}
-                            {{#if (isTeacher role)}}
+                            {{#if (isTeacher this)}}
                                 <div class="column">
                                     {{#with this}}
                                         <span class="time">{{time}}</span>

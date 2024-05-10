@@ -36,52 +36,56 @@
         room_name = chat.room.name;
     }
 
+    const handlerShowInput = (event: { detail: { showInput: boolean } }) => showInput = event.detail.showInput;
 
     let showModal = false;
 </script>
 
 <div class="chat_header">
-    <Input
-        bind:showInput
-        bind:theme
-        searchArray={chat.messages}
-        bind:searchedArray={searchedMessages}
-    >
-    <div class="back">
-        <a on:click={() => {chat.disconect()}} class="back" href="./" style="text-decoration: none;">
-            <img class="nav_icon" src={theme == 'white' ? arrow_left : arrow_left_dark} alt="" />
-            <span>Назад</span>
-        </a>
-    </div>
-    <div class="title_box">
-        <span class="title">{room_name}</span>
-        {#if name.length == 1}
-            <span class="count">колличество участников: {chat.count_of_profiles}</span>
-        {/if}
-    </div>
-    <div class="info">
-        <Points 
-            {theme}
-            bind:showInput
+    {#if showInput}
+        <Input
+            isMessager={true}
+            searchArray={chat.messages}
+            bind:searchedArray={searchedMessages}
+            on:showInput={handlerShowInput}
         />
-        {#if name.length == 1}
-            <button title="Показать информацию" class="model_button" on:click={() => {showModal = true}}>
-                <img style="width: 100%; height: 100%" id="icon" class="avatar" src={placeholder} alt="">
-            </button>
-        {:else}
-            <a href="/{href}" class="model_button">
-                <img style="width: 100%; height: 100%" id="icon" class="avatar" src={placeholder} alt="">
-            </a>
-        {/if}
-
-        <ModalChatHeader 
-            bind:showModal 
-            chat={chat}
-            room_name={room_name} 
-        />
+    {/if}
     
-    </div>
-</Input>
+    {#if !showInput}
+        <div class="back">
+            <a on:click={() => {chat.disconect()}} class="back" href="./" style="text-decoration: none;">
+                <img class="nav_icon" src={theme == 'white' ? arrow_left : arrow_left_dark} alt="" />
+                <span>Назад</span>
+            </a>
+        </div>
+        <div class="title_box">
+            <span class="title">{room_name}</span>
+            {#if name.length == 1}
+                <span class="count">колличество участников: {chat.count_of_profiles}</span>
+            {/if}
+        </div>
+        <div class="info">
+            <Points 
+                {theme}
+                bind:showInput
+            />
+            {#if name.length == 1}
+                <button title="Показать информацию" class="model_button" on:click={() => {showModal = true}}>
+                    <img style="width: 100%; height: 100%" id="icon" class="avatar" src={placeholder} alt="">
+                </button>
+            {:else}
+                <a href="/{href}" class="model_button">
+                    <img style="width: 100%; height: 100%" id="icon" class="avatar" src={placeholder} alt="">
+                </a>
+            {/if}
+
+            <ModalChatHeader 
+                bind:showModal 
+                chat={chat}
+                room_name={room_name} 
+            />
+        </div>
+    {/if}
 </div>
 
 <style lang="scss">

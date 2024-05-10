@@ -1,36 +1,31 @@
 <script lang="ts">
-    import search from "/images/search.svg";
-    import search_dark from "/images/search_dark.svg";
+    import { createEventDispatcher } from "svelte";
     import type { IChatPreview, IMessage, IProfile } from "../types";
 
-    export let theme: string;
     export let searchArray: IMessage[] | IChatPreview[] | IProfile[];
     export let searchedArray: any[] | string;
-    export let showInput: boolean;
-    export let isStatic = false;
+    export let isMessager = false;
+    export let isFriends = false;
 
-    let value: string;
-    let isFocused: boolean = false;
-	const onFocus = () => isFocused = true;
-	const onBlur = () => {
-        if (!value) {
-            searchedArray = [];
-            showInput = false;
-        }
-        isFocused = false;
+    let value: string = "";
+    let blured = true;
+    let closeInput: HTMLElement;
+    const dispatch = createEventDispatcher();
+
+    const isChatPrewiew = (object: any): object is IChatPreview => 'name' in object;
+    const isMessages = (object: any): object is IMessage => 'text' in object;
+    const isProfile = (object: any): object is IProfile => 'first_name' in object;
+
+    const changedCloseInput = (isValue: boolean) => {
+        if (isValue && closeInput) 
+            closeInput.style.opacity = '1';
+        else if (!isValue && closeInput)
+            closeInput.style.opacity = '0';
+        searchedArray = searchingChats(value, searchArray);
     }
 
-    function isChatPrewiew(object: any): object is IChatPreview {
-        return 'name' in object;
-    }
-
-    function isMessages(object: any): object is IMessage {
-        return 'text' in object;
-    }
-
-    function isProfile(object: any): object is IProfile {
-        return 'first_name' in object;
-    }
+    $: if (!value || value)
+        changedCloseInput(value ? true : false);
 
 
     function searchingChats(where: string, array: IMessage[] | IChatPreview[] | IProfile[]): any[] | string {
@@ -53,75 +48,91 @@
     }
 </script>
 
-{#if isStatic || (!isFocused && !showInput)} 
+{#if isMessager}
+    <!-- svelte-ignore a11y-click-events-have-key-events -->
+    <!-- svelte-ignore a11y-no-static-element-interactions -->
+    <div class="home-input-block">
+        <input 
+            on:blur={() => { blured = true; if (!value) dispatch('showInput', { showInput: false } ); }}
+            on:focus={() => {closeInput.style.opacity = '1'; blured = false}}
+            bind:value 
+            type="text"
+        />
+        <i class="fa fa-search"/>
+        <i 
+            bind:this={closeInput} 
+            on:click={() => { value = ""; dispatch('showInput', { showInput: false } ); } } 
+            class="fa fa-times times_{blured}"
+        />
+    </div>
+{:else if isFriends} 
     <slot>
-        <div style="margin: 0; position: relative; width: 100%" class="search">
+        <div class="search">
             <!-- svelte-ignore a11y-autofocus -->
-            <input style="padding-right: 35px;" type="text" bind:value on:input={() => searchedArray = searchingChats(value, searchArray)} placeholder="Поиск...">
-            <i class="fa fa-search" style="position: absolute; right: 10px; top: 10px; font-size: 18px"></i>
+            <input type="text" bind:value placeholder="Поиск...">
+            <i class="fa fa-search"></i>
         </div>
     </slot>
-{:else}
-    <div class="search">
-        <!-- svelte-ignore a11y-autofocus -->
-        <input autofocus type="text" on:blur={onBlur} on:focus={onFocus} bind:value on:input={() => searchedArray = searchingChats(value, searchArray)} placeholder="Поиск...">
-    </div>
-    <button on:click={() => {showInput = !showInput}}>
-        <img class="nav_icon" src={theme == "white" ? search : search_dark} alt="">
-    </button>
 {/if}
 
 <style>
-    button {
-        background-color: transparent;
-        border: none;
-        margin: 0 30px;
+    /************ HOME INPUT BLOCK ***********/
+    .home-input-block {
+        position: relative;
+        width: 100%;
+        margin: 0 20px;
     }
-    button:hover {
+    .home-input-block input {
+        padding: 0px 35px;
+        width: 100%;
+        background: transparent;
+        border: none;
+        outline: none;
+        color: var(--text-color);
+    }
+    .home-input-block .fa-search {
+        position: absolute;
+        left: 5px;
+        top: 5px;
+    }
+    .home-input-block .fa-times {
+        position: absolute;
+        opacity: 0;
+        right: 10px;
+        top: 5px;
+        transition: opacity .3s linear;
+    }
+    .home-input-block .fa-times.times_false:hover {
         cursor: pointer;
     }
+
+    /************ SEARCH ***********/
     .search {
-        margin-left: 30px;
+        margin: 0px;
+        position: relative;
+        width: 100%;
         padding: 2px;
-        width: 500px;
         height: 40px;
-        background: var(--primary-head);
+        background: transparent;
         border-radius: 4px;
         box-shadow: var(--box-shadow) 0px 4px 12px; 
         outline: none;
-        opacity: 0;
-        transition: 0.5s;
-        animation: show 0.5s 1;
-        animation-fill-mode: forwards;
     }
     .search input {
         outline: none;
+        color: var(--text-color);
         width: 100%;
         font-size: 14px;
         border: 0;
         float: left;
-        padding: 8px;
+        padding: 8px 15px;
+        padding-right: 35px;
+        height: 100%;
         background: none;
     }
-    button img {
-        height: 24px;
-        width: 24px;
-        max-width: 24px;
-    }
-    @keyframes show {
-        0% {
-            opacity: 0;
-        }
-        100% {
-            opacity: 1;
-        }
-    }
-    @keyframes hide {
-        0% {
-            opacity: 1;
-        }
-        100% {
-            opacity: 0;
-        }
+    .search .fa-search {
+        position: absolute; 
+        right: 10px; 
+        top: 12px; 
     }
 </style>

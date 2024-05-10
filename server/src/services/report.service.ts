@@ -65,7 +65,7 @@ export class ReportService {
         return formatedData;
     }
 
-    addItemOnFormattedSchedule(next_row: string, row: string, role) {
+    addItemOnFormattedSchedule(next_row: string, row: string, role: string) {
         let rowObject: any = {
             time: row.split(" | ")[0],
             role: role
@@ -88,7 +88,7 @@ export class ReportService {
                 rowObject.nextText = next_row.split(" | ")[1];
             }
         }
-
+        
         return rowObject;
     }
 }

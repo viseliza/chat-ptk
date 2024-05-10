@@ -28,7 +28,7 @@
     onMount(()=> {
         scroll.addEventListener('scroll', function() {
             if (chat.messages.length && scroll.scrollTop == 0) {
-                console.log("scroll")
+                console.log("scroll | " + row)
                 row += 100;
                 chat.getNextMessages(row);
             }

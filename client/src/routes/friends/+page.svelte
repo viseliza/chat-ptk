@@ -24,11 +24,9 @@
     />
     <section class="friends-search">
         <Input
-            bind:theme
             searchArray={friends}
             bind:searchedArray={searchedFriends}
-            showInput={true}
-            isStatic={true}
+            isFriends={true}
         />
     </section>
     <section class="friends-list">

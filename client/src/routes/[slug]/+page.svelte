@@ -2,6 +2,10 @@
     import placeholder from '/images/50x50.svg';
     import message from '/images/message.svg';
     import message_dark from '/images/message_dark.svg';
+    import update from '/images/update.svg';
+    import update_dark from '/images/update_dark.svg';
+    import apply from '/images/apply.svg';
+    import apply_dark from '/images/apply_dark.svg';
     import type { PageData } from './$types';
     import Replacement from '../../lib/components/Replacement.svelte';
     import Schedule from '../../lib/components/Schedule.svelte';
@@ -14,6 +18,8 @@
     $: profile = data.profile
     $: replacement = data.replacement.split('\n\n');
 
+    let isUpdateStatus = false;
+    let valueStatus: string = "";
 
     async function subscribe() {
         if (data.isFriend.friendStatus == "subscribeTo")
@@ -39,6 +45,20 @@
         });
         data.isFriend.status = "";
     }
+
+    const handlerClickUpdateStatus = async () => {
+        const respone = await fetch(`https://viseliza.site/api/profile/${user_id}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+            },
+            body: JSON.stringify({
+                status: valueStatus    
+            })
+        })
+        profile.status = valueStatus;
+        isUpdateStatus = !isUpdateStatus;
+    }
 </script>
 
 <svelte:head>
@@ -46,8 +66,8 @@
     <meta name="description" content="Svelte demo app" />
 </svelte:head>
 
-<section>
-    <div class="header">
+<div class="profile">
+    <section class="header">
         <div class="left">
 
             <img src={placeholder} alt="">
@@ -58,9 +78,7 @@
             </div>
         </div>
         <div class="right">
-            {#if profile.user_id == user_id}
-                <button>Редактировать профиль</button>
-            {:else}
+            {#if profile.user_id != user_id}
                 {#if data.isFriend.statusCode || !data.isFriend.status}
                     <button on:click={() => subscribe()}>Добавить в друзья</button>
                 {:else if (data.isFriend.status == "subscribeTo")}
@@ -77,9 +95,29 @@
                 </a>
             {/if}
         </div>
-    </div>
+    </section>
     
-    <div class="content">
+    {#if (profile.user_id != user_id && profile.status) || (profile.user_id == user_id)}
+        <section class="status">
+            {#if !isUpdateStatus}
+                <span class="span_{profile.status ? true : false}">
+                    {profile.status ? profile.status : 'Статус не установлен'}
+                </span>
+                {#if user_id == profile.user_id}
+                    <button on:click={() => isUpdateStatus = !isUpdateStatus} class="changeStatus">
+                        <img class="nav_icon" src={data.session.theme == "white" ? update : update_dark} alt="">
+                    </button>
+                {/if}
+            {:else if isUpdateStatus && profile.user_id == user_id}
+                <textarea class="inputStatus" maxlength="106" bind:value={valueStatus} on:input={() => valueStatus = valueStatus.replace(/\n/g, '')}/>
+                <button on:click={handlerClickUpdateStatus} class="changeStatus">
+                    <img class="nav_icon" src={data.session.theme == "white" ? apply : apply_dark} alt="">
+                </button>
+            {/if}
+        </section>
+    {/if}
+    
+    <section class="content">
         <div class="item">
             {#if user_id == profile.user_id}
             <p>Почта:</p> 
@@ -98,31 +136,32 @@
         <div class="item">
             <p>Группа: {profile.group.name}</p>
         </div>
-    </div>
+    </section>
 
-    <div class="title">
+    <section class="title">
         Расписание на сегодня
-    </div>
+    </section>
 
-    <div class="schedule">
+    <section class="schedule">
         <Schedule 
             theme={data.session.theme} 
             scheduleList = {schedule} 
             isHome={false}
             {role}
         />
-    </div>
+    </section>
 
-    <div class="title">
+    <section class="title">
         Замены на сегодня
-    </div>
+    </section>
 
     <Replacement replacement = {replacement} isHome={true}/>
     
-</section>
+</div>
 
 <style lang="scss">
-    section {
+    /*********  PROFILE  *********/
+    .profile {
         display: flex;
         flex-direction: column;
         align-items: stretch;
@@ -132,15 +171,21 @@
         height: 100%;
         min-height: 95vh;
     }
-    .header {
-        padding: 30px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 20px;
+
+    section {
         border-radius: 10px;
         box-shadow: 0 0 20px var(--box-shadow);
         background-color: var(--sidebar-color);
+        padding: 20px;
+        display: flex;
+        margin-bottom: 20px;
+    }
+    
+    /*********  HEADER  *********/
+    .header {
+        justify-content: space-between;
+        align-items: center;
+        padding: 30px;
     }
     .header img {
         height: 75px;
@@ -197,15 +242,12 @@
     div p {
         font-weight: 700;
     }
+    
+    
+    /*********  CONTENT  *********/
     .content {
-        border-radius: 10px;
-        box-shadow: 0 0 20px var(--box-shadow);
-        background-color: var(--sidebar-color);
-        padding: 30px;
-        display: flex;
         flex-direction: column;
         justify-content: space-around;
-        margin-bottom: 20px;
     }
     .content p {
         margin: 10px 0;
@@ -264,31 +306,80 @@
         border-image-slice: 1;
     } 
 
+    /*********  SCHEDULE  *********/
     .schedule {
+        padding: 0;
         padding-top: 20px;
-        border-radius: 10px;
-        box-shadow: 0 0 20px var(--box-shadow);
-        background-color: var(--sidebar-color);
-        display: flex;
         flex-direction: column;
         justify-content: space-around;
-        margin-bottom: 20px;
     }
     .title {
-        border-radius: 10px;
-        box-shadow: 0 0 20px var(--box-shadow);
-        background-color: var(--sidebar-color);
-        padding: 20px;
-        margin-bottom: 10px;
-        font-size: 18px;
+        font-size: 16px;
         font-weight: 700;
+        margin-bottom: 10px;
     }
     .replacement {
-        border-radius: 10px;
-        box-shadow: 0 0 20px var(--box-shadow);
-        background-color: var(--sidebar-color);
-        display: flex;
         flex-direction: column;
         justify-content: space-around;
-    } 
+    }
+    
+    /*********  STATUS  *********/
+    .status {
+        position: relative;
+    }
+    .status span {
+        font-weight: 600;
+        word-break: break-all;
+        padding: 12px 15px;
+        border-radius: 5px;
+    }
+    .status span.span_true {
+        box-shadow: var(--box-shadow) 0px 8px 24px;
+        min-width: 100%;
+    }
+    .status span.span_false {
+        box-shadow: none;
+        padding: 0;
+    }
+    .status .inputStatus {
+        flex: 1 1 auto;
+        background-color: transparent;
+        border: none;
+        padding: 12px 15px;
+        font-size: 16px;
+        color: var(--text-color);
+        box-shadow: var(--box-shadow) 0px 8px 24px;
+        border-radius: 5px;
+        font-weight: 600;
+        outline: none;
+        resize: none;
+    }
+    .status .changeStatus {
+        box-shadow: var(--box-shadow) 0px 8px 24px;
+        border: 2px solid var(--message-back-shadow);
+        background: var(--message-back-shadow);
+        border-radius: 50%;
+        padding: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        right: -10px;
+        bottom: -10px;
+        transition: border .3s, background .3s;
+    }
+    .status .changeStatus:hover {
+        cursor: pointer;
+        border: 2px solid var(--message-back);
+        background: var(--message-back);
+    }
+    .status .changeStatus:active {
+        box-shadow: var(--box-shadow) 0px 8px 40px;
+        border: 2px solid var(--message-back);
+        background: var(--message-back);
+    }
+    .status .changeStatus img {
+        width: 24px;
+        height: 24px;
+    }
 </style>

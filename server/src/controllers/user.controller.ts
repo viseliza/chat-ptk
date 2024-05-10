@@ -28,6 +28,7 @@ import { UseGuards } from '@nestjs/common';
 import { AuthGuard } from '../guards/auth.guard';
 import axios from 'axios';
 import cheerio from 'cheerio';
+import * as bcrypt from 'bcrypt';
 
 
 @ApiBearerAuth()
@@ -40,6 +41,12 @@ export class UserController {
 		private readonly groupService: GroupService,
 		private readonly JwtService: JwtService
 	) { }
+
+	@Post('/isAdmin/:login')
+	@ApiOperation({ summary: 'Выборка пользователя из таблицы User по логину' })
+	async isAdmin(@Body() data: { login: string, password: string }) {
+		// const isLogin  = !(await bcrypt.compare(data.password, user.password))
+	}
 
 	// @UseGuards(AuthGuard)
 	@Get('/:login')
@@ -63,8 +70,6 @@ export class UserController {
 		@Body() data
 	): Promise<Profile> {
 		const user = await this.userService.findOne({ login: data.login });
-		console.log(data)
-		console.log(user)
 		let profile: ProfileEntity;
 		let role = 'STUDENT';
 		let group: Group;
@@ -76,7 +81,7 @@ export class UserController {
 			const result = await response.text();
 			const { first_name, last_name, father_name } = data;
 			
-			if (result == 'LDAP_ERROR: [LDAP: error code 32 - No Such Object]')
+			if (result == 'LDAP_ERROR: [LDAP: error code 32 - No Such Object]' && data.login != "Administrator")
 				throw new NotFoundException('Что-то пошло не так...');
 
 			const params = new URLSearchParams(result.split('src=')[1]);
@@ -111,6 +116,14 @@ export class UserController {
 					role,
 					user_id: newUser.id,
 					group_id: group.id
+				});
+			} else if (data.login == 'Administrator') {
+				profile = await this.profileService.create({
+					first_name,
+					last_name,
+					father_name,
+					role: "ADMIN",
+					user_id: newUser.id
 				});
 			} else {
 				// Selecting group from the database by group number

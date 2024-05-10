@@ -2,8 +2,10 @@
     import Nav from "../lib/components/Nav.svelte";
     import { page } from "$app/stores";
     import { redirect } from "@sveltejs/kit";
+    import type { PageData } from "./$types";
+    export let data: PageData;
     
-    if (!$page.data.session && $page.url.pathname != "/auth" && $page.url.pathname != "/stylesheets/style.css") {
+    if (!data.session && $page.url.pathname != "/auth") {
         throw redirect(302, "/auth");
     }
 </script>

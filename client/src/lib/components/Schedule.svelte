@@ -147,8 +147,8 @@
                 </span>
             </div>
         {/if}
-        {#each scheduleList as row, index}
-            {#if row === 'string'}
+        {#if Array.isArray(scheduleList)}
+            {#each scheduleList as row, index}
                 {#if !days_array.includes(row.trim())}    
                     {#if scheduleList[index + 1] && scheduleList[index].split(" | ")[0] == scheduleList[index + 1].split(" | ")[0]}
                         <div class="column column-split">
@@ -168,8 +168,8 @@
                         </div>
                     {/if}
                 {/if}
-            {/if}
-        {/each}
+            {/each}
+        {/if}
     </div>
 {/if}
 

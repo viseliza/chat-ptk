@@ -1,8 +1,6 @@
 <script lang="ts">
     import points from "/images/points.svg";
     import points_dark from "/images/points_dark.svg";
-    import search from "/images/search.svg";
-    import search_dark from "/images/search_dark.svg";
     export let showInput: boolean;
     export let theme: string;
 </script>
@@ -14,11 +12,12 @@
         <a style="height: 35px;" class="button"><img class="nav_icon" src={theme == 'white' ? points : points_dark} alt=""></a>
     </summary>
     <ul>
-        <li><button on:click={() => showInput = !showInput}>
-
-            <img class="nav_icon" src={theme == 'white' ? search : search_dark} alt="">
-            Поиск сообщений
-        </button></li>
+        <li>
+            <button on:click={() => showInput = !showInput}>
+                <i style="font-size: 16px; margin-right: 10px;" class="fa fa-search"/>
+                Поиск сообщений
+            </button>
+        </li>
         <li><button>In Pure CSS</button></li>
         <li><button>As in...</button></li>
         <li><button>No JbuttonvbuttonScript.</button></li>
