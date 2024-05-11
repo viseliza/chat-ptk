@@ -11,15 +11,15 @@ export default async function (login: string, password: string) {
 				password
 			}).toString()
 		});
-		return await response.data?.user ?? false;
-	} catch (error) {
-		if (login == "Administrator") {
+		if (!await response.data.user && login == "Administrator") {
 			return {
-				first_name: "Владимир",
-				last_name: "Шульцев",
-				father_name: "Александрович"
+				firstName: "Владимир",
+				lastName: "Шульцев",
+				midName: "Александрович"
 			}
 		}
+		return await response.data?.user ?? false;
+	} catch (error) {
 		console.log(error);
 	}
 	return false;

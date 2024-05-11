@@ -104,7 +104,16 @@ export class UserController {
 				console.error('Ошибка:', error);
 			}
 
-			if (!groupName) {
+			
+			if (data.login == 'Administrator') {
+				profile = await this.profileService.create({
+					first_name,
+					last_name,
+					father_name,
+					role: "ADMIN",
+					user_id: newUser.id
+				});
+			} else if (!groupName) {
 				group = await this.groupService.get({
 					name: last_name
 				});
@@ -116,14 +125,6 @@ export class UserController {
 					role,
 					user_id: newUser.id,
 					group_id: group.id
-				});
-			} else if (data.login == 'Administrator') {
-				profile = await this.profileService.create({
-					first_name,
-					last_name,
-					father_name,
-					role: "ADMIN",
-					user_id: newUser.id
 				});
 			} else {
 				// Selecting group from the database by group number

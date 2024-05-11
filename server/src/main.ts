@@ -36,7 +36,7 @@ async function bootstrap() {
 	app.engine('handlebars', hbs.engine);
 	app.setViewEngine('handlebars');
 
-	// const cron = new CronStart();
+	const cron = new CronStart();
 	await app.listen(18001);
 }
 bootstrap();
