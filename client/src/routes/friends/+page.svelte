@@ -40,7 +40,7 @@
             {/each}
         {:else}
             <div>
-                <img src={theme == 'white' ? user_add : user_add_dark} alt="user-add">
+                <img class="nav_icon" src={theme == 'white' ? user_add : user_add_dark} alt="user-add">
                 <span class="friends-title">Ваш список друзей пуст</span>
                 <span>Вы можете найти новых друзей используя поиск!<br>Новые друзья будут появляться здесь</span>
             </div>

@@ -34,7 +34,6 @@ export const actions: Actions = {
 		// Profile data
 		const profile = await api.checkUser(user, isUser.firstName, isUser.lastName, isUser.midName);
 		// Generate jwt token for profile
-		console.log(isUser)
 		const token = jsonwebtoken.sign({ 
 			user_id: profile.user_id,
 			login: user.login,

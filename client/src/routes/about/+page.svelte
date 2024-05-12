@@ -4,13 +4,11 @@
 	export let data: PageData;
 	let aElem: HTMLAnchorElement;
 	let url;
-	console.log(data)
+
 	onMount(() => {
 		url = window.URL.createObjectURL(new Blob([new Uint8Array(data.buffer.data).buffer]));	
-		console.log(aElem.href)
 		aElem.href = url;
-		console.log(aElem.href)
-		aElem.setAttribute('download', 'yourcoolpdf.pdf');
+		aElem.setAttribute('download', `yourcoolpdf.pdf`);
 	})
 
 </script>
@@ -20,9 +18,7 @@
 	<div>
 		<!-- svelte-ignore a11y-missing-content -->
 		<!-- svelte-ignore a11y-missing-attribute -->
-		<a bind:this={aElem} href="#">фывыф</a>
-		<a href="path_to_file" download="proposed_file_name">Download</a>
-
+		<a bind:this={aElem} href="/">фывыф</a>
 	</div>
 </section>	
 

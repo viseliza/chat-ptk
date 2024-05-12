@@ -73,7 +73,7 @@
         {:else if actives.isForMeActive}
             {#if !profilesForMe.length}
             <div>
-                <img src={theme == 'white' ? user_search : user_search_dark} alt="user-add">
+                <img class="nav_icon" src={theme == 'white' ? user_search : user_search_dark} alt="user-add">
                 <span class="friends-title">Ваш список полученных заявок пуст</span>
                 <span>Здесь будут отображаться ваши полученные заявки в друзья. Вы можете подождать когда кто-то отправит вам заявку на вкладке "Найти друзей" или вы можете сделать это сами</span>
             </div>

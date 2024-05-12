@@ -11,8 +11,8 @@
     import friends_dark from "/images/friends_dark.svg";
     import swapTheme from "../utils/swapTheme";
     
-    let theme = $page.data.session.theme;
-   
+    export let theme: string;
+    
     onMount(() => {
         theme == "black" ? document.documentElement.classList.add("dark") : document.documentElement.classList.remove("dark")
     });

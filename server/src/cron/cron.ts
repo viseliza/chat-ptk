@@ -7,6 +7,7 @@ import { scheduleJob } from 'node-schedule';
 export class CronStart {
 
     constructor() {
+        console.log('1')
         const scheduleDeleteTrash = scheduleJob('* 20 0 * * 0', () => {
             console.log("| PASS | " + new Date().toLocaleDateString("ru") + " | " + new Date().toLocaleTimeString() + " | CRON DELETE TRASH STARTED");
             CronController.deleteTrash();
@@ -21,7 +22,7 @@ export class CronStart {
             console.log("| PASS | " + new Date().toLocaleDateString("ru") + " | " + new Date().toLocaleTimeString() + " | CRON UPDATE REPLACEMENT ENDED");
         });
         
-        const scheduleDownloadSchedule = scheduleJob(' *30 0  * * 0', () => {
+        const scheduleDownloadSchedule = scheduleJob(' * 30 0  * * 0', () => {
             console.log("| PASS | " + new Date().toLocaleDateString("ru") + " | " + new Date().toLocaleTimeString() + " | CRON UPDATE SCHEDULE STARTED");
             Schedule.dowmloadSchedules();
             console.log("| PASS | " + new Date().toLocaleDateString("ru") + " | " + new Date().toLocaleTimeString() + " | CRON UPDATE SCHEDULE ENDED");

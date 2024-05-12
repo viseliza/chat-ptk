@@ -5,6 +5,7 @@
 
     export let data: PageData;
     
+    let theme = data.session.theme;
     const role = data.session.role;
     const schedule = data.schedule;
     const replacement = data.replacement.split("\n\n");
@@ -16,16 +17,23 @@
 </svelte:head>
 
 <section>
-    <h1>Расписание</h1>
-    <Schedule
-        theme={data.session.theme}
-        scheduleList={schedule}
-        isHome={true}
-        {role}
-    />
+    {#if data.session.role !== "ADMIN"}
+        <h1>Расписание</h1>
+        <Schedule
+            {theme}
+            scheduleList={schedule}
+            isHome={true}
+            {role}
+        />
 
-    <h1 style="margin-top: 50px;">Замены</h1>
-    <Replacement {replacement} isHome={true} />
+        <h1 style="margin-top: 50px;">Замены</h1>
+        <Replacement {replacement} isHome={true} />
+    {:else}
+        <h1>Получение отчета</h1>
+        <h1>Обновление всех расписаний</h1>
+        <h1>Обновление замен по дате</h1>
+        <h1>Обновление групп</h1>
+    {/if}
 </section>
 
 <style>

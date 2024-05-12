@@ -135,11 +135,11 @@
             {#each message.text.split("\n") as string}
                 <span class="text">{string}</span>
             {/each}
+            <!-- svelte-ignore a11y-click-events-have-key-events -->
             <div class="bottom">
                 {#if isMe}
                     <div class="reactions reactions_{reactionsObject.length > 0}">
                         {#each reactionsResultObject as reactionObject}
-                            <!-- svelte-ignore a11y-click-events-have-key-events -->
                             <div 
                                 class="reaction reaction_{reactionObject.isSelectedByMe}" 
                                 on:click={handlerReactionClick}
@@ -163,7 +163,10 @@
                 {#if !isMe}
                     <div class="reactions reactions_{reactionsObject.length > 0}">
                         {#each reactionsResultObject as reactionObject}
-                            <div class="reaction reaction_{reactionObject.isSelectedByMe}">
+                            <div 
+                            on:click={handlerReactionClick}
+                            class="reaction reaction_{reactionObject.isSelectedByMe}"
+                            >
                                 <div class="emojie">
                                     {String.fromCodePoint(reactionObject.reaction)}
                                 </div>

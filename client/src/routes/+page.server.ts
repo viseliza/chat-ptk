@@ -4,13 +4,17 @@ import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ locals }) => {
 	const api = new AppAPI('');
-	const group = await api.getGroup(locals.session.user_id);
-	
-	const replacement = new Replacement("30.10.2023");
-	const schedule = await api.getSchedule(group.name);
-	
-	return {
-		schedule: schedule.scheduleList,
-		replacement: replacement.getReplacement()
+	if (locals.session.role !== "ADMIN") {
+		const group = await api.getGroup(locals.session.user_id);
+		
+		const replacement = new Replacement("30.10.2023");
+		const schedule = await api.getSchedule(group.name);
+		
+		return {
+			schedule: schedule.scheduleList,
+			replacement: replacement.getReplacement()
+		}
 	}
+	
+
 }

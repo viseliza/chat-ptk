@@ -8,6 +8,7 @@
     if (!data.session && $page.url.pathname != "/auth") {
         throw redirect(302, "/auth");
     }
+    let theme = data.session.theme;
 </script>
 
 {#if $page.url.pathname === "/auth"}
@@ -18,7 +19,9 @@
     </div>
 {:else}
     <div class="app">
-        <Nav />
+        <Nav
+            {theme}
+        />
         <main>
             <slot />
         </main>

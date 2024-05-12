@@ -6,17 +6,17 @@ const WordExtractor = require("word-extractor");
 export class Replacement {
     private readonly collage: string;
     private readonly date: Date;
-    private readonly path = 'public/docs/';
+    private readonly path = './public/docs/';
 
     constructor(date: string, collage: string = "ПТК") {
-        if (!existsSync(`public/docs/${date}`)) {
-            mkdirSync(`public/docs/${date}`);
+        if (!existsSync(`./public/docs/${date}`)) {
+            mkdirSync(`./public/docs/${date}`, { recursive: true });
         }
             
-        const files = readdirSync(`public/docs/${date}`);
+        const files = readdirSync(`./public/docs/${date}`);
         files.filter((file) => {
             if (file == `${collage}.doc`)
-                unlinkSync(`public/docs/${date}/${collage}.doc`)
+                unlinkSync(`./public/docs/${date}/${collage}.doc`)
         })
 
         this.collage = collage;
