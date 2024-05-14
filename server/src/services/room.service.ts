@@ -63,6 +63,7 @@ export class RoomService {
 		if (!room && data.split('_').length > 1) {
 			room = await this.create(data);
 		}
+		
 		return await this.prisma.room.findMany({
 			include: {
 				profiles: { 
@@ -84,7 +85,7 @@ export class RoomService {
 				}
 			},
 			where: {
-				name: data
+				name: room.name
 			}
 		})
 	}

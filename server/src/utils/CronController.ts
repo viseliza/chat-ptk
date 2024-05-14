@@ -5,7 +5,7 @@ import cheerio from 'cheerio';
 
 export class CronController {
     static async deleteTrash() {
-        const dir = readdirSync('public/docs');
+        const dir = readdirSync('./public/docs');
         dir.forEach((subdir: string) => {
             const splited = subdir.split('.');
             const date = new Date(`${splited[1]}.${splited[0]}.${splited[2]}`);

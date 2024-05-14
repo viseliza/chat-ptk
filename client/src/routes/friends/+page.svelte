@@ -55,7 +55,7 @@
         align-items: stretch;
         max-width: 65vh;
         width: 100%;
-        margin: 10px auto;
+        margin: 10px auto 0;
         height: 100%;
         min-height: 95vh;
     }

@@ -22,6 +22,8 @@
 	--message-back: rgb(84, 187, 255);
 	--selected-message: rgba(84, 187, 255, 0.5);
 	--message-back-shadow: #99D9F4;
+	--reaction-back: var(--primary-color-light);
+	--reaction-back-shadow: var(--sidebar-color);
 
 
 	--dropdown-highlight: dodgerblue;
@@ -88,6 +90,8 @@ html.dark {
 	--selected-message: rgba(0, 90, 150, 0.5);
 	--message-back-shadow: #1D3341;
 	--primary-head: rgba(255, 255, 255, 0.25);
+	--reaction-back: var(--primary-head);
+	--reaction-back-shadow: var(--button-hover);
 }
 
 

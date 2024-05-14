@@ -1,6 +1,6 @@
 <script lang="ts">
-    import arrow_left from "/images/arrow-left.svg";
-    import arrow_left_dark from "/images/arrow-left_dark.svg";
+    import arrow_left from "/images/arrow_left.svg";
+    import arrow_left_dark from "/images/arrow_left_dark.svg";
     import placeholder from "/images/50x50.svg";
     import ModalChatHeader from "./ModalChatHeader.svelte";
     import Points from "../../../lib/components/Chat/Points.svelte";

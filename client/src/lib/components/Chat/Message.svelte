@@ -290,7 +290,7 @@
         display: flex;
         padding: 5px 10px;
         box-shadow: var(--box-shadow) 0px 8px 24px;
-        border: 1px solid var(--primary-color-light);
+        border: 1px solid var(--reaction-back);
         border-radius: 15px;
         margin-right: 5px;
         justify-content: center;
@@ -299,10 +299,10 @@
     }
     .reactions .reaction:hover {
         cursor: pointer;
-        background-color: var(--primary-color);
+        background-color: var(--reaction-back-shadow);
     }
     .reactions .reaction_true {
-        background-color: var(--primary-color-light);
+        background-color: var(--reaction-back);
     }
     .reactions_true .reaction_count {
         margin-left: 5px;

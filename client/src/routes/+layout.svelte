@@ -4,11 +4,14 @@
     import { redirect } from "@sveltejs/kit";
     import type { PageData } from "./$types";
     export let data: PageData;
-    
-    if (!data.session && $page.url.pathname != "/auth") {
+    let theme: string = 'white';
+
+    if (data.session == undefined && $page.url.pathname != "/auth") 
         throw redirect(302, "/auth");
-    }
-    let theme = data.session.theme;
+    else if (data.session == undefined && $page.url.pathname === "/auth") 
+        theme = 'white';
+    else
+        theme = data.session.theme; 
 </script>
 
 {#if $page.url.pathname === "/auth"}

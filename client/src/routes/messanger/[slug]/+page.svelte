@@ -15,7 +15,7 @@
     let user_id = data.session.user_id;
 	let scroll: Element;
     let isShow = false;
-    let profile = chat.profiles.filter((profile: IProfile) => profile.user?.login == data.session.login)[0];
+    const profile = chat.profiles.filter((profile: IProfile) => profile.user?.login == data.session.login)[0];
     let typing = "";
     let lastReadMessage: number;
     let unreadMessages = 0;

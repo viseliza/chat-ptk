@@ -6,7 +6,8 @@ export default async function (theme: string, user_id?: number) {
     let images: HTMLCollectionOf<HTMLImageElement> = document.getElementsByClassName("nav_icon") as HTMLCollectionOf<HTMLImageElement>;
     if (theme == "black") {
         for (let i = 0; i < images.length; i++) {
-            images[i].src = images[i].src.replace(".svg", "_dark.svg");
+            let imageName = images[i].src;
+            images[i].src = imageName.replace(imageName.substring(imageName.indexOf('.'), imageName.length), "_dark.svg");
         }
     } else {
         for (let i = 0; i < images.length; i++) {

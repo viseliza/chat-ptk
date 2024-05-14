@@ -55,16 +55,6 @@
         background-color: var(--body-color);
         justify-content: space-between;
     }   
-    .title {
-        font-size: 24px;
-        font-weight: 700;
-        padding-left: 30px;
-        text-align: left;
-        opacity: 0;
-        transition: 0.5s;
-        animation: show 0.5s 1;
-        animation-fill-mode: forwards;
-    }    
     @keyframes show {
         0% {
             opacity: 0;
@@ -72,13 +62,5 @@
         100% {
             opacity: 1;
         }
-    }
-    button {
-        background-color: transparent;
-        border: none;
-        margin-right: 30px;
-    }
-    button:hover {
-        cursor: pointer;
     }
 </style>

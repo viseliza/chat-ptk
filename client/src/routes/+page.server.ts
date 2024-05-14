@@ -9,11 +9,13 @@ export const load: PageServerLoad = async ({ locals }) => {
 		
 		const replacement = new Replacement("30.10.2023");
 		const schedule = await api.getSchedule(group.name);
-		
+
 		return {
 			schedule: schedule.scheduleList,
 			replacement: replacement.getReplacement()
 		}
+	} else {
+		return {groups: await api.getAllGroups()};
 	}
 	
 

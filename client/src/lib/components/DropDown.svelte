@@ -6,6 +6,7 @@
 	let isOpen = false;
 	let dropdownMenu: HTMLElement | null;
 	let search: string = "";
+	export let showInput = true;
 
 	function toggleDropdown() {
 		isOpen = !isOpen;
@@ -57,15 +58,17 @@
 		class="w-52 overflow-auto max-h-40 {hidden} absolute left-0 mt-2 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 p-1 space-y-1"
 	>
 		<!-- Search input -->
-		<input
-			bind:value={search}
-			on:input={() => onInput()}
-			id="search-input"
-			class="block w-full px-4 py-2 text-gray-800 text-sm border rounded-md border-gray-300 focus:outline-none"
-			type="text"
-			placeholder="Найти группу"
-			autocomplete="off"
-		/>
+		{#if showInput}
+			<input
+				bind:value={search}
+				on:input={() => onInput()}
+				id="search-input"
+				class="block w-full px-4 py-2 text-gray-800 text-sm border rounded-md border-gray-300 focus:outline-none"
+				type="text"
+				placeholder="Найти группу"
+				autocomplete="off"
+			/>
+		{/if}
 		<!-- Dropdown content goes here -->
 		{#each groups as group}
 			<!-- svelte-ignore a11y-click-events-have-key-events -->

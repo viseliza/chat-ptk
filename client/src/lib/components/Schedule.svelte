@@ -60,10 +60,10 @@
 {#if isHome}
     <div class="buttons">
         <button class="button-slide prev" on:click={() => changeSlide(-1)}>
-            <img class="nav_icon" src={theme == 'white' ? arrow_left : arrow_left_dark} />
+            <img class="nav_icon" style="max-width: none;" src={theme == 'white' ? arrow_left : arrow_left_dark} />
         </button>
         <button class="button-slide next" on:click={() => changeSlide(1)}>
-            <img class="nav_icon" src={theme == 'white' ? arrow_right : arrow_right_dark} />
+            <img class="nav_icon" style="max-width: none;" src={theme == 'white' ? arrow_right : arrow_right_dark} />
         </button>    
     </div>
     

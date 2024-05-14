@@ -42,9 +42,7 @@
         {/if}
     {/each}
 {:else if !messages.length && !messagesPreloader}
-    <span
-        style="display: flex; justify-content: center; align-items: center; flex: 1 1 auto;"
-    >
+    <span style="display: flex; justify-content: center; align-items: center; flex: 1 1 auto; font-weight: 700;">
         Кажется, здесь ничего нет...
     </span>
 {:else if  typeof messages === 'string'}
