@@ -7,11 +7,11 @@ export default async function (theme: string, user_id?: number) {
     if (theme == "black") {
         for (let i = 0; i < images.length; i++) {
             let imageName = images[i].src;
-            images[i].src = imageName.replace(imageName.substring(imageName.indexOf('.'), imageName.length), "_dark.svg");
+            images[i].src = imageName.replace(imageName.substring(imageName.indexOf('.svg'), imageName.length), "_dark.svg");
         }
     } else {
         for (let i = 0; i < images.length; i++) {
-            images[i].src = images[i].src.replace("_dark", '');
+            images[i].src = images[i].src.replaceAll("_dark", '');
         }
     }
     

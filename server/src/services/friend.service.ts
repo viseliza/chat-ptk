@@ -52,8 +52,8 @@ export class FriendService {
         if (!exist) {
             exist = await this.prisma.friend.findFirst({
                 where: {
-                    me_id: myUserId,
-                    friend_id: someUserId
+                    me_id: someUserId,
+                    friend_id: myUserId
                 }
             });
         }

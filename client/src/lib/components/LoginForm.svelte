@@ -176,9 +176,10 @@
         box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
         font-size: 16px;
         line-height: 16px;
-        display: block;
     }
     .no-data p {
+        display: flex;
+        align-items: center;
         margin-top: 0;
     }
     .no-data .fa-warning {

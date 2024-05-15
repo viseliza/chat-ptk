@@ -84,7 +84,7 @@
                 {:else if (data.isFriend.status == "subscribeTo")}
                     <button on:click={() => unsubscribe()}>Заявка отправлена</button>
                 {:else}
-                    <button>Удалить из друзей</button>
+                    <button on:click={() => unsubscribe()}>Удалить из друзей</button>
                 {/if}
                 <a class="message" href="/messanger/@{data.login}">
                     {#if data.session.theme == "white"}

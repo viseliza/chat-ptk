@@ -19,8 +19,12 @@
     let profilesWithFriends = searchProfiles.filter((profile) => {
         if (profile.user?.login != data.session.login) {
             data.friends.filter((friend) => {
-                if (friend.friend_id == profile.user_id && friend.status) 
-                    profile.friendStatus = friend.groupstatus;
+                if (friend.me_id) {
+                    if (friend.me_id == profile.user_id) 
+                        profile.friendStatus = friend.status;
+                    else if (friend.friend_id == profile.user_id)
+                        profile.friendStatus = friend.status;
+                }
             })
             return profile;
         }

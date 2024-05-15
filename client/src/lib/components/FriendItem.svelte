@@ -60,13 +60,13 @@
                 <img class="nav_icon" src={theme == 'white' ? user_add : user_add_dark} alt="">
             {:else if (profile.friendStatus == "subscribeTo")}
                 <div class="friend-time">
-                    <button on:click={() => unsubscribe()}>Отменить заявку</button>
+                    <button class="friend-time-button" on:click={() => unsubscribe()}>Отменить заявку</button>
                     <img class="nav_icon" src={theme == 'white' ? clock : clock_dark} alt="">
                 </div>
             {:else if (profile.friendStatus == "friends")}
                 <a href="/messanger/@{profile.user?.login}"><img class="nav_icon" src={theme == 'white' ? message : message_dark} alt=""></a>
             {:else if (profile.friendStatus == "subscribeOnMe")}
-                <button on:click={() => unsubscribe()} class="button-remove"><img class="nav_icon" src={theme == 'white' ? user_remove : user_add_dark} alt=""></button>
+                <button on:click={() => unsubscribe()} class="button-remove"><img class="nav_icon" src={theme == 'white' ? user_remove : user_remove_dark} alt=""></button>
                 <button on:click={() => subscribe()} class="button-tick"><img class="nav_icon" src={theme == 'white' ? user_tick : user_tick_dark} alt=""></button>
             {/if}
         </button>
@@ -122,13 +122,14 @@
         border-radius: 10px;
         padding: 10px;
     }
-    .friend-time button {
+    .friend-time .friend-time-button {
         margin-right: 10px;
         border-style: none;
+        background-color: transparent; 
+        color: var(--text-color);
     }
-    .friend-time button:hover {
+    .friend-time .friend-time-button:hover {
         cursor: pointer;
-        background-color: var(--primary-head);
     }
     .button {
         background-color: transparent;
@@ -138,7 +139,7 @@
     .button-tick {
         padding: 3px 5px;
         border-radius: 7px;
-        opacity: 0.5;
+        opacity: 0.7;
         border: none;
         box-shadow: var(--box-shadow) 0px 5px 15px;
         transition: opacity .5s;

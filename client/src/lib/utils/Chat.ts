@@ -125,7 +125,7 @@ export default class Chat extends SocketService implements IChat {
                         return rect['y'] - 80;
                     
                 } else if (this.messages[i].user_id == user_id && this.messages[i].is_read) {
-                    (messages[i] as HTMLElement).style.backgroundColor = "rgb(50, 50, 255, 0)";
+                    // (messages[i] as HTMLElement).style.backgroundColor = "rgb(50, 50, 255, 0)";
                 }
                 if (rect['y'] < (scroll.clientHeight + rect['height']) && this.messages[i].user_id != user_id && !this.messages[i].is_read) {
                     this.messages[i].is_read = true;

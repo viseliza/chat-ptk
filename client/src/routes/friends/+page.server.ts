@@ -4,15 +4,15 @@ import type { PageServerLoad } from "./$types";
 
 export const load: PageServerLoad = async ({ locals }) => {
     const api = new AppAPI("");
-    const friends = (await api.getAllFriends(locals.session.user_id));
+    const friends = await api.getAllFriends(locals.session.user_id);
     let ids: number[] = [];
-    
-    if (friends.lenght) {
+
+    if (friends.length) {
         friends.forEach((friend: any) => {
             if (friend.me_id) {
                 if (friend.me_id != locals.session.user_id) 
                     ids = [...ids, friend.me_id]
-                else if (friend.friend != locals.session.user_id)
+                else if (friend.friend_id != locals.session.user_id)
                     ids = [...ids, friend.friend_id]
             }
         })

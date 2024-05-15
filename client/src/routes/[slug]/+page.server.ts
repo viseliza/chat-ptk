@@ -14,7 +14,7 @@ export const load: PageServerLoad = async ({ params, locals }) => {
     if (profile.user_id != locals.session.user_id)
         isFriend = await api.getFriend(locals.session.user_id, profile.user_id);
 
-    
+    console.log(isFriend)
 	const replacement = new Replacement("30.10.2023");
 	const schedule = profile.group.schedule;
     delete schedule.id;

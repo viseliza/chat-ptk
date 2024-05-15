@@ -7,7 +7,7 @@
     import user_add_dark from "/images/user-add_dark.svg";
     import type { Profile } from "../../models/Profile";
     export let data: PageData;
-
+    
     let theme = data.session.theme;
     let friends: Profile[] = data.profiles;
     let searchedFriends: Profile[] = [];
