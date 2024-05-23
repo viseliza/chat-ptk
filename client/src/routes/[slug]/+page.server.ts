@@ -6,6 +6,7 @@ import type { PageServerLoad } from "./$types";
 export const load: PageServerLoad = async ({ params, locals }) => {
     const api = new AppAPI('');
     const profile = await api.getProfileByLogin(params.slug);
+    const group = await api.getGroup(profile.user_id);
     let isFriend;
 
     if (profile.statusCode == 404) 
@@ -14,7 +15,6 @@ export const load: PageServerLoad = async ({ params, locals }) => {
     if (profile.user_id != locals.session.user_id)
         isFriend = await api.getFriend(locals.session.user_id, profile.user_id);
 
-    console.log(isFriend)
 	const replacement = new Replacement("30.10.2023");
 	const schedule = profile.group.schedule;
     delete schedule.id;
@@ -23,6 +23,7 @@ export const load: PageServerLoad = async ({ params, locals }) => {
     const currentDay = new Date().getDay(); 
     
     return { 
+        group,
         isFriend,
         login: params.slug,
         profile,

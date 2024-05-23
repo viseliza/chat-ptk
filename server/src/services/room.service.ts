@@ -68,6 +68,7 @@ export class RoomService {
 			include: {
 				profiles: { 
 					select: {
+						id: true,
 						first_name: true,
 						last_name: true,
 						father_name: true,

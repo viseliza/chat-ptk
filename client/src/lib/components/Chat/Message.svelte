@@ -17,7 +17,7 @@
     let isSelected = false;
     let isHoveredMouse = false;
     let isTempHoveredMouse = false;
-
+    const sender = chat.profiles.filter(profile => profile.user!.id == message.user_id);
 
     chat.socket.on("getNewReaction", (data) => {    
         reactionsObject = data.reaction;
@@ -72,7 +72,7 @@
 
     const handleReaction = async (event: { detail: { reaction: number } }) => {
         const isAlreadySelected = reactionsObject.map(row => row.user_id).indexOf(user_id);
-        let deleted: { user_id: number, reaction: number }[];
+        let deleted: { user_id: number, reaction: number }[] = [];
 
         if (isAlreadySelected != -1)
             deleted = reactionsObject.splice(isAlreadySelected, 1);
@@ -97,14 +97,15 @@
         isHoveredMouse = false;
     }
 
-    const handlerReactionClick = (eventParent) => {
+    const handlerReactionClick = (eventParent: { target: any; }) => {
         let reaction = eventParent.target;
-        if (!reaction.className.includes('reaction reaction_')) 
-            reaction = eventParent.explicitOriginalTarget.parentElement;
-
-        const reactionCode = reaction.innerText.codePointAt(0);
-        const event: any = { detail: { reaction: reactionCode } };
-        handleReaction(event)
+        if (reaction.className.includes('reaction reaction_')) 
+            reaction = reaction.outerText;
+        else if (reaction.className.includes('emojie')) 
+            reaction = reaction.innerText;
+        
+        const event: any = { detail: { reaction: reaction.codePointAt(0) } };
+        handleReaction(event);
     }
 </script>
 
@@ -128,7 +129,7 @@
         {/if}
         {#if !isMe && (!isLessThan5Minute || !isPrevious)}
             <div class="data">
-                <a href="#">Иванов Владислав</a>
+                <a href="@{sender[0].user?.login}">{sender[0].last_name} {sender[0].first_name}</a>
             </div>
         {/if}
         <div class="content content_{isMe}">

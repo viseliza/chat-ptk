@@ -17,6 +17,7 @@
     $: schedule = data.schedule;
     $: profile = data.profile
     $: replacement = data.replacement.split('\n\n');
+    $: group = data.group;
 
     let isUpdateStatus = false;
     let valueStatus: string = "";
@@ -134,7 +135,7 @@
             {/if}
         </div>
         <div class="item">
-            <p>Группа: {profile.group.name}</p>
+            <p>Группа: {group.name}</p>
         </div>
     </section>
 
