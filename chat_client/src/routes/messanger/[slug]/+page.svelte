@@ -21,7 +21,6 @@
     let unreadMessages = 0;
     let messagesPreloader = true;
     let searchedMessages: IMessage[] = [];
-    let showInput = false;
     
     $: theme = data.session.theme;
     
@@ -94,7 +93,6 @@
         login={data.session.login}
         bind:theme
         {chat}
-        bind:showInput
         bind:searchedMessages
     />
     

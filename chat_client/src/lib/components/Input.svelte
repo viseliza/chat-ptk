@@ -17,10 +17,8 @@
     const isProfile = (object: any): object is IProfile => 'first_name' in object;
 
     const changedCloseInput = (isValue: boolean) => {
-        if (isValue && closeInput) 
-            closeInput.style.opacity = '1';
-        else if (!isValue && closeInput)
-            closeInput.style.opacity = '0';
+        if (closeInput) 
+            blured = isValue ? false : true;
         searchedArray = searchingChats(value, searchArray);
     }
 
@@ -53,15 +51,15 @@
     <!-- svelte-ignore a11y-no-static-element-interactions -->
     <div class="home-input-block">
         <input 
-            on:blur={() => { blured = true; if (!value) dispatch('showInput', { showInput: false } ); }}
-            on:focus={() => {closeInput.style.opacity = '1'; blured = false}}
+            on:blur={() => { if (!value.trim()) { dispatch('showInput', { showInput: false } ); blured = true;  }}}
+            on:focus={() => { blured = false} }
             bind:value 
             type="text"
         />
         <i class="fa fa-search"/>
         <i 
             bind:this={closeInput} 
-            on:click={() => { value = ""; dispatch('showInput', { showInput: false } ); } } 
+            on:click={() => { value = ""; blured = true; dispatch('showInput', { showInput: false } ); } } 
             class="fa fa-times times_{blured}"
         />
     </div>
@@ -101,6 +99,12 @@
         right: 10px;
         top: 5px;
         transition: opacity .3s linear;
+    }
+    .home-input-block .fa-times.times_false {
+        opacity: 1;
+    }
+    .home-input-block .fa-times.times_true {
+        opacity: 0;
     }
     .home-input-block .fa-times.times_false:hover {
         cursor: pointer;

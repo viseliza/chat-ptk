@@ -1,6 +1,6 @@
 FROM node:18.16-alpine
 
-WORKDIR /client
+WORKDIR /chat-ptk/chat_client
 
 COPY package.json package-lock.json ./
 

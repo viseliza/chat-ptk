@@ -11,12 +11,12 @@
     export let login: string;
     export let theme: string;
     export let chat: Chat;
-    export let showInput: boolean;
     export let searchedMessages: Message[] = [];
 
     let room_name: string;
     let name = chat.room.name.split('_');
     let href: string;
+    let showInput: boolean = false;
 
     if (name.length > 1) {
         if (name[0] == name[1]) {
@@ -49,9 +49,7 @@
             bind:searchedArray={searchedMessages}
             on:showInput={handlerShowInput}
         />
-    {/if}
-    
-    {#if !showInput}
+    {:else}
         <div class="back">
             <a on:click={() => {chat.disconect()}} class="back" href="./" style="text-decoration: none;">
                 <img class="nav_icon" src={theme == 'white' ? arrow_left : arrow_left_dark} alt="" />
@@ -66,7 +64,7 @@
         </div>
         <div class="info">
             <Points 
-                {theme}
+                bind:theme
                 bind:showInput
             />
             {#if name.length == 1}

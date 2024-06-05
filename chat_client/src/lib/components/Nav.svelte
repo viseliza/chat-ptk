@@ -1,6 +1,5 @@
 <script lang="ts">
     import { page } from "$app/stores";
-    import { onMount } from "svelte";
     import user from "/images/user.svg";
     import user_dark from "/images/user_dark.svg";
     import home from "/images/home.svg";
@@ -12,10 +11,6 @@
     import swapTheme from "../utils/swapTheme";
     
     export let theme: string;
-    
-    onMount(() => {
-        theme == "black" ? document.documentElement.classList.add("dark") : document.documentElement.classList.remove("dark")
-    });
 
     function changeTheme() {
         setTimeout(async () => {
@@ -220,7 +215,7 @@
         z-index: 1;
         width: 100px;
         color: white;
-        font-weight: 500;
+        font-weight: 700;
         font-size: 12px;
         margin-left: 70px;
         background-color: var(--tooltip);

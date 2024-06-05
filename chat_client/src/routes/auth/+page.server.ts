@@ -9,7 +9,7 @@ const { sign, decode, verify } = jsonwebtoken;
 const JWT_ACCESS_TOKEN = "d7a428bc721a2e90e5dce093933c5199aa7adadc11c04cdabceb282897d4a2bf";
 
 export function load({ locals }) {
-	if (locals.session)
+	if (locals.session.user_id)
 		throw redirect(302, '/')
 }
 

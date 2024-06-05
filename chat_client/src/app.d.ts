@@ -4,10 +4,10 @@ declare global {
 	namespace App {
 		interface Locals {
 			session: {
-				user_id: number,
-				login: string,
+				user_id: number | undefined,
+				login: string | undefined,
 				theme: string,
-				role: string
+				role: string | undefined
 			}
 		}
 		// interface Error {}

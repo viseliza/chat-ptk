@@ -11,7 +11,7 @@
         <!-- svelte-ignore a11y-missing-attribute -->
         <a style="height: 35px;" class="button"><img class="nav_icon" src={theme == 'white' ? points : points_dark} alt=""></a>
     </summary>
-    <ul>
+    <ul style="box-shadow: var(--box-shadow) 0px 8px 24px;">
         <li>
             <button on:click={() => showInput = !showInput}>
                 <i style="font-size: 16px; margin-right: 10px;" class="fa fa-search"/>
@@ -61,7 +61,7 @@
         box-sizing: border-box;
         z-index: 2;
 
-        background: var(--body-color);
+        background: var(--sidebar-color);
         border-radius: 10px;
         list-style: none;
     }
@@ -80,7 +80,7 @@
         padding: 10px 15px;
         width: 100%;
         box-sizing: border-box;
-        background-color: var(--body-color);
+        background-color: var(--sidebar-color);
         color: var(--text-color);
         transition: background 0.3s;
         text-decoration: none;
@@ -111,8 +111,7 @@
         margin-left: -10px;
         border-style: solid;
         border-width: 0 10px 10px 10px;
-        border-color: transparent transparent var(--body-color)
-            transparent;
+        border-color: transparent transparent var(--sidebar-color) transparent;
     }
 
     /* Close the dropdown with outside clicks */

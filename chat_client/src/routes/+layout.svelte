@@ -1,17 +1,15 @@
 <script lang="ts">
     import Nav from "../lib/components/Nav.svelte";
     import { page } from "$app/stores";
-    import { redirect } from "@sveltejs/kit";
     import type { PageData } from "./$types";
+    import { onMount } from "svelte";
     export let data: PageData;
-    let theme: string = 'white';
+    let theme: string = data.session.theme;
+        
+    onMount(() => {
+        theme == "black" ? document.documentElement.classList.add("dark") : document.documentElement.classList.remove("dark")
+    });
 
-    if (data.session == undefined && $page.url.pathname != "/auth") 
-        throw redirect(302, "/auth");
-    else if (data.session == undefined && $page.url.pathname === "/auth") 
-        theme = 'white';
-    else
-        theme = data.session.theme; 
 </script>
 
 {#if $page.url.pathname === "/auth"}
