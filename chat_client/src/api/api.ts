@@ -8,7 +8,7 @@ import { Message } from '../models/Message.js';
 
 export class AppAPI {
     
-    static API = new URL('https://viseliza.site/');
+    static API = new URL('https://chat-ptk.viseliza.site/');
 
     #token;
     #defaultParams;

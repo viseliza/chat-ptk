@@ -39,7 +39,7 @@ export class AdminController {
             browserWSEndpoint: process.env.BROWSER_WS_ENDPOINT
         });
         const page = await browser.newPage();
-        await page.goto(`https://viseliza.site/api/report/${table}/${param}`);
+        await page.goto(`https://chat-ptk.viseliza.site/api/report/${table}/${param}`);
         const buffer = await page.pdf({ path: `public/photos/${param}.pdf`, format: 'A4' });
         await browser.close();
         return buffer;

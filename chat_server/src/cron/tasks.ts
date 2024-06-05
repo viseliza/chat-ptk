@@ -45,7 +45,7 @@ class Tasks {
         try {
             const response = await axios.request({
                 method: 'POST',
-                url: 'https://viseliza.site/api/group/groups',
+                url: 'https://chat-ptk.viseliza.site/api/group/groups',
                 data: groupsData,
                 validateStatus: (status) => { 
                     return true;

@@ -78,9 +78,9 @@
             }
 
 
-            const url = `https://viseliza.site/api/admin/${table}/${valueReportParam}`;
+            const url = `https://chat-ptk.viseliza.site/api/admin/${table}/${valueReportParam}`;
             if (table) {
-                const res = await fetch(`https://viseliza.site/api/report/${table}/${valueReportParam}`);
+                const res = await fetch(`https://chat-ptk.viseliza.site/api/report/${table}/${valueReportParam}`);
                 const isExist = await res.text();
                 if (isExist.indexOf('statusCode') === -1) {
                     const response = await fetch(url);
@@ -100,14 +100,14 @@
     }
 
     const handlreOnClickUpdateSchedule = async () => {
-        const response = await fetch('https://viseliza.site/api/admin/update/schedule');
+        const response = await fetch('https://chat-ptk.viseliza.site/api/admin/update/schedule');
         const success = await response.json();
         messageUpdateSchedule = { type: "Успешно", message: "Расписания и группы преподавателей успешно обновлены." }
     }
 
     const handlreOnClickUpdateReplacement = async () => {
         if (new Date(valueReplacement.split('.')[1] + "." + valueReplacement.split('.')[0] + "." + valueReplacement.split('.')[2]).toString() != "Invalid Date") {
-            const response = await fetch(`https://viseliza.site/api/admin/update/replacement/${valueReplacement}`);
+            const response = await fetch(`https://chat-ptk.viseliza.site/api/admin/update/replacement/${valueReplacement}`);
             const replacementUpdated = await response.json();
             messageUpdateReplacement = { type: "Успешно", message: "Замены на выбранный день обновлены" }
         } else 

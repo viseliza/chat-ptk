@@ -25,7 +25,7 @@
     async function subscribe() {
         if (data.isFriend.friendStatus == "subscribeTo")
             return 0;
-        const result = await fetch("https://viseliza.site/api/friend/", {
+        const result = await fetch("https://chat-ptk.viseliza.site/api/friend/", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json;charset=utf-8'
@@ -37,7 +37,7 @@
     }
 
     async function unsubscribe() {
-        const result = await fetch("https://viseliza.site/api/friend", {
+        const result = await fetch("https://chat-ptk.viseliza.site/api/friend", {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json;charset=utf-8'
@@ -48,7 +48,7 @@
     }
 
     const handlerClickUpdateStatus = async () => {
-        const respone = await fetch(`https://viseliza.site/api/profile/${user_id}`, {
+        const respone = await fetch(`https://chat-ptk.viseliza.site/api/profile/${user_id}`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json;charset=utf-8'

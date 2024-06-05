@@ -6,7 +6,7 @@ import { existsSync, unlinkSync, writeFileSync } from "fs";
 
 export class Schedule {
     static async dowmloadSchedules() {
-        const response = await fetch("https://viseliza.site/api/group/");
+        const response = await fetch("https://chat-ptk.viseliza.site/api/group/");
         
         const groups: any = await response.json();
         await setTimeout(400);
@@ -41,7 +41,7 @@ export class Schedule {
             fileName.split(' ').forEach(async (group: string) => {
                 let scheduleList = Schedule.getTheWeeklySchedule(path, group);
                 scheduleLists = [...scheduleLists, [group, ...scheduleList]];
-                await fetch("https://viseliza.site/api/schedule/", {
+                await fetch("https://chat-ptk.viseliza.site/api/schedule/", {
                     method: "POST",
                     headers: {
                         'Content-Type': 'application/json;charset=utf-8'
@@ -126,7 +126,7 @@ export class Schedule {
                     });
                 }
             });
-            await fetch("https://viseliza.site/api/schedule/", {
+            await fetch("https://chat-ptk.viseliza.site/api/schedule/", {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json;charset=utf-8'
@@ -149,7 +149,7 @@ export class Schedule {
 
             $('.block_content.content:nth-child(1)').find('tr').each((_, row) => {
                 $(row).find('td').find('a').each((_, cell) => {
-                    fetch("https://viseliza.site/api/group/", {
+                    fetch("https://chat-ptk.viseliza.site/api/group/", {
                         method: 'PATCH',
                         headers: {
                             'Content-Type': 'application/json;charset=utf-8'

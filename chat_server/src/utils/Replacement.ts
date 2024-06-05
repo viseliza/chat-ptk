@@ -132,7 +132,7 @@ export class Replacement {
             }, 300);
         } else {
             console.log(error ? error : await this.parseReplacement())
-            await fetch("https://viseliza.site/api/replacement/", {
+            await fetch("https://chat-ptk.viseliza.site/api/replacement/", {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json;charset=utf-8'

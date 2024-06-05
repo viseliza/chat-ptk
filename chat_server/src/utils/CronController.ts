@@ -17,7 +17,7 @@ export class CronController {
     }
 
     static async pushGroups() {
-        await fetch("https://viseliza.site/api/group/", {
+        await fetch("https://chat-ptk.viseliza.site/api/group/", {
             method: "DELETE"
         });
         
@@ -42,7 +42,7 @@ export class CronController {
         try {
             const response = await axios.request({
                 method: 'POST',
-                url: 'https://viseliza.site/api/group/groups',
+                url: 'https://chat-ptk.viseliza.site/api/group/groups',
                 data: groupsData,
                 validateStatus: (status) => { 
                     return true;

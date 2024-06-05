@@ -16,7 +16,7 @@ export default async function (theme: string, user_id?: number) {
     }
     
     if (user_id) {
-        await fetch(`https://viseliza.site/api/profile/${user_id}`, {
+        await fetch(`https://chat-ptk.viseliza.site/api/profile/${user_id}`, {
             method: "PATCH",
             headers: {
                 'Content-Type': 'application/json'
